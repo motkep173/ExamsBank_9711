@@ -1,0 +1,178 @@
+{
+ "examId": "2021-s2-m3",
+ "year": "תשפ״א",
+ "yearNum": 2021,
+ "semester": "ב",
+ "moed": "ג",
+ "date": "2021-08-06",
+ "sourceFiles": [
+  "2021B MC.pdf"
+ ],
+ "solutionSource": "none",
+ "issues": [],
+ "questions": [
+  {
+   "id": "2021-s2-m3-q1a",
+   "number": "1א",
+   "points": 18,
+   "type": "open",
+   "text": "נתונה הפונקציה \\[f(x)=\\begin{cases}\\frac{\\tan x-\\sin x}{x^2}, & x<0\\\\ a, & x=0\\\\ x^2\\cos\\left(\\frac{4}{3x}\\right)+\\frac{x}{b}, & x>0\\end{cases}\\] בדקו עבור אילו ערכים של הפרמטרים \\(a,b\\):<br><b>1)</b> הפונקציה \\(f(x)\\) תהיה רציפה לכל \\(x\\) ממשי.<br><b>2)</b> הפונקציה \\(f(x)\\) תהיה גזירה לכל \\(x\\) ממשי.",
+   "topic": "נגזרות",
+   "sub": "הגדרת הנגזרת וגזירות",
+   "solution": {
+    "official": false,
+    "steps": [
+     "עבור \\(x\\ne0\\) הפונקציה רציפה וגזירה (לכל \\(b\\ne0\\), הנדרש כדי ש־\\(f\\) תוגדר), ולכן יש לבדוק רק את \\(x=0\\).",
+     "\\(\\tan x-\\sin x=\\tan x(1-\\cos x)\\sim x\\cdot\\frac{x^2}{2}\\), ולכן \\(\\lim_{x\\to0^-}f(x)=\\lim\\frac{x^3/2}{x^2}=0\\). מימין: \\(x^2\\cos\\frac{4}{3x}\\to0\\) (חסומה כפול אפס) ו־\\(\\frac xb\\to0\\).",
+     "1) רציפות: \\(a=0\\), ו־\\(b\\ne0\\) כלשהו.",
+     "2) גזירות (דורשת רציפות, \\(a=0\\)): משמאל \\(\\frac{f(x)}{x}=\\frac{\\tan x-\\sin x}{x^3}\\to\\frac12\\); מימין \\(\\frac{f(x)}{x}=x\\cos\\frac{4}{3x}+\\frac1b\\to\\frac1b\\).",
+     "שוויון הנגזרות החד־צדדיות: \\(\\frac1b=\\frac12\\), כלומר \\(b=2\\)."
+    ],
+    "answer": "1) \\(a=0\\), כל \\(b\\ne0\\); 2) \\(a=0,\\ b=2\\)"
+   }
+  },
+  {
+   "id": "2021-s2-m3-q1b",
+   "number": "1ב",
+   "points": 7,
+   "type": "open",
+   "text": "הראו כי למשוואה \\(x^3-3x-a=0\\) יש פתרון יחיד בקטע \\([0,1]\\) עבור \\(-2\\le a\\le0\\).",
+   "topic": "שימושי הנגזרת",
+   "sub": "מספר פתרונות של משוואה",
+   "solution": {
+    "official": false,
+    "steps": [
+     "נגדיר \\(g(x)=x^3-3x\\); המשוואה שקולה ל־\\(g(x)=a\\). \\(g\\) רציפה, \\(g(0)=0\\), \\(g(1)=-2\\).",
+     "קיום: \\(a\\in[-2,0]\\) הוא ערך בין \\(g(1)\\) ל־\\(g(0)\\), ולפי משפט ערך הביניים קיים \\(x\\in[0,1]\\) עם \\(g(x)=a\\).",
+     "יחידות: \\(g'(x)=3x^2-3=3(x^2-1)<0\\) ב־\\((0,1)\\), לכן \\(g\\) יורדת ממש ב־\\([0,1]\\) וחד־חד־ערכית שם; אין שני פתרונות."
+    ],
+    "answer": "פתרון יחיד בקטע לפי ערך הביניים ומונוטוניות."
+   }
+  },
+  {
+   "id": "2021-s2-m3-q2a1",
+   "number": "2א(1)",
+   "points": 8,
+   "type": "open",
+   "text": "חשבו את הגבול \\[\\lim_{x\\to\\frac{\\pi}{4}}(\\tan x)^{\\tan 2x}.\\]",
+   "topic": "גבולות ורציפות של פונקציות",
+   "sub": "חישוב גבולות של פונקציות",
+   "solution": {
+    "official": false,
+    "steps": [
+     "זהו גבול מסוג \\(1^\\infty\\). נכתוב \\((\\tan x)^{\\tan2x}=e^{\\tan2x\\,\\ln\\tan x}\\) ונציב \\(t=\\tan x\\to1\\).",
+     "\\(\\tan2x=\\frac{2t}{1-t^2}\\) ו־\\(\\ln t\\sim t-1\\), ולכן \\(\\tan2x\\ln\\tan x\\sim\\frac{2t(t-1)}{(1-t)(1+t)}=-\\frac{2t}{1+t}\\to-1\\).",
+     "הגבול הוא \\(e^{-1}\\)."
+    ],
+    "answer": "\\(\\frac1e\\)"
+   }
+  },
+  {
+   "id": "2021-s2-m3-q2a2",
+   "number": "2א(2)",
+   "points": 8,
+   "type": "open",
+   "text": "הוכיחו תוך שימוש בהגדרת הגבול: \\[\\lim_{n\\to\\infty}\\frac{3n}{n^3+2}=0.\\]",
+   "topic": "סדרות",
+   "sub": "הגדרת הגבול (ε, N)",
+   "solution": {
+    "official": false,
+    "steps": [
+     "יהי \\(\\varepsilon>0\\). לכל \\(n\\ge1\\): \\(\\left|\\frac{3n}{n^3+2}\\right|<\\frac{3n}{n^3}=\\frac{3}{n^2}\\le\\frac3n\\).",
+     "נבחר \\(N>\\frac3\\varepsilon\\). לכל \\(n>N\\): \\(\\frac3n<\\varepsilon\\), ולכן \\(\\left|\\frac{3n}{n^3+2}-0\\right|<\\varepsilon\\)."
+    ],
+    "answer": "\\(N=\\left\\lceil\\frac{3}{\\varepsilon}\\right\\rceil\\) מתאים."
+   }
+  },
+  {
+   "id": "2021-s2-m3-q2b",
+   "number": "2ב",
+   "points": 9,
+   "type": "open",
+   "text": "נתונה הפונקציה \\[f(x)=\\begin{cases}\\frac{\\ln x}{x-1}, & x>1\\\\ ax^2+b, & x\\le1\\end{cases}\\] מצאו את \\(a\\) ו־\\(b\\) אם נתון שהפונקציה \\(f(x)\\) גזירה ב־\\(x=1\\) וחשבו את \\(f'(1)\\).",
+   "topic": "נגזרות",
+   "sub": "הגדרת הנגזרת וגזירות",
+   "solution": {
+    "official": false,
+    "steps": [
+     "גזירות גוררת רציפות: \\(\\lim_{x\\to1^+}\\frac{\\ln x}{x-1}=1\\) ולכן \\(a+b=f(1)=1\\).",
+     "נגזרת ימנית: נציב \\(u=x-1\\); \\(\\ln(1+u)=u-\\frac{u^2}{2}+o(u^2)\\), לכן \\(\\frac{f(x)-1}{x-1}=\\frac{\\frac{\\ln(1+u)}{u}-1}{u}\\to-\\frac12\\).",
+     "נגזרת שמאלית: \\((ax^2+b)'=2ax\\), ב־\\(1\\): \\(2a\\). מהשוויון \\(2a=-\\frac12\\) נקבל \\(a=-\\frac14\\) ו־\\(b=\\frac54\\)."
+    ],
+    "answer": "\\(a=-\\frac14,\\ b=\\frac54,\\ f'(1)=-\\frac12\\)"
+   }
+  },
+  {
+   "id": "2021-s2-m3-q3a",
+   "number": "3א",
+   "points": 18,
+   "type": "open",
+   "text": "חשבו את הגבולות הבאים (תשתמשו בנוסחת טיילור או בכל דרך אחרת):<br><b>(1)</b> \\(\\displaystyle\\lim_{x\\to0}\\frac{1-\\cos x\\cdot\\sqrt{1+x^2}}{x^4}\\)<br><b>(2)</b> \\(\\displaystyle\\lim_{x\\to0}\\frac{\\sin(\\sin x)-\\sin x}{x^3}\\)",
+   "topic": "שימושי הנגזרת",
+   "sub": "פולינום טיילור",
+   "solution": {
+    "official": false,
+    "steps": [
+     "(1) \\(\\cos x=1-\\frac{x^2}{2}+\\frac{x^4}{24}+o(x^4)\\), \\(\\sqrt{1+x^2}=1+\\frac{x^2}{2}-\\frac{x^4}{8}+o(x^4)\\).",
+     "המכפלה: \\(1+\\left(-\\frac18-\\frac14+\\frac1{24}\\right)x^4+o(x^4)=1-\\frac{x^4}{3}+o(x^4)\\), ולכן הגבול \\(\\frac13\\).",
+     "(2) נסמן \\(s=\\sin x\\to0\\): \\(\\sin s-s=-\\frac{s^3}{6}+o(s^3)\\), ו־\\(s^3\\sim x^3\\).",
+     "לכן הגבול \\(-\\frac16\\)."
+    ],
+    "answer": "(1) \\(\\frac13\\); (2) \\(-\\frac16\\)"
+   }
+  },
+  {
+   "id": "2021-s2-m3-q3b",
+   "number": "3ב",
+   "points": 7,
+   "type": "open",
+   "text": "חקרו את התכנסות האינטגרל \\[\\int_1^\\infty\\frac{e^{\\sin x}}{x^2}\\,dx.\\]",
+   "topic": "אינטגרלים",
+   "sub": "אינטגרלים לא אמיתיים",
+   "solution": {
+    "official": false,
+    "steps": [
+     "האינטגרנד חיובי ורציף ב־\\([1,\\infty)\\), ו־\\(0<\\frac{e^{\\sin x}}{x^2}\\le\\frac{e}{x^2}\\).",
+     "\\(\\int_1^\\infty\\frac{e}{x^2}dx=e\\) מתכנס, ולכן לפי מבחן ההשוואה האינטגרל מתכנס."
+    ],
+    "answer": "מתכנס."
+   }
+  },
+  {
+   "id": "2021-s2-m3-q4a",
+   "number": "4א",
+   "points": 7,
+   "type": "open",
+   "text": "חשבו את הגבול \\[\\lim_{x\\to\\infty}\\frac1x\\int_1^x\\sqrt{4+e^{-t}}\\,dt.\\]",
+   "topic": "אינטגרלים",
+   "sub": "אינטגרל מסוים והמשפט היסודי",
+   "solution": {
+    "official": false,
+    "steps": [
+     "האינטגרנד \\(\\ge2\\), ולכן \\(\\int_1^x\\sqrt{4+e^{-t}}dt\\ge2(x-1)\\to\\infty\\); הגבול מסוג \\(\\frac\\infty\\infty\\).",
+     "לפי לופיטל והמשפט היסודי: \\(\\lim_{x\\to\\infty}\\frac{\\sqrt{4+e^{-x}}}{1}=\\sqrt4=2\\)."
+    ],
+    "answer": "\\(2\\)"
+   }
+  },
+  {
+   "id": "2021-s2-m3-q4b",
+   "number": "4ב",
+   "points": 18,
+   "type": "open",
+   "text": "חשבו את האינטגרלים הבאים:<br><b>(1)</b> \\(\\displaystyle\\int\\frac{x^2}{e^{2x}}\\,dx\\)<br><b>(2)</b> \\(\\displaystyle\\int x\\arctan\\left(\\frac1x\\right)dx\\)",
+   "topic": "אינטגרלים",
+   "sub": "שיטות אינטגרציה",
+   "solution": {
+    "official": false,
+    "steps": [
+     "(1) אינטגרציה בחלקים פעמיים: \\(\\int x^2e^{-2x}dx=-\\frac{x^2}{2}e^{-2x}+\\int xe^{-2x}dx\\), ו־\\(\\int xe^{-2x}dx=-\\frac x2e^{-2x}-\\frac14e^{-2x}\\).",
+     "לכן \\(\\int x^2e^{-2x}dx=-e^{-2x}\\left(\\frac{x^2}{2}+\\frac x2+\\frac14\\right)+C\\).",
+     "(2) בחלקים עם \\(u=\\arctan\\frac1x\\), \\(u'=\\frac{-1/x^2}{1+1/x^2}=-\\frac{1}{1+x^2}\\), \\(v=\\frac{x^2}{2}\\): \\(\\frac{x^2}{2}\\arctan\\frac1x+\\frac12\\int\\frac{x^2}{1+x^2}dx\\).",
+     "\\(\\int\\frac{x^2}{1+x^2}dx=x-\\arctan x\\), ולכן התוצאה \\(\\frac{x^2}{2}\\arctan\\frac1x+\\frac{x-\\arctan x}{2}+C\\)."
+    ],
+    "answer": "(1) \\(-e^{-2x}\\left(\\frac{x^2}{2}+\\frac{x}{2}+\\frac14\\right)+C\\); (2) \\(\\frac{x^2}{2}\\arctan\\frac1x+\\frac{x-\\arctan x}{2}+C\\)"
+   }
+  }
+ ]
+}

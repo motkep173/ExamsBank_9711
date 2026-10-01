@@ -1,0 +1,162 @@
+{
+ "examId": "2017-s2-quiz",
+ "year": "תשע״ז",
+ "yearNum": 2017,
+ "semester": "ב",
+ "moed": "בוחן",
+ "date": "2017-05-19",
+ "sourceFiles": [
+  "20119711 תשעז סמסטר ב.pdf"
+ ],
+ "solutionSource": "none",
+ "issues": [
+  "בוחן אמצע (ד\"ר א. לרמן, חדו\"א 1 להנדסת מכונות). אין פתרון רשמי; הפתרונות נכתבו מחדש."
+ ],
+ "questions": [
+  {
+   "id": "2017-s2-quiz-q1a",
+   "number": "1א",
+   "points": 15,
+   "type": "open",
+   "text": "הוכיחו תוך שימוש בהגדרת הגבול: \\[\\lim_{n\\to\\infty}\\frac{10n}{n^2+1}=0\\]",
+   "topic": "סדרות",
+   "sub": "הגדרת הגבול (ε, N)",
+   "solution": {
+    "official": false,
+    "steps": [
+     "יהי \\(\\epsilon>0\\). צריך למצוא \\(N\\) כך שלכל \\(n>N\\): \\(\\left|\\frac{10n}{n^2+1}-0\\right|<\\epsilon\\).",
+     "לכל \\(n\\ge1\\): \\(\\frac{10n}{n^2+1}<\\frac{10n}{n^2}=\\frac{10}{n}\\).",
+     "נבחר \\(N=\\frac{10}{\\epsilon}\\). אז לכל \\(n>N\\): \\(\\frac{10n}{n^2+1}<\\frac{10}{n}<\\frac{10}{N}=\\epsilon\\)."
+    ],
+    "answer": "\\(N=\\frac{10}{\\epsilon}\\) מתאים."
+   }
+  },
+  {
+   "id": "2017-s2-quiz-q1b",
+   "number": "1ב",
+   "points": 10,
+   "type": "open",
+   "text": "חשבו את הגבול: \\[\\lim_{n\\to\\infty}\\sqrt[n]{2016^n+2017^n}\\]",
+   "topic": "סדרות",
+   "sub": "חישוב גבולות של סדרות",
+   "solution": {
+    "official": false,
+    "steps": [
+     "\\(2017^n\\le2016^n+2017^n\\le2\\cdot2017^n\\).",
+     "לכן \\(2017\\le\\sqrt[n]{2016^n+2017^n}\\le2017\\sqrt[n]{2}\\).",
+     "\\(\\sqrt[n]2\\to1\\), ולפי כלל הסנדוויץ' הגבול הוא \\(2017\\)."
+    ],
+    "answer": "\\(2017\\)"
+   }
+  },
+  {
+   "id": "2017-s2-quiz-q2a",
+   "number": "2א",
+   "points": 12,
+   "type": "open",
+   "text": "חשבו את הגבול: \\[\\lim_{x\\to\\infty}\\left(\\frac{x^2+4x+5}{x^2+2x+1}\\right)^{-x}\\]",
+   "topic": "גבולות ורציפות של פונקציות",
+   "sub": "חישוב גבולות של פונקציות",
+   "solution": {
+    "official": false,
+    "steps": [
+     "\\(\\frac{x^2+4x+5}{x^2+2x+1}=1+\\frac{2x+4}{(x+1)^2}\\), זו צורה \\(1^\\infty\\).",
+     "נכתוב \\(\\left(1+\\frac{2x+4}{(x+1)^2}\\right)^{-x}=\\left[\\left(1+\\alpha\\right)^{1/\\alpha}\\right]^{-x\\alpha}\\) עם \\(\\alpha=\\frac{2x+4}{(x+1)^2}\\to0\\).",
+     "\\((1+\\alpha)^{1/\\alpha}\\to e\\) ו־\\(-x\\alpha=-\\frac{2x^2+4x}{(x+1)^2}\\to-2\\).",
+     "לכן הגבול \\(e^{-2}\\)."
+    ],
+    "answer": "\\(e^{-2}\\)"
+   }
+  },
+  {
+   "id": "2017-s2-quiz-q2b",
+   "number": "2ב",
+   "points": 13,
+   "type": "open",
+   "text": "חשבו את הגבול: \\[\\lim_{x\\to\\infty}\\frac{\\sqrt{x^2-x\\cos x-2}}{x+1+\\sin x}\\]",
+   "topic": "גבולות ורציפות של פונקציות",
+   "sub": "חישוב גבולות של פונקציות",
+   "solution": {
+    "official": false,
+    "steps": [
+     "נחלק מונה ומכנה ב־\\(x\\) (עבור \\(x>0\\)): \\(\\frac{\\sqrt{1-\\frac{\\cos x}{x}-\\frac2{x^2}}}{1+\\frac1x+\\frac{\\sin x}{x}}\\).",
+     "\\(\\frac{\\cos x}{x}\\to0\\) ו־\\(\\frac{\\sin x}{x}\\to0\\) (חסומה כפול שואפת לאפס).",
+     "לכן הגבול \\(\\frac{\\sqrt1}{1}=1\\)."
+    ],
+    "answer": "\\(1\\)"
+   }
+  },
+  {
+   "id": "2017-s2-quiz-q3",
+   "number": "3",
+   "points": 25,
+   "type": "open",
+   "text": "נתונה הפונקציה: \\[f(x)=\\begin{cases}(x+a)^{\\frac bx}, & x<0\\\\ e^2, & x=0\\\\ \\left(\\frac{1-x}{1+x}\\right)^{\\frac cx}, & x>0\\end{cases}\\] בדקו עבור אילו ערכים של הפרמטרים \\(a,b,c\\) (בהנחה ש־\\(a>0\\)) הפונקציה \\(f(x)\\) תהיה רציפה בנקודה \\(x=0\\).",
+   "topic": "גבולות ורציפות של פונקציות",
+   "sub": "רציפות ונקודות אי־רציפות",
+   "solution": {
+    "official": false,
+    "steps": [
+     "משמאל: אם \\(a\\neq1\\) הבסיס שואף ל־\\(a\\neq1\\) והמעריך \\(\\frac bx\\to\\mp\\infty\\) (כאשר \\(b\\neq0\\)), ולכן הגבול \\(0\\) או \\(\\infty\\); ואם \\(b=0\\) הגבול \\(1\\). בכל המקרים האלה הגבול אינו \\(e^2\\). לכן \\(a=1\\).",
+     "עם \\(a=1\\): \\((1+x)^{b/x}=\\left[(1+x)^{1/x}\\right]^b\\to e^b\\), ולכן \\(e^b=e^2\\) ו־\\(b=2\\).",
+     "מימין: \\(\\frac{1-x}{1+x}=1-\\frac{2x}{1+x}\\), ולכן \\(\\left(\\frac{1-x}{1+x}\\right)^{c/x}=\\left[\\left(1-\\frac{2x}{1+x}\\right)^{-\\frac{1+x}{2x}}\\right]^{-\\frac{2c}{1+x}}\\to e^{-2c}\\).",
+     "\\(e^{-2c}=e^2\\) נותן \\(c=-1\\)."
+    ],
+    "answer": "\\(a=1,\\ b=2,\\ c=-1\\)"
+   }
+  },
+  {
+   "id": "2017-s2-quiz-q4a",
+   "number": "4א",
+   "points": 8,
+   "type": "open",
+   "text": "גזרו את הפונקציה הבאה ופשטו את הביטוי של הנגזרת שקיבלתם: \\[f(x)=\\arctan\\sqrt{x^2-1}-\\frac{\\ln x}{\\sqrt{x^2-1}}\\]",
+   "topic": "נגזרות",
+   "sub": "כללי גזירה",
+   "solution": {
+    "official": false,
+    "steps": [
+     "\\(\\left(\\arctan\\sqrt{x^2-1}\\right)'=\\frac{1}{1+(x^2-1)}\\cdot\\frac{x}{\\sqrt{x^2-1}}=\\frac{1}{x\\sqrt{x^2-1}}\\).",
+     "\\(\\left(\\frac{\\ln x}{\\sqrt{x^2-1}}\\right)'=\\frac{\\frac1x\\sqrt{x^2-1}-\\ln x\\cdot\\frac{x}{\\sqrt{x^2-1}}}{x^2-1}=\\frac{1}{x\\sqrt{x^2-1}}-\\frac{x\\ln x}{(x^2-1)^{3/2}}\\).",
+     "החיסור: \\(f'(x)=\\frac{x\\ln x}{(x^2-1)^{3/2}}\\)."
+    ],
+    "answer": "\\(f'(x)=\\frac{x\\ln x}{(x^2-1)^{3/2}}\\)"
+   }
+  },
+  {
+   "id": "2017-s2-quiz-q4b",
+   "number": "4ב",
+   "points": 7,
+   "type": "open",
+   "text": "גזרו את הפונקציה הבאה ופשטו את הביטוי של הנגזרת שקיבלתם: \\[f(x)=\\ln\\left(e^x+\\sqrt{1+e^{2x}}\\right)\\]",
+   "topic": "נגזרות",
+   "sub": "כללי גזירה",
+   "solution": {
+    "official": false,
+    "steps": [
+     "\\(f'(x)=\\frac{e^x+\\frac{2e^{2x}}{2\\sqrt{1+e^{2x}}}}{e^x+\\sqrt{1+e^{2x}}}=\\frac{e^x\\left(\\sqrt{1+e^{2x}}+e^x\\right)}{\\sqrt{1+e^{2x}}\\left(e^x+\\sqrt{1+e^{2x}}\\right)}\\).",
+     "לאחר צמצום: \\(f'(x)=\\frac{e^x}{\\sqrt{1+e^{2x}}}\\)."
+    ],
+    "answer": "\\(f'(x)=\\frac{e^x}{\\sqrt{1+e^{2x}}}\\)"
+   }
+  },
+  {
+   "id": "2017-s2-quiz-q4c",
+   "number": "4ג",
+   "points": 10,
+   "type": "open",
+   "text": "גזרו את הפונקציה הבאה ופשטו את הביטוי של הנגזרת שקיבלתם: \\[f(x)=\\frac{(\\ln x)^x}{x^{\\ln x}}\\]",
+   "topic": "נגזרות",
+   "sub": "כללי גזירה",
+   "solution": {
+    "official": false,
+    "steps": [
+     "הפונקציה מוגדרת עבור \\(x>1\\). נוציא לוגריתם: \\(\\ln f(x)=x\\ln(\\ln x)-(\\ln x)^2\\).",
+     "גזירה: \\(\\frac{f'(x)}{f(x)}=\\ln(\\ln x)+x\\cdot\\frac{1}{x\\ln x}-\\frac{2\\ln x}{x}=\\ln(\\ln x)+\\frac{1}{\\ln x}-\\frac{2\\ln x}{x}\\).",
+     "לכן \\(f'(x)=\\frac{(\\ln x)^x}{x^{\\ln x}}\\left(\\ln(\\ln x)+\\frac1{\\ln x}-\\frac{2\\ln x}{x}\\right)\\)."
+    ],
+    "answer": "\\(f'(x)=\\frac{(\\ln x)^x}{x^{\\ln x}}\\left(\\ln\\ln x+\\frac1{\\ln x}-\\frac{2\\ln x}{x}\\right)\\)"
+   }
+  }
+ ]
+}
