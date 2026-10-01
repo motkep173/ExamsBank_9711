@@ -1,0 +1,920 @@
+[
+ {
+  "examId": "2014-s1-m2",
+  "year": "תשע״ד",
+  "yearNum": 2014,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "2014 MB.PDF"
+  ],
+  "batch": 1,
+  "catalogNote": "סריקה של מחברת סטודנט שנבדקה (שאלות מודפסות + פתרון בכתב יד של סטודנט). התאריך על הטופס עשוי להיות שונה; אמתו שנה/סמסטר מהמסמך."
+ },
+ {
+  "examId": "2014-s2-m1",
+  "year": "תשע״ד",
+  "yearNum": 2014,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "2014B MA.PDF"
+  ],
+  "batch": 1,
+  "catalogNote": "סריקה של מחברת סטודנט שנבדקה."
+ },
+ {
+  "examId": "2015-s1-m1",
+  "year": "תשע״ה",
+  "yearNum": 2015,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "2015 MA.PDF"
+  ],
+  "batch": 1,
+  "catalogNote": "מסמך פתרון רשמי (כולל נוסח השאלות)."
+ },
+ {
+  "examId": "2015-s1-m2",
+  "year": "תשע״ה",
+  "yearNum": 2015,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "2015 MB.PDF"
+  ],
+  "batch": 1,
+  "catalogNote": "מסמך פתרון רשמי."
+ },
+ {
+  "examId": "2015-s1-m3",
+  "year": "תשע״ה",
+  "yearNum": 2015,
+  "semester": "א",
+  "moed": "מיוחד",
+  "files": [
+   "2015 MC.PDF"
+  ],
+  "batch": 1,
+  "catalogNote": "מסמך פתרון רשמי, מועד מיוחד."
+ },
+ {
+  "examId": "2015-s2-m1",
+  "year": "תשע״ה",
+  "yearNum": 2015,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "2015B MA.PDF"
+  ],
+  "batch": 1,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2015-s2-m2",
+  "year": "תשע״ה",
+  "yearNum": 2015,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "2015B MB.PDF"
+  ],
+  "batch": 1,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2016-s1-m1",
+  "year": "תשע״ו",
+  "yearNum": 2016,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "2016 MB.PDF"
+  ],
+  "batch": 2,
+  "catalogNote": "פתרון מרצה בכתב יד."
+ },
+ {
+  "examId": "2016-s1-quiz",
+  "year": "תשע״ו",
+  "yearNum": 2016,
+  "semester": "א",
+  "moed": "בוחן",
+  "files": [
+   "2016 MA.PDF"
+  ],
+  "batch": 2,
+  "catalogNote": "סריקה של בוחן סטודנט שנבדק."
+ },
+ {
+  "examId": "2016-s2-m1",
+  "year": "תשע״ו",
+  "yearNum": 2016,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "2016B MA.PDF"
+  ],
+  "batch": 2,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2016-s2-m2",
+  "year": "תשע״ו",
+  "yearNum": 2016,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "2016B MB.PDF"
+  ],
+  "batch": 2,
+  "catalogNote": "סריקה של מחברת סטודנט שנבדקה."
+ },
+ {
+  "examId": "2017-s1-m1",
+  "year": "תשע״ז",
+  "yearNum": 2017,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "מבחנים/תשעז/20119711 א סמסטר א.pdf",
+   "2017 MA.PDF"
+  ],
+  "batch": 2,
+  "catalogNote": "הקובץ השני הוא פתרון רשמי."
+ },
+ {
+  "examId": "2017-s1-m2",
+  "year": "תשע״ז",
+  "yearNum": 2017,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "מבחנים/תשעז/20119711 ב סמסטר א.pdf",
+   "2017 MB.PDF"
+  ],
+  "batch": 2,
+  "catalogNote": "הקובץ השני הוא פתרון רשמי."
+ },
+ {
+  "examId": "2017-s2-m1",
+  "year": "תשע״ז",
+  "yearNum": 2017,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "מבחנים/תשעז/20119711 א סמסטר ב.pdf"
+  ],
+  "batch": 2,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2017-s2-m2",
+  "year": "תשע״ז",
+  "yearNum": 2017,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "מבחנים/תשעז/20119711 ב סמסטר ב.pdf"
+  ],
+  "batch": 2,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2017-s2-m3",
+  "year": "תשע״ז",
+  "yearNum": 2017,
+  "semester": "ב",
+  "moed": "ג",
+  "files": [
+   "מבחנים/תשעז/20119711 ג סמסטר ב.pdf"
+  ],
+  "batch": 2,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2017-s2-quiz",
+  "year": "תשע״ז",
+  "yearNum": 2017,
+  "semester": "ב",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשעז סמסטר ב.pdf"
+  ],
+  "batch": 2,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2018-s1-m1",
+  "year": "תשע״ח",
+  "yearNum": 2018,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "2018 MA.pdf",
+   "2018 MA Sol.pdf"
+  ],
+  "batch": 3,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2018-s1-m2",
+  "year": "תשע״ח",
+  "yearNum": 2018,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "2018 MB.pdf",
+   "2018 MB Sol.pdf"
+  ],
+  "batch": 3,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2018-s1-quiz",
+  "year": "תשע״ח",
+  "yearNum": 2018,
+  "semester": "א",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשעח סמסטר א.pdf"
+  ],
+  "batch": 3,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2018-s2-m1",
+  "year": "תשע״ח",
+  "yearNum": 2018,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "מבחנים/תשעח/20119711 א סמסטר ב.pdf"
+  ],
+  "batch": 3,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2018-s2-m2",
+  "year": "תשע״ח",
+  "yearNum": 2018,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "מבחנים/תשעח/20119711 ב סמסטר ב.pdf"
+  ],
+  "batch": 3,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2018-s2-m3",
+  "year": "תשע״ח",
+  "yearNum": 2018,
+  "semester": "ב",
+  "moed": "ג",
+  "files": [
+   "מבחנים/תשעח/20119711 ג סמסטר ב.pdf"
+  ],
+  "batch": 3,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2018-s2-quiz",
+  "year": "תשע״ח",
+  "yearNum": 2018,
+  "semester": "ב",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשעח סמסטר ב.pdf"
+  ],
+  "batch": 3,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2019-s1-m1",
+  "year": "תשע״ט",
+  "yearNum": 2019,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "2019 MA.pdf"
+  ],
+  "batch": 4,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2019-s1-m2",
+  "year": "תשע״ט",
+  "yearNum": 2019,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "2019 MB.pdf"
+  ],
+  "batch": 4,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2019-s1-m3",
+  "year": "תשע״ט",
+  "yearNum": 2019,
+  "semester": "א",
+  "moed": "מיוחד",
+  "files": [
+   "2019 MC.pdf"
+  ],
+  "batch": 4,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2019-s1-quiz",
+  "year": "תשע״ט",
+  "yearNum": 2019,
+  "semester": "א",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשעט סמסטר א.pdf"
+  ],
+  "batch": 4,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2019-s2-m1",
+  "year": "תשע״ט",
+  "yearNum": 2019,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "מבחנים/תשעט/20119711 א סמסטר ב.pdf"
+  ],
+  "batch": 4,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2019-s2-m2",
+  "year": "תשע״ט",
+  "yearNum": 2019,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "מבחנים/תשעט/20119711 ב סמסטר ב.pdf"
+  ],
+  "batch": 4,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2019-s2-quiz",
+  "year": "תשע״ט",
+  "yearNum": 2019,
+  "semester": "ב",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשעט סמסטר ב.pdf"
+  ],
+  "batch": 4,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2020-s1-m1",
+  "year": "תש״פ",
+  "yearNum": 2020,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "2020 MA.pdf"
+  ],
+  "batch": 5,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2020-s1-m2",
+  "year": "תש״פ",
+  "yearNum": 2020,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "2020 MB.pdf",
+   "מבחנים/תשפ/20119711 (2) ב סמסטר א.pdf"
+  ],
+  "batch": 5,
+  "catalogNote": "הקובץ השני הוא קובץ סרוק אחר באותו שם; זהו מה הוא (נוסח נוסף? פתרון? מועד אחר?) וטפלו בהתאם."
+ },
+ {
+  "examId": "2020-s1-quiz",
+  "year": "תש״פ",
+  "yearNum": 2020,
+  "semester": "א",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשפ סמסטר א.pdf"
+  ],
+  "batch": 5,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2020-s2-m1",
+  "year": "תש״פ",
+  "yearNum": 2020,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "2020B MA.pdf"
+  ],
+  "batch": 5,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2020-s2-m2",
+  "year": "תש״פ",
+  "yearNum": 2020,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "2020B MB.pdf"
+  ],
+  "batch": 5,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2020-s2-m3",
+  "year": "תש״פ",
+  "yearNum": 2020,
+  "semester": "ב",
+  "moed": "ג",
+  "files": [
+   "2020B MC.pdf"
+  ],
+  "batch": 5,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2021-s1-m1",
+  "year": "תשפ״א",
+  "yearNum": 2021,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "2021 MA.pdf"
+  ],
+  "batch": 6,
+  "catalogNote": "מבחן מודל של סטודנט עם פתרון בכתב יד של סטודנט."
+ },
+ {
+  "examId": "2021-s1-m2",
+  "year": "תשפ״א",
+  "yearNum": 2021,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "2021 MB.pdf"
+  ],
+  "batch": 6,
+  "catalogNote": "מסמך פתרונות."
+ },
+ {
+  "examId": "2021-s1-m3",
+  "year": "תשפ״א",
+  "yearNum": 2021,
+  "semester": "א",
+  "moed": "ג",
+  "files": [
+   "2021 MC.pdf"
+  ],
+  "batch": 6,
+  "catalogNote": "תדפיס סקירת ניסיון במודל."
+ },
+ {
+  "examId": "2021-s2-m1",
+  "year": "תשפ״א",
+  "yearNum": 2021,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "2021B MA.pdf"
+  ],
+  "batch": 6,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2021-s2-m2",
+  "year": "תשפ״א",
+  "yearNum": 2021,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "2021B MB.pdf"
+  ],
+  "batch": 6,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2021-s2-m3",
+  "year": "תשפ״א",
+  "yearNum": 2021,
+  "semester": "ב",
+  "moed": "ג",
+  "files": [
+   "2021B MC.pdf"
+  ],
+  "batch": 6,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2022-s1-m1",
+  "year": "תשפ״ב",
+  "yearNum": 2022,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "2022 MA.pdf"
+  ],
+  "batch": 7,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2022-s1-m2",
+  "year": "תשפ״ב",
+  "yearNum": 2022,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "2022 MB.pdf"
+  ],
+  "batch": 7,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2022-s1-m3",
+  "year": "תשפ״ב",
+  "yearNum": 2022,
+  "semester": "א",
+  "moed": "מיוחד",
+  "files": [
+   "2022 MC.pdf"
+  ],
+  "batch": 7,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2022-s1-quiz",
+  "year": "תשפ״ב",
+  "yearNum": 2022,
+  "semester": "א",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשפב סמסטר א.pdf"
+  ],
+  "batch": 7,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2022-s2-m1",
+  "year": "תשפ״ב",
+  "yearNum": 2022,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "2022B MA.pdf"
+  ],
+  "batch": 7,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2022-s2-m2",
+  "year": "תשפ״ב",
+  "yearNum": 2022,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "2022B MB.pdf"
+  ],
+  "batch": 7,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2022-s2-quiz",
+  "year": "תשפ״ב",
+  "yearNum": 2022,
+  "semester": "ב",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשפב סמסטר ב.pdf"
+  ],
+  "batch": 7,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2023-s1-m1",
+  "year": "תשפ״ג",
+  "yearNum": 2023,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "2023 MA v1.pdf",
+   "2023 MA v2.pdf"
+  ],
+  "batch": 8,
+  "catalogNote": "שני נוסחים כמעט זהים. השתמשו בנוסח 1; אם בנוסח 2 יש שאלות שונות מהותית, הוסיפו גם אותן."
+ },
+ {
+  "examId": "2023-s1-m2",
+  "year": "תשפ״ג",
+  "yearNum": 2023,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "2023 MB.pdf"
+  ],
+  "batch": 8,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2023-s1-m3",
+  "year": "תשפ״ג",
+  "yearNum": 2023,
+  "semester": "א",
+  "moed": "ג",
+  "files": [
+   "2023 MC.pdf"
+  ],
+  "batch": 8,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2023-s1-quiz",
+  "year": "תשפ״ג",
+  "yearNum": 2023,
+  "semester": "א",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשפג סמסטר א.pdf"
+  ],
+  "batch": 8,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2023-s2-m1",
+  "year": "תשפ״ג",
+  "yearNum": 2023,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "2023B MA.pdf"
+  ],
+  "batch": 8,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2023-s2-m2",
+  "year": "תשפ״ג",
+  "yearNum": 2023,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "2023B MB.pdf"
+  ],
+  "batch": 8,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2023-s2-m3",
+  "year": "תשפ״ג",
+  "yearNum": 2023,
+  "semester": "ב",
+  "moed": "ג",
+  "files": [
+   "2023B MC.pdf"
+  ],
+  "batch": 8,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2023-s2-quiz",
+  "year": "תשפ״ג",
+  "yearNum": 2023,
+  "semester": "ב",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשפג סמסטר ב.pdf"
+  ],
+  "batch": 8,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2024-s2-m1",
+  "year": "תשפ״ד",
+  "yearNum": 2024,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "2024B MA.pdf"
+  ],
+  "batch": 9,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2024-s2-m2",
+  "year": "תשפ״ד",
+  "yearNum": 2024,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "2024B MB.pdf"
+  ],
+  "batch": 9,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2025-s1-m1",
+  "year": "תשפ״ה",
+  "yearNum": 2025,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "Moed A 2025.pdf",
+   "Moed A 2025 - Sol.pdf",
+   "2025 MA.pdf",
+   "Moed A 2025 - Sample.pdf",
+   "Moed A 2025 - Sample - sol.pdf"
+  ],
+  "batch": 9,
+  "catalogNote": "כמה קבצים לאותו מועד: נוסח, פתרון, סריקה עם קוד מבחן, ו'Sample' (אולי נוסח אחר או מבחן לדוגמה). אל תכפילו שאלות זהות. אם ה־Sample הוא מבחן לדוגמה ולא מועד אמיתי, צרו לו examId נפרד 2025-s1-sample עם moed 'מבחן לדוגמה'."
+ },
+ {
+  "examId": "2025-s1-m2",
+  "year": "תשפ״ה",
+  "yearNum": 2025,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "Moed B 2025.pdf",
+   "Moed B 2025 - Sol.pdf",
+   "2025 MB.pdf"
+  ],
+  "batch": 9,
+  "catalogNote": "אל תכפילו שאלות זהות בין הקבצים."
+ },
+ {
+  "examId": "2025-s1-m3",
+  "year": "תשפ״ה",
+  "yearNum": 2025,
+  "semester": "א",
+  "moed": "ג",
+  "files": [
+   "Moed C 2025.pdf",
+   "Moed C 2025 - Sol.pdf"
+  ],
+  "batch": 9,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2025-s1-quiz",
+  "year": "תשפ״ה",
+  "yearNum": 2025,
+  "semester": "א",
+  "moed": "בוחן",
+  "files": [
+   "20119711 תשפה סמסטר א.pdf"
+  ],
+  "batch": 9,
+  "catalogNote": "ייתכן שזה מסמך פתרון ולא בוחן; בדקו."
+ },
+ {
+  "examId": "2025-s1-sample",
+  "year": "תשפ״ה",
+  "yearNum": 2025,
+  "semester": "א",
+  "moed": "מבחן לדוגמה",
+  "files": [
+   "Moed A 2025 - Sample.pdf",
+   "Moed A 2025 - Sample - sol.pdf"
+  ],
+  "batch": 9,
+  "catalogNote": "כמה קבצים לאותו מועד: נוסח, פתרון, סריקה עם קוד מבחן, ו'Sample' (אולי נוסח אחר או מבחן לדוגמה). אל תכפילו שאלות זהות. אם ה־Sample הוא מבחן לדוגמה ולא מועד אמיתי, צרו לו examId נפרד 2025-s1-sample עם moed 'מבחן לדוגמה'."
+ },
+ {
+  "examId": "2025-s2-m1",
+  "year": "תשפ״ה",
+  "yearNum": 2025,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "מבחנים/תשפה/9711 א סמסטר ב.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2025-s2-m2",
+  "year": "תשפ״ה",
+  "yearNum": 2025,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "מבחנים/תשפה/9711 ב סמסטר ב.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2025-s2-m3",
+  "year": "תשפ״ה",
+  "yearNum": 2025,
+  "semester": "ב",
+  "moed": "ג",
+  "files": [
+   "מבחנים/תשפה/9711 ג סמסטר ב.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2026-s1-m1",
+  "year": "תשפ״ו",
+  "yearNum": 2026,
+  "semester": "א",
+  "moed": "א",
+  "files": [
+   "Moed A.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": "קובץ הפתרון '2026 Moed A Sol.pdf' פגום ואינו נפתח; אין לנסות לקרוא אותו."
+ },
+ {
+  "examId": "2026-s1-m2",
+  "year": "תשפ״ו",
+  "yearNum": 2026,
+  "semester": "א",
+  "moed": "ב",
+  "files": [
+   "2026 Moed B.pdf",
+   "2026 Moed B Sol.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2026-s1-m3",
+  "year": "תשפ״ו",
+  "yearNum": 2026,
+  "semester": "א",
+  "moed": "ג",
+  "files": [
+   "2026 Moed C.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2026-s1-quiz",
+  "year": "תשפ״ו",
+  "yearNum": 2026,
+  "semester": "א",
+  "moed": "בוחן",
+  "files": [
+   "Midterm 2026 v1.pdf",
+   "Midterm 2026 sol.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2026-s2-m1",
+  "year": "תשפ״ו",
+  "yearNum": 2026,
+  "semester": "ב",
+  "moed": "א",
+  "files": [
+   "9711 moed A ver 1.pdf",
+   "מועד א, 9711, פתרונות, 26ב.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2026-s2-m2",
+  "year": "תשפ״ו",
+  "yearNum": 2026,
+  "semester": "ב",
+  "moed": "ב",
+  "files": [
+   "מועד ב, 9711, 26ב, גרסה 1.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": ""
+ },
+ {
+  "examId": "2026-s2-quiz",
+  "year": "תשפ״ו",
+  "yearNum": 2026,
+  "semester": "ב",
+  "moed": "בוחן",
+  "files": [
+   "בוחן 9711 26ב.pdf",
+   "בוחן 9711 26ב פתרונות.pdf"
+  ],
+  "batch": 10,
+  "catalogNote": "על הטופס מופיע מספר קורס 9721; ציינו זאת ב-issues."
+ }
+]

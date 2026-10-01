@@ -1,0 +1,427 @@
+<title>שאלות מבחן בחדו״א 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=Assistant:wght@400;600;700&display=swap">
+<style>
+/* Layout: one narrow reading column; topic map as the home view, exam-sheet cards once a topic is chosen */
+:root {
+  --paper: #f6f8fb;
+  --sheet: #ffffff;
+  --ink: #1b2433;
+  --muted: #5b6678;
+  --line: #d9dfe8;
+  --accent: #2348a8;
+  --accent-soft: #e6ecfa;
+  --answer: #eef6f0;
+  --answer-ink: #1e6b3a;
+  --warn: #fbf3e2;
+  --warn-ink: #8a5a00;
+  --grid: rgba(35, 72, 168, 0.06);
+  --font-display: "Frank Ruhl Libre", "David", "Times New Roman", serif;
+  --font-body: "Assistant", "Arial Hebrew", "Segoe UI", Arial, sans-serif;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.1875rem;
+  --step-2: 1.6rem;
+  --step-3: 2.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #12161e;
+    --sheet: #1a202b;
+    --ink: #e4e9f1;
+    --muted: #9aa5b8;
+    --line: #2d3545;
+    --accent: #8eaaf5;
+    --accent-soft: #232e48;
+    --answer: #17291f;
+    --answer-ink: #8fd6a6;
+    --warn: #2c2414;
+    --warn-ink: #e5bf6e;
+    --grid: rgba(142, 170, 245, 0.06);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #12161e;
+  --sheet: #1a202b;
+  --ink: #e4e9f1;
+  --muted: #9aa5b8;
+  --line: #2d3545;
+  --accent: #8eaaf5;
+  --accent-soft: #232e48;
+  --answer: #17291f;
+  --answer-ink: #8fd6a6;
+  --warn: #2c2414;
+  --warn-ink: #e5bf6e;
+  --grid: rgba(142, 170, 245, 0.06);
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  padding: 0 16px;
+}
+.wrap { max-width: 780px; margin: 0 auto; padding-block: 40px 64px; display: grid; gap: 24px; }
+
+header { display: grid; gap: 10px; padding-block: 8px 4px; }
+.eyebrow { font-size: var(--step--1); font-weight: 700; letter-spacing: 0.06em; color: var(--accent); }
+h1 { font-family: var(--font-display); font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance; }
+.lead { margin: 0; color: var(--muted); max-width: 62ch; }
+.stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: var(--step--1); color: var(--muted); }
+.stats strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.filters {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: end;
+  padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--sheet);
+}
+.field { display: grid; gap: 4px; flex: 1 1 180px; }
+.field.narrow { flex: 0 1 150px; }
+.field label { font-size: var(--step--1); font-weight: 600; color: var(--muted); }
+select, button { font: inherit; color: inherit; }
+select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+select:disabled { opacity: 0.55; }
+.btn { border: 1px solid var(--line); background: transparent; border-radius: 6px; padding: 8px 14px; cursor: pointer; font-weight: 600; }
+.btn:hover { background: var(--accent-soft); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.status { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: var(--step--1); color: var(--muted); }
+.status strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* Topic map (home view) */
+.map { display: grid; gap: 14px; }
+.topic { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; }
+.topic-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.topic-head button { all: unset; cursor: pointer; font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; }
+.topic-head button:hover { color: var(--accent); }
+.topic-head button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.topic-head span { font-size: var(--step--1); color: var(--muted); font-variant-numeric: tabular-nums; }
+.subs { display: flex; flex-wrap: wrap; gap: 8px; }
+.sub-link {
+  display: inline-flex; gap: 8px; align-items: baseline; border: 1px solid var(--line); border-radius: 999px;
+  padding: 3px 12px; background: var(--paper); cursor: pointer;
+}
+.sub-link:hover { border-color: var(--accent); color: var(--accent); }
+.sub-link b { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.sub-link[disabled] { opacity: 0.5; cursor: default; }
+
+/* Question cards */
+.list { display: grid; gap: 18px; }
+.q {
+  background: var(--sheet); border: 1px solid var(--line); border-radius: 10px;
+  padding: 20px 22px; display: grid; gap: 14px;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: var(--step--1); }
+.chip { padding: 1px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.chip.sub { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.source { font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; margin: 0; }
+.source small { font-family: var(--font-body); font-size: var(--step--1); font-weight: 600; color: var(--muted); margin-inline-start: 8px; }
+.q-text { overflow-wrap: anywhere; }
+.q-text p { margin: 0 0 0.5em; }
+.q img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: #fff; justify-self: start; }
+.options { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.options li { display: flex; gap: 10px; align-items: baseline; padding: 4px 10px; border-radius: 6px; border: 1px solid transparent; }
+.options li .letter { font-weight: 700; color: var(--muted); min-width: 1.2em; }
+.options li.correct { background: var(--answer); color: var(--answer-ink); border-color: currentColor; }
+.options li.correct .letter { color: inherit; }
+.note { font-size: var(--step--1); color: var(--muted); }
+
+.toggle {
+  justify-self: start; border: 1px solid var(--accent); color: var(--accent); background: transparent;
+  border-radius: 6px; padding: 6px 14px; cursor: pointer; font-weight: 700;
+}
+.toggle:hover { background: var(--accent-soft); }
+.toggle[aria-expanded="true"] { background: var(--accent); color: var(--sheet); }
+.toggle:disabled { border-color: var(--line); color: var(--muted); cursor: default; background: transparent; }
+
+.solution { border-top: 1px dashed var(--line); padding-top: 14px; display: grid; gap: 12px; }
+.sol-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sol-head h3 { margin: 0; font-size: var(--step--1); letter-spacing: 0.06em; color: var(--muted); }
+.badge { font-size: var(--step--1); font-weight: 700; padding: 1px 10px; border-radius: 999px; }
+.badge.official { background: var(--answer); color: var(--answer-ink); }
+.badge.unofficial { background: var(--warn); color: var(--warn-ink); }
+.solution ol { margin: 0; padding-inline-start: 1.4em; display: grid; gap: 8px; }
+.answer { background: var(--answer); color: var(--answer-ink); border-radius: 6px; padding: 10px 14px; font-weight: 600; }
+.answer span { font-weight: 700; margin-inline-end: 6px; }
+
+.more { justify-self: center; }
+.empty { text-align: center; color: var(--muted); padding: 32px 0; }
+footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 6px; }
+
+mjx-container { direction: ltr; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+
+@media (max-width: 480px) {
+  h1 { font-size: var(--step-2); }
+  .q { padding: 16px; }
+  .field.narrow { flex: 1 1 140px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .solution:not([hidden]) { animation: open 0.2s ease-out; }
+  @keyframes open { from { opacity: 0.4; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+}
+</style>
+
+<div class="wrap" dir="rtl" lang="he">
+  <header>
+    <div class="eyebrow">חדו״א 1 להנדסה · קורס 9711</div>
+    <h1>איך נראות שאלות במבחן?</h1>
+    <p class="lead">בחרו נושא ותת־נושא כדי לראות שאלות ממבחני עבר. המטרה היא להכיר כבר במהלך הסמסטר את סוגי השאלות שבהם החומר הנלמד יכול להופיע במבחן. נסו לפתור לבד, ורק אז לחצו על „הצג פתרון”.</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <section class="filters" aria-label="סינון שאלות">
+    <div class="field">
+      <label for="topic">בחרו נושא</label>
+      <select id="topic"></select>
+    </div>
+    <div class="field">
+      <label for="sub">בחרו תת־נושא</label>
+      <select id="sub" disabled></select>
+    </div>
+    <div class="field narrow">
+      <label for="kind">סוג בחינה</label>
+      <select id="kind">
+        <option value="">מבחנים ובחנים</option>
+        <option value="exam">מבחנים בלבד</option>
+        <option value="quiz">בחנים בלבד</option>
+      </select>
+    </div>
+    <button class="btn" id="clear" type="button">ניקוי סינון</button>
+  </section>
+
+  <div class="status">
+    <div id="count"></div>
+    <div>השאלות מסודרות לפי החומר המתמטי ולא לפי סדר הופעתן בבחינה.</div>
+  </div>
+
+  <main id="main" aria-live="polite"></main>
+
+  <footer>
+    <div>„פתרון רשמי” נלקח מקובצי הפתרון של צוות הקורס. „פתרון שלא נבדק על ידי צוות הקורס” נכתב בנפרד ועשוי להכיל טעויות.</div>
+    <div id="footer-stats"></div>
+  </footer>
+</div>
+
+<script type="application/json" id="data">/*__DATA__*/</script>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+  svg: { fontCache: "global" },
+  startup: {
+    typeset: false,
+    ready() {
+      MathJax.startup.defaultReady();
+      MathJax.startup.promise.then(() => typeset(document.getElementById("main")));
+    }
+  }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg-full.js" async></script>
+<script>
+const DATA = JSON.parse(document.getElementById("data").textContent);
+const EXAMS = Object.fromEntries(DATA.exams.map(e => [e.examId, e]));
+const QUESTIONS = DATA.questions;
+const TOPICS = DATA.taxonomy.topics;
+const LETTERS = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח"];
+const PAGE = 15;
+
+const topicSel = document.getElementById("topic");
+const subSel = document.getElementById("sub");
+const kindSel = document.getElementById("kind");
+const main = document.getElementById("main");
+const count = document.getElementById("count");
+
+function typeset(el) {
+  if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(() => {});
+}
+function el(tag, cls, html) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html !== undefined) e.innerHTML = html;
+  return e;
+}
+function option(value, label) {
+  const o = document.createElement("option");
+  o.value = value; o.textContent = label;
+  return o;
+}
+const isQuiz = q => EXAMS[q.examId].moed === "בוחן";
+function examLabel(ex) {
+  const parts = [ex.year, "סמסטר " + ex.semester + "׳"];
+  if (ex.moed === "בוחן") parts.push("בוחן");
+  else if (ex.moed === "מיוחד") parts.push("מועד מיוחד");
+  else if (ex.moed === "מבחן לדוגמה") parts.push("מבחן לדוגמה");
+  else parts.push("מועד " + ex.moed + "׳");
+  if (ex.version) parts.push("נוסח " + ex.version);
+  return parts.join(" · ");
+}
+
+// Order: syllabus order of topic/sub, then newest exam first, then question number.
+const subOrder = {};
+TOPICS.forEach((t, i) => t.subs.forEach((s, j) => { subOrder[t.name + "|" + s] = i * 100 + j; }));
+const examRank = e => e.yearNum * 100 + (e.semester === "ב" ? 50 : 0) + ({ "בוחן": 1, "א": 2, "ב": 3, "ג": 4, "מיוחד": 5, "מבחן לדוגמה": 0 }[e.moed] || 0);
+QUESTIONS.sort((a, b) =>
+  (subOrder[a.topic + "|" + a.sub] - subOrder[b.topic + "|" + b.sub]) ||
+  (examRank(EXAMS[b.examId]) - examRank(EXAMS[a.examId])) ||
+  a.number.localeCompare(b.number, "he", { numeric: true }));
+
+// Header stats
+const nOfficial = QUESTIONS.filter(q => q.solution && q.solution.official).length;
+const nSolved = QUESTIONS.filter(q => q.solution).length;
+const years = DATA.exams.map(e => e.yearNum);
+document.getElementById("stats").innerHTML =
+  `<span><strong>${QUESTIONS.length}</strong> שאלות</span>` +
+  `<span>מתוך <strong>${DATA.exams.length}</strong> מבחנים ובחנים</span>` +
+  `<span>משנת <strong>${Math.min(...years)}</strong> עד <strong>${Math.max(...years)}</strong></span>`;
+document.getElementById("footer-stats").textContent =
+  `לכל ${nSolved} מתוך ${QUESTIONS.length} השאלות יש פתרון. ${nOfficial} מהפתרונות רשמיים.`;
+
+topicSel.append(option("", "כל הנושאים"), ...TOPICS.map(t => option(t.name, t.name)));
+function fillSubs() {
+  const t = TOPICS.find(t => t.name === topicSel.value);
+  subSel.replaceChildren(option("", "כל תתי־הנושאים"), ...(t ? t.subs.map(s => option(s, s)) : []));
+  subSel.disabled = !t;
+}
+
+function kindFilter(q) {
+  const k = kindSel.value;
+  return !k || (k === "quiz") === isQuiz(q);
+}
+
+function renderMap() {
+  const pool = QUESTIONS.filter(kindFilter);
+  count.innerHTML = `<strong>${pool.length}</strong> שאלות. בחרו תת־נושא כדי להתחיל.`;
+  const map = el("div", "map");
+  TOPICS.forEach(t => {
+    const inTopic = pool.filter(q => q.topic === t.name);
+    if (!inTopic.length) return;
+    const box = el("section", "topic");
+    const head = el("div", "topic-head");
+    const tb = el("button");
+    tb.type = "button"; tb.textContent = t.name;
+    tb.addEventListener("click", () => { topicSel.value = t.name; fillSubs(); render(); });
+    head.append(tb, el("span", "", `${inTopic.length} שאלות`));
+    const subs = el("div", "subs");
+    t.subs.forEach(s => {
+      const n = inTopic.filter(q => q.sub === s).length;
+      const b = el("button", "sub-link", `${s} <b>${n}</b>`);
+      b.type = "button";
+      if (!n) b.disabled = true;
+      b.addEventListener("click", () => { topicSel.value = t.name; fillSubs(); subSel.value = s; render(); });
+      subs.append(b);
+    });
+    box.append(head, subs);
+    map.append(box);
+  });
+  main.replaceChildren(map);
+}
+
+function card(q) {
+  const ex = EXAMS[q.examId];
+  const c = el("article", "q");
+  const meta = el("div", "meta");
+  meta.append(el("span", "chip", q.topic), el("span", "chip sub", q.sub));
+  c.append(meta);
+  const pts = q.points ? ` · ${q.points} נק׳` : "";
+  c.append(el("h2", "source", `${examLabel(ex)}<small>שאלה ${q.number}${pts}</small>`));
+  c.append(el("div", "q-text", q.text));
+  if (q.image) {
+    const img = el("img");
+    img.src = DATA.images[q.image]; img.alt = "איור מתוך השאלה"; img.loading = "lazy";
+    c.append(img);
+  }
+  let opts = null;
+  if (q.type === "mc") {
+    opts = el("ol", "options");
+    q.options.forEach((o, i) => {
+      const li = el("li");
+      li.append(el("span", "letter", LETTERS[i] + "."), el("span", "", o));
+      opts.append(li);
+    });
+    c.append(opts);
+  }
+  if (q.notes) c.append(el("div", "note", q.notes));
+
+  const btn = el("button", "toggle");
+  btn.type = "button";
+  if (!q.solution) {
+    btn.textContent = "אין עדיין פתרון לשאלה זו";
+    btn.disabled = true;
+    c.append(btn);
+    return c;
+  }
+  const sid = "sol-" + q.id;
+  btn.textContent = "הצג פתרון";
+  btn.setAttribute("aria-expanded", "false");
+  btn.setAttribute("aria-controls", sid);
+  const sol = el("section", "solution");
+  sol.id = sid; sol.hidden = true;
+  const s = q.solution;
+  sol.append(el("div", "sol-head", `<h3>פתרון</h3>` + (s.official
+    ? `<span class="badge official">פתרון רשמי</span>`
+    : `<span class="badge unofficial">פתרון שלא נבדק על ידי צוות הקורס</span>`)));
+  sol.append(el("ol", "", s.steps.map(x => `<li>${x}</li>`).join("")));
+  if (s.answer) sol.append(el("div", "answer", `<span>תשובה:</span>${s.answer}`));
+  let done = false;
+  btn.addEventListener("click", () => {
+    const open = sol.hidden;
+    sol.hidden = !open;
+    btn.setAttribute("aria-expanded", String(open));
+    btn.textContent = open ? "הסתר פתרון" : "הצג פתרון";
+    if (opts && Number.isInteger(q.correct)) opts.children[q.correct].classList.toggle("correct", open);
+    if (open && !done) { done = true; typeset(sol); }
+  });
+  c.append(btn, sol);
+  return c;
+}
+
+function renderList(items) {
+  const list = el("div", "list");
+  main.replaceChildren(list);
+  let shown = 0;
+  const more = el("button", "btn more");
+  more.type = "button";
+  function page() {
+    const chunk = el("div", "list");
+    items.slice(shown, shown + PAGE).forEach(q => chunk.append(card(q)));
+    shown = Math.min(items.length, shown + PAGE);
+    list.append(chunk);
+    typeset(chunk);
+    more.hidden = shown >= items.length;
+    more.textContent = `הצג עוד שאלות (${items.length - shown} נותרו)`;
+  }
+  more.addEventListener("click", page);
+  page();
+  main.append(more);
+}
+
+function render() {
+  const topic = topicSel.value, sub = subSel.value;
+  if (!topic) { renderMap(); return; }
+  const items = QUESTIONS.filter(q => q.topic === topic && (!sub || q.sub === sub) && kindFilter(q));
+  count.innerHTML = `מוצגות <strong>${items.length}</strong> שאלות`;
+  if (!items.length) {
+    main.replaceChildren(el("p", "empty", "אין שאלות שמתאימות לסינון הזה. בחרו תת־נושא אחר או נקו את הסינון."));
+    return;
+  }
+  renderList(items);
+}
+
+topicSel.addEventListener("change", () => { fillSubs(); render(); });
+subSel.addEventListener("change", render);
+kindSel.addEventListener("change", render);
+document.getElementById("clear").addEventListener("click", () => {
+  topicSel.value = ""; kindSel.value = ""; fillSubs(); render();
+});
+
+fillSubs();
+render();
+</script>

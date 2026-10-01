@@ -1,0 +1,219 @@
+{
+ "examId": "2015-s1-m3",
+ "year": "תשע״ה",
+ "yearNum": 2015,
+ "semester": "א",
+ "moed": "מיוחד",
+ "date": "2015-03-27",
+ "sourceFiles": [
+  "2015 MC.PDF"
+ ],
+ "solutionSource": "official",
+ "issues": [],
+ "questions": [
+  {
+   "id": "2015-s1-m3-q1a",
+   "number": "1א",
+   "points": 9,
+   "type": "open",
+   "text": "חשבו את הגבול \\[\\lim_{n\\to\\infty}\\frac{\\sqrt[n]{n!}}{n}.\\]",
+   "topic": "סדרות",
+   "sub": "המספר e",
+   "solution": {
+    "official": true,
+    "steps": [
+     "נסמן \\(a_n=\\frac{n!}{n^n}\\), כך ש־\\(\\frac{\\sqrt[n]{n!}}n=\\sqrt[n]{a_n}\\).",
+     "לפי מבחן השורש (אם \\(\\frac{a_{n+1}}{a_n}\\) מתכנסת אז \\(\\sqrt[n]{a_n}\\) מתכנסת לאותו גבול).",
+     "\\(\\frac{a_{n+1}}{a_n}=\\frac{(n+1)!}{(n+1)^{n+1}}\\cdot\\frac{n^n}{n!}=\\frac{n^n}{(n+1)^n}=\\frac1{\\left(1+\\frac1n\\right)^n}\\to\\frac1e\\)."
+    ],
+    "answer": "\\(\\frac1e\\)"
+   }
+  },
+  {
+   "id": "2015-s1-m3-q1b",
+   "number": "1ב",
+   "points": 9,
+   "type": "open",
+   "text": "חשבו את הגבול \\[\\lim_{x\\to+\\infty}\\frac{\\ln(3x\\ln x+5)}{\\ln x}.\\]",
+   "topic": "שימושי הנגזרת",
+   "sub": "כלל לופיטל",
+   "solution": {
+    "official": true,
+    "steps": [
+     "המונה והמכנה שואפים לאינסוף, נשתמש בלופיטל.",
+     "\\(\\lim\\frac{\\frac{3\\ln x+3}{3x\\ln x+5}}{\\frac1x}=\\lim\\frac{3x\\ln x+3x}{3x\\ln x+5}\\).",
+     "נחלק ב־\\(3x\\ln x\\): \\(\\lim\\frac{1+\\frac1{\\ln x}}{1+\\frac5{3x\\ln x}}=1\\), כי \\(\\ln x\\to\\infty\\)."
+    ],
+    "answer": "\\(1\\)"
+   }
+  },
+  {
+   "id": "2015-s1-m3-q2a",
+   "number": "2א",
+   "points": 9,
+   "type": "open",
+   "text": "חשבו את משוואת הישר המשיק לפונקציה \\(f(x)=x^{\\sin x}\\) בנקודה \\(x=\\frac\\pi2\\).",
+   "topic": "נגזרות",
+   "sub": "משיק ונורמל",
+   "solution": {
+    "official": true,
+    "steps": [
+     "\\(f\\left(\\frac\\pi2\\right)=\\left(\\frac\\pi2\\right)^1=\\frac\\pi2\\).",
+     "\\(f(x)=e^{\\sin x\\ln x}\\), ולכן \\(f'(x)=x^{\\sin x}\\left(\\frac{\\sin x}x+\\ln x\\cos x\\right)\\).",
+     "\\(f'\\left(\\frac\\pi2\\right)=\\frac\\pi2\\left(\\frac2\\pi+0\\right)=1\\).",
+     "המשיק: \\(y=\\frac\\pi2+\\left(x-\\frac\\pi2\\right)=x\\)."
+    ],
+    "answer": "\\(y=x\\)"
+   }
+  },
+  {
+   "id": "2015-s1-m3-q2b",
+   "number": "2ב",
+   "points": 9,
+   "type": "open",
+   "text": "הוכיחו שלכל \\(x\\gt 0\\) מתקיים \\[\\sqrt{1+x}\\le1+\\frac x2-\\frac{x^2}8+\\frac{x^3}{16}.\\]",
+   "topic": "שימושי הנגזרת",
+   "sub": "פולינום טיילור",
+   "solution": {
+    "official": true,
+    "steps": [
+     "נסמן \\(f(x)=(1+x)^{1/2}\\). לפי טיילור עם שארית לגרנז׳ סביב \\(0\\): קיים \\(c\\in(0,x)\\) כך ש־\\(f(x)=f(0)+f'(0)x+\\frac{f''(0)}{2!}x^2+\\frac{f'''(0)}{3!}x^3+\\frac{f^{(4)}(c)}{4!}x^4\\).",
+     "\\(f'=\\frac12(1+x)^{-1/2},\\ f''=-\\frac14(1+x)^{-3/2},\\ f'''=\\frac38(1+x)^{-5/2},\\ f^{(4)}=-\\frac{15}{16}(1+x)^{-7/2}\\).",
+     "לכן \\(f(0)=1,f'(0)=\\frac12,f''(0)=-\\frac14,f'''(0)=\\frac38\\), ו־\\(\\sqrt{1+x}=1+\\frac x2-\\frac{x^2}8+\\frac{x^3}{16}-\\frac{15(1+c)^{-7/2}x^4}{16\\cdot4!}\\).",
+     "האיבר האחרון שלילי, ולכן מתקבל האי־שוויון."
+    ],
+    "answer": "הוכחה באמצעות שארית לגרנז׳ מסדר 4."
+   },
+   "notes": "סיווג: הוכחת אי־שוויון באמצעות פולינום טיילור."
+  },
+  {
+   "id": "2015-s1-m3-q2c",
+   "number": "2ג",
+   "points": 9,
+   "type": "open",
+   "text": "הוכיחו או הפריכו את הטענה: הפונקציה הבאה גזירה בנקודה \\(x=0\\). \\[f(x)=\\begin{cases}x^2\\sin\\left(\\frac1x\\right)+2, & x\\gt 0\\\\ \\sqrt{4-x}, & x\\le0\\end{cases}\\]",
+   "topic": "נגזרות",
+   "sub": "הגדרת הנגזרת וגזירות",
+   "solution": {
+    "official": true,
+    "steps": [
+     "\\(f(0)=\\sqrt4=2\\).",
+     "מימין: \\(\\lim_{x\\to0^+}\\frac{x^2\\sin\\frac1x}{x}=\\lim x\\sin\\frac1x=0\\) (חסומה כפול שואפת לאפס).",
+     "משמאל: \\(\\lim_{x\\to0^-}\\frac{\\sqrt{4-x}-2}{x}=\\lim\\frac{-x}{x(\\sqrt{4-x}+2)}=-\\frac14\\).",
+     "הנגזרות החד־צדדיות שונות, ולכן \\(f\\) אינה גזירה ב־\\(0\\)."
+    ],
+    "answer": "הטענה שגויה: הנגזרות החד־צדדיות הן \\(0\\) ו־\\(-\\frac14\\)."
+   }
+  },
+  {
+   "id": "2015-s1-m3-q3a",
+   "number": "3א",
+   "points": 9,
+   "type": "open",
+   "text": "חשבו את האינטגרל \\[\\int_{-1}^1\\frac{\\sin^2(\\arctan x)}{x^2+1}\\,dx.\\]",
+   "topic": "אינטגרלים",
+   "sub": "שיטות אינטגרציה",
+   "solution": {
+    "official": true,
+    "steps": [
+     "נציב \\(\\theta=\\arctan x\\), \\(d\\theta=\\frac{dx}{1+x^2}\\), \\(\\theta\\in[-\\frac\\pi4,\\frac\\pi4]\\).",
+     "\\(\\int_{-\\pi/4}^{\\pi/4}\\sin^2\\theta\\,d\\theta=\\int_{-\\pi/4}^{\\pi/4}\\frac{1-\\cos2\\theta}2d\\theta=\\left[\\frac\\theta2-\\frac{\\sin2\\theta}4\\right]_{-\\pi/4}^{\\pi/4}\\).",
+     "\\(=\\left(\\frac\\pi8-\\frac14\\right)-\\left(-\\frac\\pi8+\\frac14\\right)=\\frac\\pi4-\\frac12\\)."
+    ],
+    "answer": "\\(\\frac\\pi4-\\frac12\\)"
+   }
+  },
+  {
+   "id": "2015-s1-m3-q3b",
+   "number": "3ב",
+   "points": 10,
+   "type": "open",
+   "text": "חשבו את הנפח של גוף הסיבוב המתקבל ע״י סיבוב של התחום הבא סביב ציר ה־\\(x\\): \\[0\\le y\\le\\frac{x^{3/2}}{\\sqrt[4]{9-x^2}},\\qquad x\\in\\left[0,\\tfrac32\\right].\\]",
+   "topic": "אינטגרלים",
+   "sub": "שטחים, נפחים ואורך עקומה",
+   "solution": {
+    "official": true,
+    "steps": [
+     "\\(V=\\pi\\int_0^{3/2}\\frac{x^3}{\\sqrt{9-x^2}}dx\\).",
+     "נציב \\(x=3\\sin\\theta\\), \\(\\theta\\in[0,\\frac\\pi6]\\): \\(V=\\pi\\int_0^{\\pi/6}\\frac{27\\sin^3\\theta}{3\\cos\\theta}3\\cos\\theta\\,d\\theta=27\\pi\\int_0^{\\pi/6}(1-\\cos^2\\theta)\\sin\\theta\\,d\\theta\\).",
+     "נציב \\(u=\\cos\\theta\\): \\(V=27\\pi\\int_{\\sqrt3/2}^1(1-u^2)du=27\\pi\\left[u-\\frac{u^3}3\\right]_{\\sqrt3/2}^1\\).",
+     "\\(V=27\\pi\\left(\\frac23-\\frac{3\\sqrt3}8\\right)\\)."
+    ],
+    "answer": "\\(27\\pi\\left(\\frac23-\\frac{3\\sqrt3}{8}\\right)\\)"
+   }
+  },
+  {
+   "id": "2015-s1-m3-q4a",
+   "number": "4א",
+   "points": 9,
+   "type": "open",
+   "text": "מצאו את <b>כל</b> האסימפטוטות האנכיות, האופקיות והמשופעות של הפונקציה \\(f(x)=\\frac{x\\ln|x|}{x^2+1}-5x\\). במידה ואין אסימפטוטות מסוג מסוים ציינו זאת.",
+   "topic": "שימושי הנגזרת",
+   "sub": "חקירת פונקציה",
+   "solution": {
+    "official": true,
+    "steps": [
+     "תחום ההגדרה \\(\\mathbb R\\setminus\\{0\\}\\) ו־\\(f\\) רציפה בו; יש לבדוק רק את \\(x=0\\).",
+     "\\(\\lim_{x\\to0}x\\ln|x|=\\lim\\frac{\\ln|x|}{1/x}=\\lim\\frac{1/x}{-1/x^2}=0\\) (לופיטל), ולכן \\(\\lim_{x\\to0}f(x)=0\\): אין אסימפטוטה אנכית.",
+     "כאשר \\(x\\to\\pm\\infty\\): \\(\\frac{f(x)}x=\\frac{\\ln|x|}{x^2+1}-5\\to-5\\) (לופיטל).",
+     "\\(f(x)+5x=\\frac{x\\ln|x|}{x^2+1}\\to0\\) (לופיטל פעמיים), ולכן \\(y=-5x\\) אסימפטוטה משופעת בשני הכיוונים; אין אופקיות."
+    ],
+    "answer": "אין אנכיות ואין אופקיות; \\(y=-5x\\) משופעת ב־\\(\\pm\\infty\\)."
+   }
+  },
+  {
+   "id": "2015-s1-m3-q4b",
+   "number": "4ב",
+   "points": 9,
+   "type": "open",
+   "text": "תהי \\(g(x)=x^4e^{x+5}\\). מצאו את התחום של ערכי \\(x\\) כך שבו \\(g(x)\\) קמורה כלפי מעלה.",
+   "topic": "שימושי הנגזרת",
+   "sub": "חקירת פונקציה",
+   "solution": {
+    "official": true,
+    "steps": [
+     "\\(g'(x)=4x^3e^{x+5}+x^4e^{x+5}\\).",
+     "\\(g''(x)=(12x^2+8x^3+x^4)e^{x+5}=(x+2)(x+6)x^2e^{x+5}\\).",
+     "\\(g''\\ge0\\) עבור \\(x\\in(-\\infty,-6]\\cup[-2,\\infty)\\) ו־\\(g''\\lt 0\\) עבור \\(x\\in(-6,-2)\\)."
+    ],
+    "answer": "\\((-\\infty,-6]\\cup[-2,\\infty)\\)"
+   }
+  },
+  {
+   "id": "2015-s1-m3-q5",
+   "number": "5",
+   "points": 9,
+   "type": "open",
+   "text": "לכל \\(a,b\\in\\mathbb R\\) תהי \\(f_{ab}:(0,1)\\to\\mathbb R\\) הפונקציה הנתונה על־ידי \\(f_{ab}(x)=x^a(1-x)^b\\). עבור כל \\(a,b\\in\\mathbb R\\) <b>ששניהם שונים מאפס</b>, קבעו אם יש לפונקציה \\(f_{ab}\\) נקודות מקסימום גלובלי בקטע \\((0,1)\\), ואם כן מצאו נקודות אלה.",
+   "topic": "שימושי הנגזרת",
+   "sub": "בעיות קיצון",
+   "solution": {
+    "official": true,
+    "steps": [
+     "אם \\(a\\lt 0\\) אז \\(\\lim_{x\\to0^+}f(x)=+\\infty\\), ואם \\(b\\lt 0\\) אז \\(\\lim_{x\\to1^-}f(x)=+\\infty\\); בשני המקרים אין מקסימום גלובלי.",
+     "אם \\(a,b\\gt 0\\): \\(f'(x)=x^{a-1}(1-x)^{b-1}\\left[a-(a+b)x\\right]\\), שמתאפסת רק ב־\\(x=\\frac a{a+b}\\in(0,1)\\).",
+     "\\(f'\\gt 0\\) ב־\\(\\left(0,\\frac a{a+b}\\right)\\) ו־\\(f'\\lt 0\\) ב־\\(\\left(\\frac a{a+b},1\\right)\\), לכן זו נקודת מקסימום גלובלי יחידה."
+    ],
+    "answer": "אם \\(a\\lt 0\\) או \\(b\\lt 0\\): אין מקסימום; אם \\(a,b\\gt 0\\): מקסימום גלובלי יחיד ב־\\(x=\\frac{a}{a+b}\\)."
+   }
+  },
+  {
+   "id": "2015-s1-m3-q6",
+   "number": "6",
+   "points": 9,
+   "type": "open",
+   "text": "תהי \\(f:\\mathbb R\\to\\mathbb R\\) פונקציה רציפה ויהיו \\(p,q\\in\\mathbb R\\). הוכיחו שקיים \\(x_0\\in\\mathbb R\\) המקיים \\(f(x_0)=\\frac{f(p)+f(q)}2\\).",
+   "topic": "גבולות ורציפות של פונקציות",
+   "sub": "משפטי רציפות (ערך ביניים, ויירשטראס)",
+   "solution": {
+    "official": true,
+    "steps": [
+     "נסמן \\(a=\\min\\{p,q\\}\\), \\(b=\\max\\{p,q\\}\\); \\(f\\) רציפה ב־\\([a,b]\\).",
+     "הממוצע מקיים \\(\\min\\{f(a),f(b)\\}\\le\\frac{f(a)+f(b)}2\\le\\max\\{f(a),f(b)\\}\\).",
+     "לפי משפט ערך הביניים קיים \\(x_0\\in[a,b]\\) עם \\(f(x_0)=\\frac{f(a)+f(b)}2=\\frac{f(p)+f(q)}2\\)."
+    ],
+    "answer": "נובע ממשפט ערך הביניים בקטע שבין \\(p\\) ל־\\(q\\)."
+   }
+  }
+ ]
+}
