@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build tool.html from app/template.html and data/ (questions, exam catalog, taxonomy, images)."""
+"""Build index.html from app/template.html and data/ (questions, exam catalog, taxonomy, images)."""
 import base64, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,5 +33,5 @@ payload = json.dumps({
 
 tpl = open(os.path.join(ROOT, "app", "template.html"), encoding="utf-8").read()
 out = tpl.replace("/*__DATA__*/", payload)
-open(os.path.join(ROOT, "tool.html"), "w", encoding="utf-8").write(out)
-print(f"tool.html: {len(exams)} exams, {len(questions)} questions, {len(images)} images, {len(out.encode())/1e6:.2f} MB")
+open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(out)
+print(f"index.html: {len(exams)} exams, {len(questions)} questions, {len(images)} images, {len(out.encode())/1e6:.2f} MB")
