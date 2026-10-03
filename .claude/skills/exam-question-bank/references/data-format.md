@@ -93,6 +93,7 @@ One entry per exam or quiz, built while inventorying the PDFs:
 - `hint`: optional; shown by a "קבלת רמז" button before the solution. One or two sentences pointing to the
   idea (tool, auxiliary function, case split, what to examine) — never specific points, values or the answer.
   Only where the question has a real trick or a non-obvious first step.
+  For prove-or-disprove and yes/no questions the hint must not reveal which way the answer goes.
 - `notes`: shown to students before the solution opens — never put anything there that hints at the answer.
 - `points`, `image`, `notes`, `alsoIn`: optional. `solution`: an object, or `null` when there is none yet.
 - Allowed HTML in text and steps: `b i br ul ol li p table tr td th sub sup span`. Nothing else.

@@ -82,10 +82,20 @@ select { padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; b
 .note { font-size: 0.85rem; color: var(--muted); }
 .solution { background: var(--solution); border: 1px solid var(--solution-line); border-radius: 8px; padding: 12px 14px; display: grid; gap: 8px; min-width: 0; }
 .solution ol { margin: 0; padding-inline-start: 1.6em; display: grid; gap: 6px; }
+/* Let wide display math scroll inside its own line instead of widening the card on phones. */
+.solution ol > li, .qtext, .hintrev .htext { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 480px) { mjx-container[display="true"] { font-size: 88%; } }
+.card mjx-container:not([display="true"]) { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; }
 .solution li::marker { color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; }
 .answer { background: var(--good-soft); color: var(--good); border-radius: 6px; padding: 6px 12px; font-weight: 600; }
 .claude { background: var(--fix-soft); color: var(--fix); border-radius: 8px; padding: 8px 12px; font-size: 0.92rem; }
 .claude b { display: block; font-size: 0.8rem; }
+.hintrev { background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; display: grid; gap: 8px; min-width: 0; }
+.hintrev .htext b { color: var(--accent); margin-inline-end: 4px; }
+.hintrev textarea { background: var(--sheet); }
+.nohint { font-size: 0.8rem; color: var(--muted); }
+.chip.kind { background: var(--good-soft); color: var(--good); }
+.chip.kind.ai { background: var(--warn-soft); color: var(--warn); }
 
 .actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .act { border: 1px solid var(--line); background: transparent; border-radius: 6px; padding: 6px 14px; cursor: pointer; font-weight: 700; }
@@ -106,7 +116,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
 
 <div class="wrap" dir="rtl" lang="he">
   <header class="bar">
-    <h1>בדיקת פתרונות חדו״א 1</h1>
+    <h1>בדיקת פתרונות ורמזים, חדו״א 1</h1>
     <div class="progress" id="progress" aria-hidden="true"></div>
     <div class="legend" id="legend"></div>
     <div class="filters">
@@ -118,7 +128,16 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
         <option value="unsure">סימנתי „לא בטוח”</option>
         <option value="fixed">תוקנו, לבדיקה חוזרת</option>
         <option value="ok">אישרתי</option>
+        <option value="hinttodo">רמזים שטרם נבדקו</option>
+        <option value="hintproblem">רמז סומן לתיקון</option>
+        <option value="hintfixed">רמז תוקן, לבדיקה חוזרת</option>
         <option value="all">הכול</option>
+      </select>
+      <label for="f-kind" hidden>סוג פתרון</label>
+      <select id="f-kind">
+        <option value="">כל הפתרונות</option>
+        <option value="official">פתרונות רשמיים</option>
+        <option value="ai">פתרונות שכתב Claude</option>
       </select>
       <label for="f-topic" hidden>נושא</label>
       <select id="f-topic"></select>
@@ -163,6 +182,7 @@ const writing = new Map(); // question id -> pending write chain (one write at a
 
 const $ = id => document.getElementById(id);
 const statusOf = id => (reviews[id] && reviews[id].status) || "todo";
+const hintStatusOf = id => (reviews[id] && reviews[id].hintStatus) || "todo";
 function el(tag, cls, htmlText) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
@@ -181,12 +201,21 @@ function renderProgress() {
   $("legend").innerHTML = ["ok", "problem", "unsure", "fixed", "todo"].map(k =>
     `<span><i style="background:${STATUS[k].color}"></i>${STATUS[k].label} <b>${n[k]}</b></span>`).join("") +
     `<span>מתוך <b>${ITEMS.length}</b></span>`;
+  const withHint = ITEMS.filter(i => i.hint);
+  const h = { ok: 0, problem: 0, fixed: 0, todo: 0 };
+  withHint.forEach(i => { h[hintStatusOf(i.id)] = (h[hintStatusOf(i.id)] || 0) + 1; });
+  $("legend").innerHTML += `<span style="flex-basis:100%"></span><span>רמזים: אישרתי <b>${h.ok}</b> · לתיקון <b>${h.problem}</b> · ` +
+    `תוקנו <b>${h.fixed}</b> · טרם נבדקו <b>${h.todo}</b> מתוך <b>${withHint.length}</b></span>`;
 }
 
 function matches(it) {
-  const f = $("f-status").value, t = $("f-topic").value, s = statusOf(it.id);
+  const f = $("f-status").value, t = $("f-topic").value, k = $("f-kind").value, s = statusOf(it.id);
   if (t && it.topic !== t) return false;
+  if (k && (k === "official") !== it.official) return false;
   if (f === "all") return true;
+  if (f === "hinttodo") return !!it.hint && hintStatusOf(it.id) === "todo";
+  if (f === "hintproblem") return !!it.hint && hintStatusOf(it.id) === "problem";
+  if (f === "hintfixed") return !!it.hint && hintStatusOf(it.id) === "fixed";
   if (f === "flagged") return s === "todo" && (it.pre === "wrong" || it.pre === "check");
   return s === f;
 }
@@ -196,7 +225,8 @@ function card(it) {
   c.dataset.status = statusOf(it.id);
   const pts = it.points ? ` · ${it.points} נק׳` : "";
   const head = el("div", "head", `<h2>${it.exam}</h2><small>שאלה ${it.number}${pts}</small>`);
-  head.append(el("span", "chip", it.topic), el("span", "chip", it.sub));
+  head.append(el("span", "chip", it.topic), el("span", "chip", it.sub),
+    el("span", it.official ? "chip kind" : "chip kind ai", it.official ? "פתרון רשמי" : "פתרון שכתב Claude"));
   c.append(head);
   if (it.pre === "wrong" || it.pre === "check") {
     const p = el("div", "pre " + it.pre, `<b>${it.pre === "wrong" ? "חשד לטעות (בדיקה אוטומטית)" : "לבדוק בעיון (בדיקה אוטומטית)"}</b>${it.preReason}`);
@@ -217,6 +247,35 @@ function card(it) {
     c.append(ol);
   }
   if (it.notes) c.append(el("div", "note", "הערה שמוצגת לסטודנט: " + it.notes));
+  // The hint is reviewed separately from the solution: its own buttons, comment and fix note.
+  let hintRefs = null;
+  if (it.hint) {
+    const hr = el("section", "hintrev");
+    hr.append(el("div", "htext", `<b>רמז:</b>${it.hint}`));
+    const hClaude = el("div", "claude"); hClaude.hidden = true; hr.append(hClaude);
+    const hActs = el("div", "actions");
+    const hSaved = el("span", "saved");
+    const hBtns = ["ok", "problem"].map(st => {
+      const b = el("button", "act", { ok: "✓ רמז טוב", problem: "✗ לתקן רמז" }[st]);
+      b.type = "button"; b.dataset.s = st; b.disabled = !db;
+      b.addEventListener("click", () => save(it.id, { hintStatus: st }, hSaved));
+      return b;
+    });
+    hActs.append(...hBtns, hSaved);
+    const hTa = el("textarea");
+    hTa.id = "h-" + it.id; hTa.placeholder = "הערה על הרמז (לא חובה כשהרמז טוב)"; hTa.disabled = !db;
+    hTa.setAttribute("aria-label", "הערה על הרמז לשאלה " + it.number);
+    let hTimer = null;
+    hTa.addEventListener("input", () => {
+      clearTimeout(hTimer); hSaved.textContent = "";
+      hTimer = setTimeout(() => save(it.id, { hintComment: hTa.value }, hSaved), 900);
+    });
+    hr.append(hActs, hTa);
+    c.append(hr);
+    hintRefs = { hBtns, hTa, hClaude };
+  } else {
+    c.append(el("div", "nohint", "אין רמז לשאלה זו."));
+  }
   const sol = el("section", "solution");
   sol.append(el("ol", "", it.steps.map(s => `<li>${s}</li>`).join("")));
   if (it.answer) sol.append(el("div", "answer", "תשובה: " + it.answer));
@@ -242,7 +301,7 @@ function card(it) {
     timer = setTimeout(() => save(it.id, { comment: ta.value }), 900);
   });
   c.append(ta);
-  c._refs = { btns, saved, ta, claude };
+  c._refs = { btns, saved, ta, claude, hintRefs };
   cards.set(it.id, c);
   paint(it.id);
   return c;
@@ -251,7 +310,17 @@ function card(it) {
 // Reflect the stored review on a card already on screen, without rebuilding it (keeps typeset math).
 function paint(id) {
   const c = cards.get(id); if (!c) return;
-  const r = reviews[id] || {}, s = statusOf(id), { btns, ta, claude } = c._refs;
+  const r = reviews[id] || {}, s = statusOf(id), { btns, ta, claude, hintRefs } = c._refs;
+  if (hintRefs) {
+    const hs = hintStatusOf(id);
+    hintRefs.hBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.s === hs)));
+    if (document.activeElement !== hintRefs.hTa && (r.hintComment || "") !== hintRefs.hTa.value) hintRefs.hTa.value = r.hintComment || "";
+    hintRefs.hClaude.hidden = !r.hintClaudeNote;
+    if (r.hintClaudeNote) {
+      hintRefs.hClaude.innerHTML = `<b>הרמז תוקן על ידי Claude, לבדיקה חוזרת</b>${r.hintClaudeNote}`;
+      if (c.isConnected) typeset(hintRefs.hClaude);
+    }
+  }
   c.dataset.status = s;
   btns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.s === s)));
   if (document.activeElement !== ta && (r.comment || "") !== ta.value) ta.value = r.comment || "";
@@ -264,15 +333,16 @@ function paint(id) {
   }
 }
 
-async function save(id, patch) {
+async function save(id, patch, savedEl) {
   if (!db) return;
-  const c = cards.get(id), saved = c && c._refs.saved;
+  const c = cards.get(id), saved = savedEl || (c && c._refs.saved);
   const prev = writing.get(id) || Promise.resolve();
   const next = prev.then(async () => {
     const cur = reviews[id] || {};
-    const body = { status: cur.status || "unsure", comment: cur.comment || "", at: new Date().toISOString(), ...patch };
-    if (cur.claudeNote) body.claudeNote = cur.claudeNote;
-    if (cur.generalNote) body.generalNote = cur.generalNote;
+    // Keep every stored field (solution and hint parts, Claude's notes); a comment alone marks the part "unsure".
+    const body = { ...cur, ...patch, at: new Date().toISOString() };
+    if ("comment" in patch && !body.status) body.status = "unsure";
+    if ("hintComment" in patch && !body.hintStatus) body.hintStatus = "problem";
     reviews[id] = body; paint(id); renderProgress();
     try { await db.collection("reviews").doc(id).set(body); if (saved) saved.textContent = "נשמר"; }
     catch (e) { if (saved) saved.textContent = "השמירה נכשלה, נסו שוב"; }
@@ -288,7 +358,7 @@ function renderList() {
   $("count").textContent = `מוצגים ${current.length}`;
   const list = $("list");
   list.replaceChildren();
-  if (!current.length) { list.append(el("p", "empty", "אין פתרונות במצב הזה. בחרו מצב או נושא אחר.")); return; }
+  if (!current.length) { list.append(el("p", "empty", "אין שאלות במצב הזה. בחרו מצב, נושא או סוג פתרון אחר.")); return; }
   page();
 }
 function page() {
@@ -306,6 +376,7 @@ function page() {
 
 $("f-status").addEventListener("change", renderList);
 $("f-topic").addEventListener("change", renderList);
+$("f-kind").addEventListener("change", renderList);
 renderProgress();
 $("list").append(el("p", "empty", "טוען את הסימונים שלך…"));
 let rendered = false;

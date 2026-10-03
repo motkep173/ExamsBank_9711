@@ -3,10 +3,13 @@
 
 Usage: python3 tools/review_page.py <prescreen-dir> <out.html> [general-notes.json]
 
-Includes every solution with "official": false that has not been reviewed yet (no solution.reviewed).
+Includes every question with a solution (official ones too) except those fully reviewed: solution.reviewed set
+and the hint reviewed (hintReviewed) or absent. Ids in tools/.review/excluded.json are left out as well (the 20
+solutions approved before hints existed).
 The pre-screen dir holds result-*.json files: [{id, verdict: ok|check|wrong, reason, fix}].
 The page stores the reviewer's decisions in the artifact's db, collection "reviews", one document per
-question id: {status: ok|problem|unsure|fixed, comment, at} — plus {claudeNote} when a fix awaits re-review.
+question id: {status: ok|problem|unsure|fixed, comment, at, hintStatus: ok|problem|fixed, hintComment}
+— plus {claudeNote} / {hintClaudeNote} when a fix awaits re-review.
 general-notes.json ({id: summary}) marks solutions changed by a general comment; the page shows the summary.
 """
 import base64, glob, html, json, os, sys
@@ -31,13 +34,17 @@ def main():
             pre[r["id"]] = r
     tax = json.load(open(os.path.join(DATA, "taxonomy.json"), encoding="utf-8"))
     topic_order = {t["name"]: i for i, t in enumerate(tax["topics"])}
+    excl_path = os.path.join(ROOT, "tools", ".review", "excluded.json")
+    excluded = set(json.load(open(excl_path))) if os.path.exists(excl_path) else set()
     items, images = [], {}
     for f in sorted(glob.glob(os.path.join(DATA, "questions", "*.json"))):
         ex = json.load(open(f, encoding="utf-8"))
         rank = ex["yearNum"] * 100 + (50 if ex["semester"] == "ב" else 0) + MOED_RANK.get(ex["moed"], 0)
         for q in ex["questions"]:
             s = q.get("solution")
-            if not s or s.get("official") or s.get("reviewed"):
+            if not s or q["id"] in excluded:
+                continue
+            if s.get("reviewed") and (not q.get("hint") or q.get("hintReviewed")):
                 continue
             if q.get("image") and q["image"] not in images:
                 with open(os.path.join(DATA, "img", q["image"]), "rb") as fh:
@@ -50,6 +57,7 @@ def main():
                 "image": q.get("image"), "notes": q.get("notes"),
                 "steps": s["steps"], "answer": s.get("answer"),
                 "generalNote": general.get(q["id"], ""),
+                "official": bool(s.get("official")), "hint": q.get("hint", ""),
                 "pre": p.get("verdict", ""), "preReason": p.get("reason", ""), "preFix": p.get("fix", ""),
             })
     sev = {"wrong": 0, "check": 1}
