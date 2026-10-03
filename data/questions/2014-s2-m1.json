@@ -192,23 +192,6 @@
     ],
     "answer": "\\(x=0\\): אי־רציפות סליקה."
    }
-  },
-  {
-   "id": "2014-s2-m1-q7",
-   "number": "7",
-   "points": 5,
-   "type": "open",
-   "text": "כתבו את הגדרת הגבול עבור המקרה \\(\\lim_{x\\to\\infty}f(x)=-\\infty\\).",
-   "topic": "גבולות ורציפות של פונקציות",
-   "sub": "הגדרת הגבול (ε, δ)",
-   "solution": {
-    "official": false,
-    "steps": [
-     "נניח ש־\\(f\\) מוגדרת בקרן \\((a,\\infty)\\).",
-     "\\(\\lim_{x\\to\\infty}f(x)=-\\infty\\) אם לכל \\(M\\in\\mathbb R\\) קיים \\(N\\) כך שלכל \\(x\\gt N\\) מתקיים \\(f(x)\\lt M\\)."
-    ],
-    "answer": "\\(\\forall M\\ \\exists N\\ \\forall x\\gt N:\\ f(x)\\lt M\\)."
-   }
   }
  ]
 }

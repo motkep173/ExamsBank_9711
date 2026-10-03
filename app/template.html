@@ -1,7 +1,7 @@
 <title>שאלות מבחן בחדו״א 1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=Assistant:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap">
 <style>
 /* Layout: one narrow reading column; topic map as the home view, exam-sheet cards once a topic is chosen */
 :root {
@@ -17,7 +17,6 @@
   --warn: #fbf3e2;
   --warn-ink: #8a5a00;
   --grid: rgba(35, 72, 168, 0.06);
-  --font-display: "Frank Ruhl Libre", "David", "Times New Roman", serif;
   --font-body: "Assistant", "Arial Hebrew", "Segoe UI", Arial, sans-serif;
   --step--1: 0.8125rem;
   --step-0: 1rem;
@@ -59,6 +58,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
   background: var(--paper);
   color: var(--ink);
@@ -71,7 +71,7 @@ body {
 
 header { display: grid; gap: 10px; padding-block: 8px 4px; }
 .eyebrow { font-size: var(--step--1); font-weight: 700; letter-spacing: 0.06em; color: var(--accent); }
-h1 { font-family: var(--font-display); font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance; }
 .lead { margin: 0; color: var(--muted); max-width: 62ch; }
 .stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: var(--step--1); color: var(--muted); }
 .stats strong { color: var(--ink); font-variant-numeric: tabular-nums; }
@@ -97,7 +97,7 @@ select:disabled { opacity: 0.55; }
 .map { display: grid; gap: 14px; }
 .topic { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; }
 .topic-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.topic-head button { all: unset; cursor: pointer; font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; }
+.topic-head button { all: unset; cursor: pointer; font-size: var(--step-1); font-weight: 700; }
 .topic-head button:hover { color: var(--accent); }
 .topic-head button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .topic-head span { font-size: var(--step--1); color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -121,8 +121,8 @@ select:disabled { opacity: 0.55; }
 .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: var(--step--1); }
 .chip { padding: 1px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
 .chip.sub { background: transparent; border: 1px solid var(--line); color: var(--muted); }
-.source { font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; margin: 0; }
-.source small { font-family: var(--font-body); font-size: var(--step--1); font-weight: 600; color: var(--muted); margin-inline-start: 8px; }
+.source { font-size: var(--step-1); font-weight: 700; margin: 0; }
+.source small { font-size: var(--step--1); font-weight: 600; color: var(--muted); margin-inline-start: 8px; }
 .q-text { overflow-wrap: anywhere; }
 .q-text p { margin: 0 0 0.5em; }
 .q img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: #fff; justify-self: start; }
@@ -194,6 +194,14 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
         <option value="quiz">בחנים בלבד</option>
       </select>
     </div>
+    <div class="field narrow">
+      <label for="qtype">סוג שאלה</label>
+      <select id="qtype">
+        <option value="">כל השאלות</option>
+        <option value="mc">שאלות אמריקאיות</option>
+        <option value="open">שאלות פתוחות</option>
+      </select>
+    </div>
     <button class="btn" id="clear" type="button">ניקוי סינון</button>
   </section>
 
@@ -236,6 +244,7 @@ const PAGE = 15;
 const topicSel = document.getElementById("topic");
 const subSel = document.getElementById("sub");
 const kindSel = document.getElementById("kind");
+const typeSel = document.getElementById("qtype");
 const main = document.getElementById("main");
 const count = document.getElementById("count");
 
@@ -292,8 +301,8 @@ function fillSubs() {
 }
 
 function kindFilter(q) {
-  const k = kindSel.value;
-  return !k || (k === "quiz") === isQuiz(q);
+  const k = kindSel.value, t = typeSel.value;
+  return (!k || (k === "quiz") === isQuiz(q)) && (!t || q.type === t);
 }
 
 function renderMap() {
@@ -418,8 +427,9 @@ function render() {
 topicSel.addEventListener("change", () => { fillSubs(); render(); });
 subSel.addEventListener("change", render);
 kindSel.addEventListener("change", render);
+typeSel.addEventListener("change", render);
 document.getElementById("clear").addEventListener("click", () => {
-  topicSel.value = ""; kindSel.value = ""; fillSubs(); render();
+  topicSel.value = ""; kindSel.value = ""; typeSel.value = ""; fillSubs(); render();
 });
 
 fillSubs();

@@ -12,23 +12,6 @@
  "issues": [],
  "questions": [
   {
-   "id": "2023-s1-quiz-q1",
-   "number": "1",
-   "points": 15,
-   "type": "open",
-   "text": "תהא \\(f:\\mathbb{R}\\to\\mathbb{R}\\) פונקציה ו־\\(a,L\\in\\mathbb{R}\\) מספרים. הגדירו במדויק (במונחי \\(\\varepsilon,\\delta\\)) את \\[\\lim_{x\\to a}f(x)=L.\\]",
-   "topic": "גבולות ורציפות של פונקציות",
-   "sub": "הגדרת הגבול (ε, δ)",
-   "solution": {
-    "official": false,
-    "steps": [
-     "ההגדרה: \\(\\lim_{x\\to a}f(x)=L\\) אם לכל \\(\\varepsilon \\gt 0\\) קיים \\(\\delta \\gt 0\\) כך שלכל \\(x\\) המקיים \\(0 \\lt |x-a| \\lt \\delta\\) מתקיים \\(|f(x)-L| \\lt \\varepsilon\\).",
-     "שימו לב לתנאי \\(0 \\lt |x-a|\\): הערך \\(f(a)\\) עצמו אינו משפיע על הגבול."
-    ],
-    "answer": "לכל \\(\\varepsilon \\gt 0\\) קיים \\(\\delta \\gt 0\\) כך ש־\\(0 \\lt |x-a| \\lt \\delta\\Rightarrow|f(x)-L| \\lt \\varepsilon\\)."
-   }
-  },
-  {
    "id": "2023-s1-quiz-q2",
    "number": "2",
    "points": 25,

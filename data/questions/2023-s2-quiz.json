@@ -87,23 +87,6 @@
    }
   },
   {
-   "id": "2023-s2-quiz-q3a",
-   "number": "3א",
-   "points": 10,
-   "type": "open",
-   "text": "רשמו הגדרה מדויקת לגבול אינסופי בנקודה סופית.",
-   "topic": "גבולות ורציפות של פונקציות",
-   "sub": "הגדרת הגבול (ε, δ)",
-   "solution": {
-    "official": false,
-    "steps": [
-     "\\(\\lim_{x\\to a}f(x)=\\infty\\) אם לכל \\(M\\in\\mathbb{R}\\) (או \\(M \\gt 0\\)) קיים \\(\\delta \\gt 0\\) כך שלכל \\(x\\) המקיים \\(0 \\lt |x-a| \\lt \\delta\\) מתקיים \\(f(x) \\gt M\\).",
-     "באופן דומה \\(\\lim_{x\\to a}f(x)=-\\infty\\) אם לכל \\(M\\) קיים \\(\\delta \\gt 0\\) כך ש־\\(0 \\lt |x-a| \\lt \\delta\\Rightarrow f(x) \\lt M\\)."
-    ],
-    "answer": "לכל \\(M\\) קיים \\(\\delta \\gt 0\\) כך ש־\\(0 \\lt |x-a| \\lt \\delta\\Rightarrow f(x) \\gt M\\)."
-   }
-  },
-  {
    "id": "2023-s2-quiz-q3b",
    "number": "3ב",
    "points": 24,

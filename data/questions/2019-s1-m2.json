@@ -14,54 +14,6 @@
  ],
  "questions": [
   {
-   "id": "2019-s1-m2-q1a",
-   "number": "1א",
-   "points": 5,
-   "type": "open",
-   "text": "הגדירו: הפונקציה \\(f\\) רציפה בנקודה \\(a\\) אם...",
-   "topic": "גבולות ורציפות של פונקציות",
-   "sub": "רציפות ונקודות אי־רציפות",
-   "solution": {
-    "official": false,
-    "steps": [
-     "רציפות: הגבול בנקודה קיים ושווה לערך הפונקציה."
-    ],
-    "answer": "\\(f\\) מוגדרת בסביבת \\(a\\) ו־\\(\\lim\\limits_{x\\to a}f(x)=f(a)\\); כלומר לכל \\(\\varepsilon>0\\) קיים \\(\\delta>0\\) כך שלכל \\(|x-a|<\\delta\\) מתקיים \\(|f(x)-f(a)|<\\varepsilon\\)."
-   }
-  },
-  {
-   "id": "2019-s1-m2-q1b",
-   "number": "1ב",
-   "points": 5,
-   "type": "open",
-   "text": "נסחו את כלל לופיטל לגבולות מהסוג \\(\\frac00\\).",
-   "topic": "שימושי הנגזרת",
-   "sub": "כלל לופיטל",
-   "solution": {
-    "official": false,
-    "steps": [
-     "הניסוח לגבול בנקודה \\(a\\) (ניסוח זהה מתקיים לגבולות חד־צדדיים ול־\\(x\\to\\pm\\infty\\))."
-    ],
-    "answer": "אם \\(f,g\\) גזירות בסביבה מנוקבת של \\(a\\), \\(g^{\\prime}(x)\\ne0\\) שם, \\(\\lim\\limits_{x\\to a}f(x)=\\lim\\limits_{x\\to a}g(x)=0\\), והגבול \\(\\lim\\limits_{x\\to a}\\frac{f^{\\prime}(x)}{g^{\\prime}(x)}=L\\) קיים (סופי או \\(\\pm\\infty\\)), אז \\(\\lim\\limits_{x\\to a}\\frac{f(x)}{g(x)}=L\\)."
-   }
-  },
-  {
-   "id": "2019-s1-m2-q1c",
-   "number": "1ג",
-   "points": 5,
-   "type": "open",
-   "text": "הגדירו: הקו \\(y=ax+b\\) הוא אסימפטוטה משופעת ל־\\(f(x)\\) ב־\\(-\\infty\\) אם:",
-   "topic": "שימושי הנגזרת",
-   "sub": "חקירת פונקציה",
-   "solution": {
-    "official": false,
-    "steps": [
-     "ההפרש בין הפונקציה לישר שואף לאפס."
-    ],
-    "answer": "\\(\\lim\\limits_{x\\to-\\infty}\\left(f(x)-(ax+b)\\right)=0\\) (ובמקרה זה \\(a=\\lim\\limits_{x\\to-\\infty}\\frac{f(x)}{x}\\), \\(b=\\lim\\limits_{x\\to-\\infty}(f(x)-ax)\\))."
-   }
-  },
-  {
    "id": "2019-s1-m2-q2",
    "number": "2",
    "points": 15,
