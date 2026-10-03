@@ -1,4 +1,5 @@
 <title>שאלות מבחן בחדו״א 1</title>
+<meta name="description" content="שאלות ממבחני עבר בחדו״א 1 להנדסה (214.1.9711), אוניברסיטת בן־גוריון בנגב, היחידה להוראת קורסי יסוד">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap">
@@ -69,6 +70,10 @@ body {
 }
 .wrap { max-width: 780px; margin: 0 auto; padding-block: 40px 64px; display: grid; gap: 24px; }
 
+/* University logo sits on white in both themes, since its lettering is dark gray */
+.brand { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.brand img { display: block; width: 240px; max-width: 100%; height: auto; background: #fff; border-radius: 8px; padding: 6px 10px; box-sizing: content-box; }
+.unit { font-size: var(--step-1); font-weight: 700; color: var(--ink); padding-inline-start: 18px; border-inline-start: 1px solid var(--line); }
 header { display: grid; gap: 10px; padding-block: 8px 4px; }
 .eyebrow { font-size: var(--step--1); font-weight: 700; letter-spacing: 0.06em; color: var(--accent); }
 h1 { font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance; }
@@ -123,6 +128,7 @@ select:disabled { opacity: 0.55; }
 .chip.sub { background: transparent; border: 1px solid var(--line); color: var(--muted); }
 .source { font-size: var(--step-1); font-weight: 700; margin: 0; }
 .source small { font-size: var(--step--1); font-weight: 600; color: var(--muted); margin-inline-start: 8px; }
+.also { margin: -8px 0 0; font-size: var(--step--1); color: var(--muted); }
 .q-text { overflow-wrap: anywhere; }
 .q-text p { margin: 0 0 0.5em; }
 .q img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: #fff; justify-self: start; }
@@ -147,7 +153,7 @@ select:disabled { opacity: 0.55; }
 .badge { font-size: var(--step--1); font-weight: 700; padding: 1px 10px; border-radius: 999px; }
 .badge.official { background: var(--answer); color: var(--answer-ink); }
 .badge.unofficial { background: var(--warn); color: var(--warn-ink); }
-.solution ol { margin: 0; padding-inline-start: 1.4em; display: grid; gap: 8px; }
+.solution ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .answer { background: var(--answer); color: var(--answer-ink); border-radius: 6px; padding: 10px 14px; font-weight: 600; }
 .answer span { font-weight: 700; margin-inline-end: 6px; }
 
@@ -160,6 +166,8 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
 
 @media (max-width: 480px) {
   h1 { font-size: var(--step-2); }
+  .brand img { width: 190px; }
+  .unit { padding-inline-start: 0; border-inline-start: 0; flex-basis: 100%; }
   .q { padding: 16px; }
   .field.narrow { flex: 1 1 140px; }
 }
@@ -170,8 +178,13 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
 </style>
 
 <div class="wrap" dir="rtl" lang="he">
+  <div class="brand">
+    <img src="/*__LOGO__*/" alt="אוניברסיטת בן־גוריון בנגב" width="240" height="60">
+    <div class="unit">היחידה להוראת קורסי יסוד</div>
+  </div>
+
   <header>
-    <div class="eyebrow">חדו״א 1 להנדסה · קורס 9711</div>
+    <div class="eyebrow">חדו״א 1 להנדסה · קורס 214.1.9711</div>
     <h1>איך נראות שאלות במבחן?</h1>
     <p class="lead">בחרו נושא ותת־נושא כדי לראות שאלות ממבחני עבר. המטרה היא להכיר כבר במהלך הסמסטר את סוגי השאלות שבהם החומר הנלמד יכול להופיע במבחן. נסו לפתור לבד, ורק אז לחצו על „הצג פתרון”.</p>
     <div class="stats" id="stats"></div>
@@ -215,6 +228,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
   <footer>
     <div>„פתרון רשמי” נלקח מקובצי הפתרון של צוות הקורס. „פתרון שלא נבדק על ידי צוות הקורס” נכתב בנפרד ועשוי להכיל טעויות.</div>
     <div id="footer-stats"></div>
+    <div>אוניברסיטת בן־גוריון בנגב · היחידה להוראת קורסי יסוד · קורס 214.1.9711</div>
   </footer>
 </div>
 
@@ -262,14 +276,15 @@ function option(value, label) {
   o.value = value; o.textContent = label;
   return o;
 }
-const isQuiz = q => EXAMS[q.examId].moed === "בוחן";
+// A question merged from several exams counts as a quiz question if any of its appearances is a quiz.
+const examIds = q => [q.examId, ...(q.alsoIn || []).map(r => r.examId)];
+const isQuiz = id => EXAMS[id].moed === "בוחן";
 function examLabel(ex) {
   const parts = [ex.year, "סמסטר " + ex.semester + "׳"];
   if (ex.moed === "בוחן") parts.push("בוחן");
   else if (ex.moed === "מיוחד") parts.push("מועד מיוחד");
   else if (ex.moed === "מבחן לדוגמה") parts.push("מבחן לדוגמה");
   else parts.push("מועד " + ex.moed + "׳");
-  if (ex.version) parts.push("נוסח " + ex.version);
   return parts.join(" · ");
 }
 
@@ -302,7 +317,7 @@ function fillSubs() {
 
 function kindFilter(q) {
   const k = kindSel.value, t = typeSel.value;
-  return (!k || (k === "quiz") === isQuiz(q)) && (!t || q.type === t);
+  return (!k || examIds(q).some(id => (k === "quiz") === isQuiz(id))) && (!t || q.type === t);
 }
 
 function renderMap() {
@@ -341,6 +356,8 @@ function card(q) {
   c.append(meta);
   const pts = q.points ? ` · ${q.points} נק׳` : "";
   c.append(el("h2", "source", `${examLabel(ex)}<small>שאלה ${q.number}${pts}</small>`));
+  if (q.alsoIn) c.append(el("p", "also", "השאלה הופיעה גם ב: " +
+    q.alsoIn.map(r => `${examLabel(EXAMS[r.examId])} (שאלה ${r.number})`).join("; ")));
   c.append(el("div", "q-text", q.text));
   if (q.image) {
     const img = el("img");

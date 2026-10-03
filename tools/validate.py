@@ -14,7 +14,7 @@ catalog = {e["examId"]: e for e in json.load(open(os.path.join(DATA, "exams.json
 EXAM_KEYS = {"examId", "year", "yearNum", "semester", "moed", "version", "date", "sourceFiles",
              "solutionSource", "issues", "questions"}
 Q_KEYS = {"id", "number", "points", "type", "text", "options", "correct", "topic", "sub", "solution",
-          "image", "notes"}
+          "image", "notes", "alsoIn"}
 SOL_KEYS = {"official", "steps", "answer"}
 MOEDS = {"א", "ב", "ג", "מיוחד", "בוחן", "מבחן לדוגמה"}
 SOL_SOURCES = {"official", "partial", "none"}
@@ -70,6 +70,11 @@ def check_file(path, errors, texitems, seen_ids):
             errors.append(f"{w}: points must be a number")
         if q.get("image"):
             if not os.path.exists(os.path.join(DATA, "img", q["image"])): errors.append(f"{w}: image not found in data/img")
+        for ref in q.get("alsoIn", []):
+            if not isinstance(ref, dict) or set(ref) - {"examId", "number", "points"} or not ref.get("number"):
+                errors.append(f"{w}: alsoIn entries must be {{examId, number, points?}}")
+            elif not os.path.exists(os.path.join(DATA, "questions", f"{ref.get('examId')}.json")):
+                errors.append(f"{w}: alsoIn examId {ref.get('examId')!r} has no questions file")
         texitems.append({"where": f"{w} text", "html": q.get("text", "")})
         s = q.get("solution")
         if s is not None:

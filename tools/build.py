@@ -32,6 +32,8 @@ payload = json.dumps({
 }, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
 tpl = open(os.path.join(ROOT, "app", "template.html"), encoding="utf-8").read()
-out = tpl.replace("/*__DATA__*/", payload)
+with open(os.path.join(ROOT, "app", "bgu-logo.svg"), "rb") as fh:
+    logo = "data:image/svg+xml;base64," + base64.b64encode(fh.read()).decode()
+out = tpl.replace("/*__DATA__*/", payload).replace("/*__LOGO__*/", logo)
 open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8").write(out)
 print(f"index.html: {len(exams)} exams, {len(questions)} questions, {len(images)} images, {len(out.encode())/1e6:.2f} MB")

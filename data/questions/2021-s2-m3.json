@@ -139,23 +139,6 @@
    }
   },
   {
-   "id": "2021-s2-m3-q4a",
-   "number": "4א",
-   "points": 7,
-   "type": "open",
-   "text": "חשבו את הגבול \\[\\lim_{x\\to\\infty}\\frac1x\\int_1^x\\sqrt{4+e^{-t}}\\,dt.\\]",
-   "topic": "אינטגרלים",
-   "sub": "אינטגרל מסוים והמשפט היסודי",
-   "solution": {
-    "official": false,
-    "steps": [
-     "האינטגרנד \\(\\ge2\\), ולכן \\(\\int_1^x\\sqrt{4+e^{-t}}dt\\ge2(x-1)\\to\\infty\\); הגבול מסוג \\(\\frac\\infty\\infty\\).",
-     "לפי לופיטל והמשפט היסודי: \\(\\lim_{x\\to\\infty}\\frac{\\sqrt{4+e^{-x}}}{1}=\\sqrt4=2\\)."
-    ],
-    "answer": "\\(2\\)"
-   }
-  },
-  {
    "id": "2021-s2-m3-q4b",
    "number": "4ב",
    "points": 18,

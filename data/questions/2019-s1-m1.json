@@ -71,25 +71,6 @@
    }
   },
   {
-   "id": "2019-s1-m1-q5",
-   "number": "5",
-   "points": 15,
-   "type": "open",
-   "text": "חשבו את האינטגרל \\[\\int\\frac{\\sin^2(x)}{\\cos(x)}\\,dx.\\]",
-   "topic": "אינטגרלים",
-   "sub": "שיטות אינטגרציה",
-   "solution": {
-    "official": false,
-    "steps": [
-     "\\(\\frac{\\sin^2x}{\\cos x}=\\frac{1-\\cos^2x}{\\cos x}=\\frac{1}{\\cos x}-\\cos x\\).",
-     "\\(\\int\\cos x\\,dx=\\sin x\\).",
-     "\\(\\int\\frac{dx}{\\cos x}=\\int\\frac{\\cos x}{1-\\sin^2x}dx\\); בהצבה \\(t=\\sin x\\): \\(\\int\\frac{dt}{1-t^2}=\\frac12\\ln\\left|\\frac{1+t}{1-t}\\right|\\).",
-     "לכן \\(\\int\\frac{\\sin^2x}{\\cos x}dx=\\frac12\\ln\\left|\\frac{1+\\sin x}{1-\\sin x}\\right|-\\sin x+C=\\ln\\left|\\frac{1}{\\cos x}+\\tan x\\right|-\\sin x+C\\)."
-    ],
-    "answer": "\\(\\frac12\\ln\\left|\\frac{1+\\sin x}{1-\\sin x}\\right|-\\sin x+C\\)"
-   }
-  },
-  {
    "id": "2019-s1-m1-q6a",
    "number": "6א",
    "points": 5,
