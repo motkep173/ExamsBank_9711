@@ -157,6 +157,7 @@ select:disabled { opacity: 0.55; }
 .answer { background: var(--answer); color: var(--answer-ink); border-radius: 6px; padding: 10px 14px; font-weight: 600; }
 .answer span { font-weight: 700; margin-inline-end: 6px; }
 
+.next { justify-self: start; }
 .more { justify-self: center; }
 .empty { text-align: center; color: var(--muted); padding: 32px 0; }
 footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 6px; }
@@ -172,7 +173,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
   .field.narrow { flex: 1 1 140px; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .solution:not([hidden]) { animation: open 0.2s ease-out; }
+  .solution:not([hidden]), .stepwise li:not([hidden]), .stepwise .answer:not([hidden]) { animation: open 0.2s ease-out; }
   @keyframes open { from { opacity: 0.4; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
 }
 </style>
@@ -254,6 +255,9 @@ const QUESTIONS = DATA.questions;
 const TOPICS = DATA.taxonomy.topics;
 const LETTERS = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח"];
 const PAGE = 15;
+// Pilot: these solutions open one line at a time; the student clicks to reveal each further line.
+const STEPWISE = new Set(["2026-s2-m1-q5", "2026-s1-m1-q4", "2025-s2-m3-q3", "2025-s2-m2-q3", "2025-s2-m1-q3",
+  "2025-s1-m3-q11", "2025-s1-m2-q11", "2025-s1-m1-q8", "2025-s1-m1-q11", "2025-s1-sample-q11"]);
 
 const topicSel = document.getElementById("topic");
 const subSel = document.getElementById("sub");
@@ -394,15 +398,43 @@ function card(q) {
   sol.append(el("div", "sol-head", `<h3>פתרון</h3>` + (s.official
     ? `<span class="badge official">פתרון רשמי</span>`
     : `<span class="badge unofficial">פתרון שלא נבדק על ידי צוות הקורס</span>`)));
-  sol.append(el("ol", "", s.steps.map(x => `<li>${x}</li>`).join("")));
-  if (s.answer) sol.append(el("div", "answer", `<span>תשובה:</span>${s.answer}`));
+  const steps = el("ol", "", s.steps.map(x => `<li>${x}</li>`).join(""));
+  const ans = s.answer ? el("div", "answer", `<span>תשובה:</span>${s.answer}`) : null;
+  sol.append(steps);
+  if (ans) sol.append(ans);
+  const markCorrect = on => { if (opts && Number.isInteger(q.correct)) opts.children[q.correct].classList.toggle("correct", on); };
+  // The correct option is highlighted only once the whole solution is visible.
+  let complete = true;
+  if (STEPWISE.has(q.id)) {
+    const parts = [...steps.children, ...(ans ? [ans] : [])];
+    let shown = 1;
+    parts.forEach((p, i) => { p.hidden = i >= shown; });
+    if (parts.length > 1) {
+      complete = false;
+      sol.classList.add("stepwise");
+      const next = el("button", "btn next");
+      next.type = "button";
+      const label = () => {
+        next.textContent = ans && shown === parts.length - 1
+          ? "הצג את התשובה הסופית"
+          : `הצג שורה נוספת (${shown} מתוך ${steps.children.length})`;
+      };
+      label();
+      next.addEventListener("click", () => {
+        parts[shown++].hidden = false;
+        if (shown < parts.length) { label(); return; }
+        next.hidden = true; complete = true; markCorrect(true);
+      });
+      sol.append(next);
+    }
+  }
   let done = false;
   btn.addEventListener("click", () => {
     const open = sol.hidden;
     sol.hidden = !open;
     btn.setAttribute("aria-expanded", String(open));
     btn.textContent = open ? "הסתר פתרון" : "הצג פתרון";
-    if (opts && Number.isInteger(q.correct)) opts.children[q.correct].classList.toggle("correct", open);
+    markCorrect(open && complete);
     if (open && !done) { done = true; typeset(sol); }
   });
   c.append(btn, sol);
