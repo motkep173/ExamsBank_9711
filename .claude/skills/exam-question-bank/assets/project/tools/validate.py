@@ -14,7 +14,7 @@ catalog = {e["examId"]: e for e in json.load(open(os.path.join(DATA, "exams.json
 EXAM_KEYS = {"examId", "year", "yearNum", "semester", "moed", "version", "date", "sourceFiles",
              "solutionSource", "issues", "questions"}
 Q_KEYS = {"id", "number", "points", "type", "text", "options", "correct", "topic", "sub", "solution",
-          "image", "notes", "alsoIn"}
+          "image", "notes", "alsoIn", "hint"}
 SOL_KEYS = {"official", "steps", "answer", "reviewed"}
 MOEDS = {"א", "ב", "ג", "מיוחד", "בוחן", "מבחן לדוגמה"}
 SOL_SOURCES = {"official", "partial", "none"}
@@ -76,6 +76,7 @@ def check_file(path, errors, texitems, seen_ids):
             elif not os.path.exists(os.path.join(DATA, "questions", f"{ref.get('examId')}.json")):
                 errors.append(f"{w}: alsoIn examId {ref.get('examId')!r} has no questions file")
         texitems.append({"where": f"{w} text", "html": q.get("text", "")})
+        if q.get("hint"): texitems.append({"where": f"{w} hint", "html": q["hint"]})
         s = q.get("solution")
         if s is not None:
             if not isinstance(s, dict): errors.append(f"{w}: solution must be object or null"); continue
@@ -87,7 +88,7 @@ def check_file(path, errors, texitems, seen_ids):
             if not isinstance(s.get("steps"), list) or not s["steps"]: errors.append(f"{w}: solution.steps must be a non-empty list")
             for j, st in enumerate(s.get("steps") or []): texitems.append({"where": f"{w} step {j}", "html": st})
             if s.get("answer"): texitems.append({"where": f"{w} answer", "html": s["answer"]})
-        for tagcheck in [q.get("text", "")] + (s.get("steps", []) if isinstance(s, dict) else []):
+        for tagcheck in [q.get("text", ""), q.get("hint", "")] + (s.get("steps", []) if isinstance(s, dict) else []):
             if re.search(r"<(?!/?(b|i|br|ul|ol|li|p|table|tr|td|th|sub|sup|span)\b)[a-z]", tagcheck or ""):
                 errors.append(f"{w}: disallowed HTML tag")
                 break

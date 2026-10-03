@@ -90,6 +90,9 @@ One entry per exam or quiz, built while inventorying the PDFs:
 - `type`: `mc` (multiple choice: `options` required, `correct` is a 0-based index, up to 10 options) or `open`.
 - `solution.reviewed`: optional, the date (`YYYY-MM-DD`) on which course staff checked an unofficial solution;
   the app and booklet then label it "נבדק על ידי צוות הקורס" instead of "פתרון שלא נבדק על ידי צוות הקורס".
+- `hint`: optional; shown by a "קבלת רמז" button before the solution. One or two sentences pointing to the
+  idea (tool, auxiliary function, case split, what to examine) — never specific points, values or the answer.
+  Only where the question has a real trick or a non-obvious first step.
 - `notes`: shown to students before the solution opens — never put anything there that hints at the answer.
 - `points`, `image`, `notes`, `alsoIn`: optional. `solution`: an object, or `null` when there is none yet.
 - Allowed HTML in text and steps: `b i br ul ol li p table tr td th sub sup span`. Nothing else.

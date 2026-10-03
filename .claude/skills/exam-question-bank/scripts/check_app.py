@@ -4,7 +4,8 @@
 Usage (from the project root): python3 check_app.py [screenshot-dir]
 
 Checks: no JavaScript errors; a solution is hidden until "הצג פתרון" is clicked and then opens one line
-at a time; the year filter shows whole exams; the booklet link exists. Prints PASS/FAIL per check and
+at a time; a hint (if any) opens without revealing the solution; the year filter shows whole exams; the
+booklet link exists. Prints PASS/FAIL per check and
 exits 1 on any failure. Also prints WARN for notes that look like they reveal the answer (notes are visible
 before the solution is opened). Needs Playwright with Chromium.
 """
@@ -45,7 +46,12 @@ def main():
             card = pg.locator("article.q", has=pg.locator(".solution")).first
             sol = card.locator(".solution")
             check("solution hidden before click", not sol.is_visible())
-            card.locator(".toggle").click()
+            hint = pg.locator("article.q", has=pg.locator(".hint-btn")).first
+            if hint.count():
+                hint.locator(".hint-btn").click()
+                pg.wait_for_timeout(800)
+                check("hint opens without the solution", hint.locator(".hint").is_visible() and not hint.locator(".solution").is_visible())
+            card.locator(".toggle:not(.hint-btn)").click()
             pg.wait_for_timeout(1000)
             shown = card.locator(".solution li:visible").count()
             total = card.locator(".solution li").count()

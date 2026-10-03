@@ -25,7 +25,9 @@ These were deliberate decisions by the course staff; keep them unless the user a
   - Solutions are **hidden** until the student clicks "הצג פתרון", and then open **one line at a time**:
     the student clicks "הצג שורה נוספת" for each further step, then "הצג את התשובה הסופית". In multiple
     choice the correct option is highlighted only when the whole solution is visible. No line numbers.
-  - Every solution is labeled "פתרון רשמי" (from staff files) or "פתרון שלא נבדק על ידי צוות הקורס".
+  - Every solution is labeled "פתרון רשמי" (from staff files), "נבדק על ידי צוות הקורס" (an unofficial
+    solution the staff approved), or "פתרון שלא נבדק על ידי צוות הקורס".
+  - Questions with a real trick get a hint: "קבלת רמז" opens it before the solution (general idea only).
   - Exam labels never show a version ("נוסח 1") — it only confuses students.
   - A question that appeared in several exams is shown once, with "השאלה הופיעה גם ב: …".
 - **Booklet** (`booklet.pdf`, titled "חוברת מבחני ובחני עבר בקורס" by default): cover with logo/unit/course,
