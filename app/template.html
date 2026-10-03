@@ -153,6 +153,10 @@ select:disabled { opacity: 0.55; }
 }
 .toggle:hover { background: var(--accent-soft); }
 .toggle[aria-expanded="true"] { background: var(--accent); color: var(--sheet); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.hint-btn { border-style: dashed; }
+.hint { background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; }
+.hint b { color: var(--accent); margin-inline-end: 4px; }
 .toggle:disabled { border-color: var(--line); color: var(--muted); cursor: default; background: transparent; }
 
 /* Solutions sit on a soft yellow panel, set apart from the question */
@@ -185,7 +189,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
   .field.narrow { flex: 1 1 140px; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .solution:not([hidden]), .stepwise li:not([hidden]), .stepwise .answer:not([hidden]) { animation: open 0.2s ease-out; }
+  .hint:not([hidden]), .solution:not([hidden]), .stepwise li:not([hidden]), .stepwise .answer:not([hidden]) { animation: open 0.2s ease-out; }
   @keyframes open { from { opacity: 0.4; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
 }
 </style>
@@ -420,12 +424,33 @@ function card(q, at = appearances(q)[0]) {
   }
   if (q.notes) c.append(el("div", "note", q.notes));
 
+  // A hint (optional) comes before the solution: its button sits first in the row.
+  const row = el("div", "btn-row");
+  let hintBox = null;
+  if (q.hint) {
+    const hb = el("button", "toggle hint-btn");
+    hb.type = "button"; hb.textContent = "קבלת רמז";
+    hb.setAttribute("aria-expanded", "false");
+    hintBox = el("div", "hint", `<b>רמז:</b> ${q.hint}`);
+    hintBox.hidden = true;
+    let typeset1 = false;
+    hb.addEventListener("click", () => {
+      const open = hintBox.hidden;
+      hintBox.hidden = !open;
+      hb.setAttribute("aria-expanded", String(open));
+      hb.textContent = open ? "הסתר רמז" : "קבלת רמז";
+      if (open && !typeset1) { typeset1 = true; typeset(hintBox); }
+    });
+    row.append(hb);
+  }
   const btn = el("button", "toggle");
   btn.type = "button";
+  row.append(btn);
   if (!q.solution) {
     btn.textContent = "אין עדיין פתרון לשאלה זו";
     btn.disabled = true;
-    c.append(btn);
+    c.append(row);
+    if (hintBox) c.append(hintBox);
     return c;
   }
   const sid = "sol-" + q.id;
@@ -479,7 +504,9 @@ function card(q, at = appearances(q)[0]) {
     markCorrect(open && complete);
     if (open && !done) { done = true; typeset(sol); }
   });
-  c.append(btn, sol);
+  c.append(row);
+  if (hintBox) c.append(hintBox);
+  c.append(sol);
   return c;
 }
 
