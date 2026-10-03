@@ -13,7 +13,10 @@
 cd tools && npm install && cd ..   # פעם אחת, בשביל בדיקת הנוסחאות
 python3 tools/validate.py          # בדיקת מבנה, נושאים ונוסחאות
 python3 tools/build.py             # בונה את index.html
+python3 tools/booklet.py           # בונה את booklet.pdf (חוברת מבחני ובחני עבר בקורס)
 ```
+
+לבניית החוברת צריך Playwright עם Chromium ואת pypdf: `pip install playwright pypdf && python3 -m playwright install --with-deps chromium`. החוברת נבנית מהמאגר, ולכן אחרי כל שינוי בשאלות צריך לבנות אותה מחדש.
 
 פתרון עם `"official": true` נלקח מקובצי הפתרון של צוות הקורס. פתרון עם `"official": false` לא נבדק על ידי הצוות.
 

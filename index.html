@@ -87,12 +87,14 @@ h1 { font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance;
 }
 .field { display: grid; gap: 4px; flex: 1 1 180px; }
 .field.narrow { flex: 0 1 150px; }
+.row-break { flex-basis: 100%; height: 0; }
 .field label { font-size: var(--step--1); font-weight: 600; color: var(--muted); }
 select, button { font: inherit; color: inherit; }
 select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
 select:disabled { opacity: 0.55; }
 .btn { border: 1px solid var(--line); background: transparent; border-radius: 6px; padding: 8px 14px; cursor: pointer; font-weight: 600; }
 .btn:hover { background: var(--accent-soft); }
+.download { justify-self: start; color: var(--accent); border-color: var(--accent); text-decoration: none; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .status { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: var(--step--1); color: var(--muted); }
@@ -159,6 +161,8 @@ select:disabled { opacity: 0.55; }
 
 .next { justify-self: start; }
 .more { justify-self: center; }
+.exam-head { font-size: var(--step-2); margin: 12px 0 0; padding-bottom: 6px; border-bottom: 2px solid var(--accent); }
+.exam-head:first-child { margin-top: 0; }
 .empty { text-align: center; color: var(--muted); padding: 32px 0; }
 footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 6px; }
 
@@ -187,8 +191,9 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
   <header>
     <div class="eyebrow">חדו״א 1 להנדסה · קורס 214.1.9711</div>
     <h1>איך נראות שאלות במבחן?</h1>
-    <p class="lead">בחרו נושא ותת־נושא כדי לראות שאלות ממבחני עבר. המטרה היא להכיר כבר במהלך הסמסטר את סוגי השאלות שבהם החומר הנלמד יכול להופיע במבחן. נסו לפתור לבד, ורק אז לחצו על „הצג פתרון”.</p>
+    <p class="lead">בחרו נושא ותת־נושא כדי לראות שאלות ממבחני עבר, או בחרו שנה, סמסטר ומועד כדי לראות בחינה שלמה. המטרה היא להכיר כבר במהלך הסמסטר את סוגי השאלות שבהם החומר הנלמד יכול להופיע במבחן. נסו לפתור לבד, ורק אז לחצו על „הצג פתרון”. הפתרון נפתח שורה אחר שורה, כדי שתוכלו לנסות להמשיך לבד אחרי כל רמז.</p>
     <div class="stats" id="stats"></div>
+    <a class="btn download" href="booklet.pdf" download="חוברת מבחני ובחני עבר בקורס.pdf">הורדת חוברת מבחני ובחני עבר (PDF)</a>
   </header>
 
   <section class="filters" aria-label="סינון שאלות">
@@ -201,14 +206,6 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
       <select id="sub" disabled></select>
     </div>
     <div class="field narrow">
-      <label for="kind">סוג בחינה</label>
-      <select id="kind">
-        <option value="">מבחנים ובחנים</option>
-        <option value="exam">מבחנים בלבד</option>
-        <option value="quiz">בחנים בלבד</option>
-      </select>
-    </div>
-    <div class="field narrow">
       <label for="qtype">סוג שאלה</label>
       <select id="qtype">
         <option value="">כל השאלות</option>
@@ -216,12 +213,38 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
         <option value="open">שאלות פתוחות</option>
       </select>
     </div>
+    <div class="row-break" aria-hidden="true"></div>
+    <div class="field narrow">
+      <label for="year">שנה</label>
+      <select id="year"></select>
+    </div>
+    <div class="field narrow">
+      <label for="semester">סמסטר</label>
+      <select id="semester">
+        <option value="">שני הסמסטרים</option>
+        <option value="א">סמסטר א׳</option>
+        <option value="ב">סמסטר ב׳</option>
+      </select>
+    </div>
+    <div class="field narrow">
+      <label for="kind">סוג בחינה ומועד</label>
+      <select id="kind">
+        <option value="">מבחנים ובחנים</option>
+        <option value="exam">מבחנים בלבד</option>
+        <option value="בוחן">בחנים בלבד</option>
+        <option value="א">מועד א׳</option>
+        <option value="ב">מועד ב׳</option>
+        <option value="ג">מועד ג׳</option>
+        <option value="מיוחד">מועד מיוחד</option>
+        <option value="מבחן לדוגמה">מבחן לדוגמה</option>
+      </select>
+    </div>
     <button class="btn" id="clear" type="button">ניקוי סינון</button>
   </section>
 
   <div class="status">
     <div id="count"></div>
-    <div>השאלות מסודרות לפי החומר המתמטי ולא לפי סדר הופעתן בבחינה.</div>
+    <div id="order-note"></div>
   </div>
 
   <main id="main" aria-live="polite"></main>
@@ -253,15 +276,14 @@ const DATA = JSON.parse(document.getElementById("data").textContent);
 const EXAMS = Object.fromEntries(DATA.exams.map(e => [e.examId, e]));
 const QUESTIONS = DATA.questions;
 const TOPICS = DATA.taxonomy.topics;
-const LETTERS = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח"];
+const LETTERS = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י"];
 const PAGE = 15;
-// Pilot: these solutions open one line at a time; the student clicks to reveal each further line.
-const STEPWISE = new Set(["2026-s2-m1-q5", "2026-s1-m1-q4", "2025-s2-m3-q3", "2025-s2-m2-q3", "2025-s2-m1-q3",
-  "2025-s1-m3-q11", "2025-s1-m2-q11", "2025-s1-m1-q8", "2025-s1-m1-q11", "2025-s1-sample-q11"]);
 
 const topicSel = document.getElementById("topic");
 const subSel = document.getElementById("sub");
 const kindSel = document.getElementById("kind");
+const yearSel = document.getElementById("year");
+const semSel = document.getElementById("semester");
 const typeSel = document.getElementById("qtype");
 const main = document.getElementById("main");
 const count = document.getElementById("count");
@@ -280,9 +302,8 @@ function option(value, label) {
   o.value = value; o.textContent = label;
   return o;
 }
-// A question merged from several exams counts as a quiz question if any of its appearances is a quiz.
-const examIds = q => [q.examId, ...(q.alsoIn || []).map(r => r.examId)];
-const isQuiz = id => EXAMS[id].moed === "בוחן";
+// A question merged from several exams has one appearance per exam; it passes the exam filters if any appearance does.
+const appearances = q => [{ examId: q.examId, number: q.number, points: q.points }, ...(q.alsoIn || [])];
 function examLabel(ex) {
   const parts = [ex.year, "סמסטר " + ex.semester + "׳"];
   if (ex.moed === "בוחן") parts.push("בוחן");
@@ -319,14 +340,23 @@ function fillSubs() {
   subSel.disabled = !t;
 }
 
+yearSel.append(option("", "כל השנים"), ...[...new Set(years)].sort((a, b) => b - a)
+  .map(y => option(y, `${DATA.exams.find(e => e.yearNum === y).year} (${y})`)));
+
+function examOk(id) {
+  const e = EXAMS[id], k = kindSel.value;
+  return (!yearSel.value || e.yearNum === +yearSel.value) && (!semSel.value || e.semester === semSel.value) &&
+    (!k || (k === "exam" ? e.moed !== "בוחן" : e.moed === k));
+}
+// The appearance that matches the exam filters, or undefined.
+const matchOf = q => appearances(q).find(a => examOk(a.examId));
 function kindFilter(q) {
-  const k = kindSel.value, t = typeSel.value;
-  return (!k || examIds(q).some(id => (k === "quiz") === isQuiz(id))) && (!t || q.type === t);
+  return (!typeSel.value || q.type === typeSel.value) && !!matchOf(q);
 }
 
 function renderMap() {
   const pool = QUESTIONS.filter(kindFilter);
-  count.innerHTML = `<strong>${pool.length}</strong> שאלות. בחרו תת־נושא כדי להתחיל.`;
+  count.innerHTML = `<strong>${pool.length}</strong> שאלות. בחרו תת־נושא כדי להתחיל, או בחרו שנה כדי לראות מבחנים שלמים.`;
   const map = el("div", "map");
   TOPICS.forEach(t => {
     const inTopic = pool.filter(q => q.topic === t.name);
@@ -352,16 +382,18 @@ function renderMap() {
   main.replaceChildren(map);
 }
 
-function card(q) {
-  const ex = EXAMS[q.examId];
+// `at` is the appearance shown in the card's heading (another exam the question appeared in, in the exam view).
+function card(q, at = appearances(q)[0]) {
+  const ex = EXAMS[at.examId];
+  const others = appearances(q).filter(a => a.examId !== at.examId);
   const c = el("article", "q");
   const meta = el("div", "meta");
   meta.append(el("span", "chip", q.topic), el("span", "chip sub", q.sub));
   c.append(meta);
-  const pts = q.points ? ` · ${q.points} נק׳` : "";
-  c.append(el("h2", "source", `${examLabel(ex)}<small>שאלה ${q.number}${pts}</small>`));
-  if (q.alsoIn) c.append(el("p", "also", "השאלה הופיעה גם ב: " +
-    q.alsoIn.map(r => `${examLabel(EXAMS[r.examId])} (שאלה ${r.number})`).join("; ")));
+  const pts = at.points ? ` · ${at.points} נק׳` : "";
+  c.append(el("h2", "source", `${examLabel(ex)}<small>שאלה ${at.number}${pts}</small>`));
+  if (others.length) c.append(el("p", "also", "השאלה הופיעה גם ב: " +
+    others.map(r => `${examLabel(EXAMS[r.examId])} (שאלה ${r.number})`).join("; ")));
   c.append(el("div", "q-text", q.text));
   if (q.image) {
     const img = el("img");
@@ -403,9 +435,10 @@ function card(q) {
   sol.append(steps);
   if (ans) sol.append(ans);
   const markCorrect = on => { if (opts && Number.isInteger(q.correct)) opts.children[q.correct].classList.toggle("correct", on); };
+  // Solutions open one line at a time; the student clicks to reveal each further line.
   // The correct option is highlighted only once the whole solution is visible.
   let complete = true;
-  if (STEPWISE.has(q.id)) {
+  {
     const parts = [...steps.children, ...(ans ? [ans] : [])];
     let shown = 1;
     parts.forEach((p, i) => { p.hidden = i >= shown; });
@@ -441,15 +474,22 @@ function card(q) {
   return c;
 }
 
-function renderList(items) {
+// byExam: items are in exam order; a heading is inserted whenever the exam changes.
+function renderList(items, byExam) {
   const list = el("div", "list");
   main.replaceChildren(list);
-  let shown = 0;
+  let shown = 0, lastExam = null;
   const more = el("button", "btn more");
   more.type = "button";
   function page() {
     const chunk = el("div", "list");
-    items.slice(shown, shown + PAGE).forEach(q => chunk.append(card(q)));
+    items.slice(shown, shown + PAGE).forEach(q => {
+      if (byExam && matchOf(q).examId !== lastExam) {
+        lastExam = matchOf(q).examId;
+        chunk.append(el("h2", "exam-head", examLabel(EXAMS[lastExam])));
+      }
+      chunk.append(byExam ? card(q, matchOf(q)) : card(q));
+    });
     shown = Math.min(items.length, shown + PAGE);
     list.append(chunk);
     typeset(chunk);
@@ -463,22 +503,34 @@ function renderList(items) {
 
 function render() {
   const topic = topicSel.value, sub = subSel.value;
-  if (!topic) { renderMap(); return; }
-  const items = QUESTIONS.filter(q => q.topic === topic && (!sub || q.sub === sub) && kindFilter(q));
+  // With a year or semester but no topic, show whole exams in their original question order.
+  const byExam = !topic && (yearSel.value || semSel.value);
+  document.getElementById("order-note").textContent = byExam
+    ? "השאלות מסודרות לפי סדר הופעתן בבחינה."
+    : "השאלות מסודרות לפי החומר המתמטי ולא לפי סדר הופעתן בבחינה.";
+  if (!topic && !byExam) { renderMap(); return; }
+  const items = QUESTIONS.filter(q => (!topic || q.topic === topic) && (!sub || q.sub === sub) && kindFilter(q));
+  if (byExam) items.sort((a, b) => {
+    const x = matchOf(a), y = matchOf(b);
+    return (examRank(EXAMS[y.examId]) - examRank(EXAMS[x.examId])) || x.examId.localeCompare(y.examId) ||
+      x.number.localeCompare(y.number, "he", { numeric: true });
+  });
   count.innerHTML = `מוצגות <strong>${items.length}</strong> שאלות`;
   if (!items.length) {
     main.replaceChildren(el("p", "empty", "אין שאלות שמתאימות לסינון הזה. בחרו תת־נושא אחר או נקו את הסינון."));
     return;
   }
-  renderList(items);
+  renderList(items, byExam);
 }
 
 topicSel.addEventListener("change", () => { fillSubs(); render(); });
 subSel.addEventListener("change", render);
 kindSel.addEventListener("change", render);
 typeSel.addEventListener("change", render);
+yearSel.addEventListener("change", render);
+semSel.addEventListener("change", render);
 document.getElementById("clear").addEventListener("click", () => {
-  topicSel.value = ""; kindSel.value = ""; typeSel.value = ""; fillSubs(); render();
+  topicSel.value = ""; kindSel.value = ""; typeSel.value = ""; yearSel.value = ""; semSel.value = ""; fillSubs(); render();
 });
 
 fillSubs();
