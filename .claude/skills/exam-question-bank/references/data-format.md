@@ -88,6 +88,8 @@ One entry per exam or quiz, built while inventorying the PDFs:
 - `number`: question number from the form, sub-parts always as Hebrew letters (`1`, `2א`, `3ב2`), even when
   the form prints (i)/(ii) or a/b.
 - `type`: `mc` (multiple choice: `options` required, `correct` is a 0-based index, up to 10 options) or `open`.
+- `solution.reviewed`: optional, the date (`YYYY-MM-DD`) on which course staff checked an unofficial solution;
+  the app and booklet then label it "נבדק על ידי צוות הקורס" instead of "פתרון שלא נבדק על ידי צוות הקורס".
 - `notes`: shown to students before the solution opens — never put anything there that hints at the answer.
 - `points`, `image`, `notes`, `alsoIn`: optional. `solution`: an object, or `null` when there is none yet.
 - Allowed HTML in text and steps: `b i br ul ol li p table tr td th sub sup span`. Nothing else.

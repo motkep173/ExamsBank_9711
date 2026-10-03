@@ -15,7 +15,7 @@ EXAM_KEYS = {"examId", "year", "yearNum", "semester", "moed", "version", "date",
              "solutionSource", "issues", "questions"}
 Q_KEYS = {"id", "number", "points", "type", "text", "options", "correct", "topic", "sub", "solution",
           "image", "notes", "alsoIn"}
-SOL_KEYS = {"official", "steps", "answer"}
+SOL_KEYS = {"official", "steps", "answer", "reviewed"}
 MOEDS = {"א", "ב", "ג", "מיוחד", "בוחן", "מבחן לדוגמה"}
 SOL_SOURCES = {"official", "partial", "none"}
 
@@ -82,6 +82,8 @@ def check_file(path, errors, texitems, seen_ids):
             extra = set(s) - SOL_KEYS
             if extra: errors.append(f"{w}: unknown solution keys {extra}")
             if not isinstance(s.get("official"), bool): errors.append(f"{w}: solution.official must be true/false")
+            if "reviewed" in s and not (isinstance(s["reviewed"], str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", s["reviewed"])):
+                errors.append(f"{w}: solution.reviewed must be the review date, YYYY-MM-DD")
             if not isinstance(s.get("steps"), list) or not s["steps"]: errors.append(f"{w}: solution.steps must be a non-empty list")
             for j, st in enumerate(s.get("steps") or []): texitems.append({"where": f"{w} step {j}", "html": st})
             if s.get("answer"): texitems.append({"where": f"{w} answer", "html": s["answer"]})

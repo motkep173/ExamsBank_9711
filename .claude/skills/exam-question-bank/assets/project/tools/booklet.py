@@ -74,7 +74,8 @@ def solution_html(number, q):
     s = q.get("solution")
     out = [f'<section class="q sol"><h3>שאלה {html.escape(number)}']
     if s:
-        cls, txt = ("official", "פתרון רשמי") if s["official"] else ("unofficial", "פתרון שלא נבדק על ידי צוות הקורס")
+        cls, txt = (("official", "פתרון רשמי") if s["official"] else ("official", "נבדק על ידי צוות הקורס")
+                    if s.get("reviewed") else ("unofficial", "פתרון שלא נבדק על ידי צוות הקורס"))
         out.append(f' <span class="badge {cls}">{txt}</span>')
     out.append("</h3>")
     if not s:

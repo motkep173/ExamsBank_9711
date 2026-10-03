@@ -24,9 +24,9 @@
    "solution": {
     "official": false,
     "steps": [
-     "<b>הגדרה:</b> \\(\\lim_{n\\to\\infty}a_n=L\\) אם לכל \\(\\varepsilon \\gt 0\\) קיים \\(N\\) כך שלכל \\(n \\gt N\\) מתקיים \\(|a_n-L| \\lt \\varepsilon\\).",
-     "<b>הוכחה:</b> \\(\\left|\\frac{2n}{n^3+1}-0\\right|=\\frac{2n}{n^3+1} \\lt \\frac{2n}{n^3}=\\frac{2}{n^2}\\le\\frac2n\\).",
-     "יהי \\(\\varepsilon \\gt 0\\). נבחר \\(N \\gt \\frac2\\varepsilon\\). אז לכל \\(n \\gt N\\): \\(\\left|\\frac{2n}{n^3+1}\\right| \\lt \\frac2n \\lt \\frac2N \\lt \\varepsilon\\)."
+     "<b>הגדרה:</b> נאמר ש־\\(\\lim_{n\\to\\infty}a_n=L\\) אם לכל \\(\\varepsilon \\gt 0\\) קיים \\(N\\) כך שלכל \\(n \\gt N\\) מתקיים \\(|a_n-L| \\lt \\varepsilon\\).",
+     "<b>הוכחה:</b> נחסום את הביטוי: \\[\\left|\\frac{2n}{n^3+1}-0\\right|=\\frac{2n}{n^3+1} \\lt \\frac{2n}{n^3}=\\frac{2}{n^2}\\le\\frac2n.\\]",
+     "יהי \\(\\varepsilon \\gt 0\\). נבחר \\(N \\gt \\frac2\\varepsilon\\). אז לכל \\(n \\gt N\\): \\[\\left|\\frac{2n}{n^3+1}\\right| \\lt \\frac2n \\lt \\frac2N \\lt \\varepsilon.\\]"
     ],
     "answer": "\\(N \\gt \\frac2\\varepsilon\\) מתאים, כי \\(\\frac{2n}{n^3+1} \\lt \\frac2n\\)."
    }
@@ -43,8 +43,8 @@
     "official": false,
     "steps": [
      "<b>עיקרון קושי:</b> סדרה \\((x_n)\\) מתכנסת אם ורק אם לכל \\(\\varepsilon \\gt 0\\) קיים \\(N\\) כך שלכל \\(m \\gt n \\gt N\\) מתקיים \\(|x_m-x_n| \\lt \\varepsilon\\).",
-     "עבור \\(m \\gt n\\): \\(|x_m-x_n|=\\sum_{k=n+1}^m\\frac1{k^2} \\lt \\sum_{k=n+1}^m\\frac1{k(k-1)}=\\sum_{k=n+1}^m\\left(\\frac1{k-1}-\\frac1k\\right)=\\frac1n-\\frac1m \\lt \\frac1n\\).",
-     "יהי \\(\\varepsilon \\gt 0\\); נבחר \\(N \\gt \\frac1\\varepsilon\\). לכל \\(m \\gt n \\gt N\\): \\(|x_m-x_n| \\lt \\frac1n \\lt \\varepsilon\\). לכן הסדרה קושי, ולפי העיקרון היא מתכנסת."
+     "עבור \\(m \\gt n\\): \\[|x_m-x_n|=\\sum_{k=n+1}^m\\frac1{k^2} \\lt \\sum_{k=n+1}^m\\frac1{k(k-1)}=\\sum_{k=n+1}^m\\left(\\frac1{k-1}-\\frac1k\\right)=\\frac1n-\\frac1m \\lt \\frac1n.\\]",
+     "יהי \\(\\varepsilon \\gt 0\\); נבחר \\(N \\gt \\frac1\\varepsilon\\). לכל \\(m \\gt n \\gt N\\): \\[|x_m-x_n| \\lt \\frac1n \\lt \\varepsilon.\\] לכן הסדרה קושי, ולפי העיקרון היא מתכנסת."
     ],
     "answer": "\\(|x_m-x_n| \\lt \\frac1n\\) (סכום טלסקופי), ולכן הסדרה קושי ומתכנסת."
    },
@@ -61,8 +61,8 @@
    "solution": {
     "official": false,
     "steps": [
-     "תחום: \\(2+3x-x^2\\ge0\\iff x^2-3x-2\\le0\\). שורשי \\(x^2-3x-2\\) הם \\(\\frac{3\\pm\\sqrt{17}}{2}\\), ולכן התחום \\(\\left[\\frac{3-\\sqrt{17}}{2},\\frac{3+\\sqrt{17}}{2}\\right]\\).",
-     "הביטוי \\(2+3x-x^2=\\frac{17}{4}-\\left(x-\\frac32\\right)^2\\) מקבל בתחום את כל הערכים ב־\\(\\left[0,\\frac{17}{4}\\right]\\) (מקסימום ב־\\(x=\\frac32\\), אפס בקצוות, ורציפות).",
+     "נמצא תחילה את תחום ההגדרה: דרוש \\[2+3x-x^2\\ge0\\iff x^2-3x-2\\le0.\\] שורשי \\(x^2-3x-2\\) הם \\(\\frac{3\\pm\\sqrt{17}}{2}\\), ולכן התחום \\(\\left[\\frac{3-\\sqrt{17}}{2},\\frac{3+\\sqrt{17}}{2}\\right]\\).",
+     "הביטוי \\[2+3x-x^2=\\frac{17}{4}-\\left(x-\\frac32\\right)^2\\] הוא פולינום, ולכן רציף ב־\\(\\mathbb R\\). הוא מקבל בתחום את כל הערכים ב־\\(\\left[0,\\frac{17}{4}\\right]\\) (מקסימום ב־\\(x=\\frac32\\), אפס בקצוות, ורציפות).",
      "לכן התמונה היא \\(\\left[0,\\frac{\\sqrt{17}}{2}\\right]\\)."
     ],
     "answer": "תחום \\(\\left[\\frac{3-\\sqrt{17}}{2},\\frac{3+\\sqrt{17}}{2}\\right]\\), תמונה \\(\\left[0,\\frac{\\sqrt{17}}{2}\\right]\\)."
@@ -79,10 +79,11 @@
    "solution": {
     "official": false,
     "steps": [
-     "\\(\\cos\\) מחזורית עם מחזור יסודי \\(2\\pi\\). \\(\\cos\\frac{\\pi(x+T)}{4}=\\cos\\left(\\frac{\\pi x}{4}+\\frac{\\pi T}{4}\\right)\\) שווה ל־\\(\\cos\\frac{\\pi x}{4}\\) לכל \\(x\\) כאשר \\(\\frac{\\pi T}{4}=2\\pi k\\).",
-     "המחזור החיובי הקטן ביותר: \\(T=8\\)."
+     "הפונקציה \\(\\cos\\) מחזורית עם מחזור \\(2\\pi\\).",
+     "נחפש \\(T\\gt0\\) כך ש־\\(f(x+T)=f(x)\\) לכל \\(x\\). מתקיים \\[\\cos\\frac{\\pi(x+T)}{4}=\\cos\\left(\\frac{\\pi x}{4}+\\frac{\\pi T}{4}\\right),\\] וזה שווה ל־\\(\\cos\\frac{\\pi x}{4}\\) לכל \\(x\\) כאשר, למשל, \\(\\frac{\\pi T}{4}=2\\pi\\).",
+     "לכן \\(f\\) מחזורית, ו־\\(T=8\\) הוא מחזור שלה."
     ],
-    "answer": "מחזורית, עם מחזור \\(8\\)."
+    "answer": "מחזורית, ו־\\(T=8\\) הוא מחזור שלה."
    }
   },
   {
@@ -96,9 +97,9 @@
    "solution": {
     "official": false,
     "steps": [
-     "נציב \\(t=x-\\frac\\pi3\\to0\\). \\(1-2\\cos\\left(t+\\frac\\pi3\\right)=1-2\\left(\\frac12\\cos t-\\frac{\\sqrt3}{2}\\sin t\\right)=1-\\cos t+\\sqrt3\\sin t\\).",
+     "נבדוק אם הגבול של \\(f\\) ב־\\(\\frac\\pi3\\) קיים; זהו מקרה של \\(\\frac00\\). נציב \\(t=x-\\frac\\pi3\\to0\\), ומתקיים \\[1-2\\cos\\left(t+\\frac\\pi3\\right)=1-2\\left(\\frac12\\cos t-\\frac{\\sqrt3}{2}\\sin t\\right)=1-\\cos t+\\sqrt3\\sin t.\\]",
      "נחלק ב־\\(t\\): \\[\\frac{\\sin t}{1-\\cos t+\\sqrt3\\sin t}=\\frac{\\frac{\\sin t}{t}}{\\frac{1-\\cos t}{t}+\\sqrt3\\frac{\\sin t}{t}}\\to\\frac{1}{0+\\sqrt3}.\\]",
-     "לכן הגבול הוא \\(\\frac1{\\sqrt3}\\), ו־\\(f\\) רציפה ב־\\(\\frac\\pi3\\) בדיוק כאשר \\(K=\\frac{1}{\\sqrt3}=\\frac{\\sqrt3}{3}\\)."
+     "לכן הגבול הוא \\(\\frac1{\\sqrt3}\\), ו־\\(f\\) רציפה ב־\\(\\frac\\pi3\\) בדיוק כאשר \\[K=\\frac{1}{\\sqrt3}=\\frac{\\sqrt3}{3}.\\]"
     ],
     "answer": "כן, \\(K=\\frac{\\sqrt3}{3}\\)."
    },
@@ -115,9 +116,9 @@
    "solution": {
     "official": false,
     "steps": [
-     "\\(\\ln\\cos x=\\ln\\left(1-\\frac{x^2}{2}+\\frac{x^4}{24}-\\dots\\right)\\). עם \\(u=-\\frac{x^2}{2}+\\frac{x^4}{24}\\): \\(\\ln(1+u)=u-\\frac{u^2}{2}+\\dots=-\\frac{x^2}{2}+\\frac{x^4}{24}-\\frac{x^4}{8}+\\dots=-\\frac{x^2}{2}-\\frac{x^4}{12}+\\dots\\).",
-     "לכן \\(-\\ln\\cos x=\\frac{x^2}{2}+\\frac{x^4}{12}+\\dots\\), ו־\\(f(x)=-2x+\\frac{x^2}{2}+x^3+\\frac{x^4}{12}+\\dots\\).",
-     "(בדיקה: \\(f(0)=0\\), \\(f'(0)=-2\\), \\(f''(0)=1\\), \\(f'''(0)=6\\).) שלושת האיברים הראשונים (השונים מאפס): \\(-2x+\\frac{x^2}{2}+x^3\\)."
+     "נשתמש בפיתוחי טיילור הידועים. מתקיים \\[\\ln\\cos x=\\ln\\left(1-\\frac{x^2}{2}+\\frac{x^4}{24}-\\dots\\right).\\] עם \\(u=-\\frac{x^2}{2}+\\frac{x^4}{24}\\) נקבל \\[\\ln(1+u)=u-\\frac{u^2}{2}+\\dots=-\\frac{x^2}{2}+\\frac{x^4}{24}-\\frac{x^4}{8}+\\dots=-\\frac{x^2}{2}-\\frac{x^4}{12}+\\dots.\\]",
+     "לכן \\(-\\ln\\cos x=\\frac{x^2}{2}+\\frac{x^4}{12}+\\dots\\), ומכאן \\[f(x)=-2x+\\frac{x^2}{2}+x^3+\\frac{x^4}{12}+\\dots.\\]",
+     "לבדיקה: \\(f(0)=0\\), \\(f'(0)=-2\\), \\(f''(0)=1\\), \\(f'''(0)=6\\). לכן שלושת האיברים הראשונים (השונים מאפס) הם \\[-2x+\\frac{x^2}{2}+x^3.\\]"
     ],
     "answer": "\\(-2x+\\frac{x^2}{2}+x^3\\)"
    }
@@ -133,9 +134,9 @@
    "solution": {
     "official": false,
     "steps": [
-     "\\(g(t)=\\frac{\\ln t}{t^2}\\) רציפה עבור \\(t \\gt 0\\); לכן \\(F\\) מוגדרת עבור \\(x \\gt 0\\) (כך ש־\\(x^3 \\gt 0\\)).",
-     "לפי המשפט היסודי וכלל השרשרת: \\(F'(x)=g(x^3)\\cdot(x^3)'=\\frac{\\ln(x^3)}{x^6}\\cdot3x^2\\).",
-     "\\(F'(x)=\\frac{9\\ln x}{x^4}\\)."
+     "נשתמש במשפט היסודי ובכלל השרשרת. הפונקציה \\(g(t)=\\frac{\\ln t}{t^2}\\) רציפה עבור \\(t \\gt 0\\) כמנה של פונקציות רציפות שהמכנה שלה אינו מתאפס; לכן \\(F\\) מוגדרת עבור \\(x \\gt 0\\) (כך ש־\\(x^3 \\gt 0\\)).",
+     "לפי המשפט היסודי וכלל השרשרת: \\[F'(x)=g(x^3)\\cdot(x^3)'=\\frac{\\ln(x^3)}{x^6}\\cdot3x^2.\\]",
+     "לאחר צמצום נקבל \\[F'(x)=\\frac{9\\ln x}{x^4}.\\]"
     ],
     "answer": "\\(F'(x)=\\frac{3\\ln(x^3)}{x^4}=\\frac{9\\ln x}{x^4}\\), \\(x \\gt 0\\)."
    }
@@ -152,8 +153,8 @@
     "official": false,
     "steps": [
      "נציב \\(u=\\sin^6x\\), \\(du=6\\sin^5x\\cos x\\,dx\\), ו־\\(\\sin^{12}x=u^2\\).",
-     "\\(\\int\\frac{\\cos x\\sin^5x}{\\sin^{12}x+4}dx=\\frac16\\int\\frac{du}{u^2+4}=\\frac16\\cdot\\frac12\\arctan\\frac u2+C\\).",
-     "התוצאה: \\(\\frac1{12}\\arctan\\left(\\frac{\\sin^6x}{2}\\right)+C\\)."
+     "נקבל \\[\\int\\frac{\\cos x\\sin^5x}{\\sin^{12}x+4}dx=\\frac16\\int\\frac{du}{u^2+4}=\\frac16\\cdot\\frac12\\arctan\\frac u2+C.\\]",
+     "התוצאה: \\[\\frac1{12}\\arctan\\left(\\frac{\\sin^6x}{2}\\right)+C.\\]"
     ],
     "answer": "\\(\\frac{1}{12}\\arctan\\left(\\frac{\\sin^6x}{2}\\right)+C\\)"
    }

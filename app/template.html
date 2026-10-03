@@ -175,6 +175,7 @@ footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid v
 
 mjx-container { direction: ltr; }
 mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+@media (max-width: 480px) { .solution mjx-container[display="true"] { font-size: 88%; } }
 
 @media (max-width: 480px) {
   h1 { font-size: var(--step-2); }
@@ -436,6 +437,7 @@ function card(q, at = appearances(q)[0]) {
   const s = q.solution;
   sol.append(el("div", "sol-head", `<h3>פתרון</h3>` + (s.official
     ? `<span class="badge official">פתרון רשמי</span>`
+    : s.reviewed ? `<span class="badge official">נבדק על ידי צוות הקורס</span>`
     : `<span class="badge unofficial">פתרון שלא נבדק על ידי צוות הקורס</span>`)));
   const steps = el("ol", "", s.steps.map(x => `<li>${x}</li>`).join(""));
   const ans = s.answer ? el("div", "answer", `<span>תשובה:</span>${s.answer}`) : null;

@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+"""Build the solution-review page (an Artifact) from data/ and the pre-screen results.
+
+Usage: python3 tools/review_page.py <prescreen-dir> <out.html> [general-notes.json]
+
+Includes every solution with "official": false that has not been reviewed yet (no solution.reviewed).
+The pre-screen dir holds result-*.json files: [{id, verdict: ok|check|wrong, reason, fix}].
+The page stores the reviewer's decisions in the artifact's db, collection "reviews", one document per
+question id: {status: ok|problem|unsure|fixed, comment, at} — plus {claudeNote} when a fix awaits re-review.
+general-notes.json ({id: summary}) marks solutions changed by a general comment; the page shows the summary.
+"""
+import base64, glob, html, json, os, sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA = os.path.join(ROOT, "data")
+MOED_RANK = {"בוחן": 1, "א": 2, "ב": 3, "ג": 4, "מיוחד": 5, "מבחן לדוגמה": 0}
+
+
+def exam_label(ex):
+    m = ex["moed"]
+    sit = {"בוחן": "בוחן", "מיוחד": "מועד מיוחד", "מבחן לדוגמה": "מבחן לדוגמה"}.get(m, f"מועד {m}׳")
+    return f"{ex['year']} · סמסטר {ex['semester']}׳ · {sit}"
+
+
+def main():
+    pre_dir, out = sys.argv[1], sys.argv[2]
+    general = json.load(open(sys.argv[3], encoding="utf-8")) if len(sys.argv) > 3 else {}
+    pre = {}
+    for f in glob.glob(os.path.join(pre_dir, "result-*.json")):
+        for r in json.load(open(f, encoding="utf-8")):
+            pre[r["id"]] = r
+    tax = json.load(open(os.path.join(DATA, "taxonomy.json"), encoding="utf-8"))
+    topic_order = {t["name"]: i for i, t in enumerate(tax["topics"])}
+    items, images = [], {}
+    for f in sorted(glob.glob(os.path.join(DATA, "questions", "*.json"))):
+        ex = json.load(open(f, encoding="utf-8"))
+        rank = ex["yearNum"] * 100 + (50 if ex["semester"] == "ב" else 0) + MOED_RANK.get(ex["moed"], 0)
+        for q in ex["questions"]:
+            s = q.get("solution")
+            if not s or s.get("official") or s.get("reviewed"):
+                continue
+            if q.get("image") and q["image"] not in images:
+                with open(os.path.join(DATA, "img", q["image"]), "rb") as fh:
+                    images[q["image"]] = "data:image/png;base64," + base64.b64encode(fh.read()).decode()
+            p = pre.get(q["id"], {})
+            items.append({
+                "id": q["id"], "exam": exam_label(ex), "rank": rank, "number": q["number"],
+                "points": q.get("points"), "topic": q["topic"], "sub": q["sub"], "type": q["type"],
+                "text": q["text"], "options": q.get("options"), "correct": q.get("correct"),
+                "image": q.get("image"), "notes": q.get("notes"),
+                "steps": s["steps"], "answer": s.get("answer"),
+                "generalNote": general.get(q["id"], ""),
+                "pre": p.get("verdict", ""), "preReason": p.get("reason", ""), "preFix": p.get("fix", ""),
+            })
+    sev = {"wrong": 0, "check": 1}
+    items.sort(key=lambda it: (sev.get(it["pre"], 2), topic_order.get(it["topic"], 99), -it["rank"], it["id"]))
+    payload = json.dumps({"items": items, "images": images, "topics": [t["name"] for t in tax["topics"]]},
+                         ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    tpl = open(os.path.join(ROOT, "tools", "review_template.html"), encoding="utf-8").read()
+    open(out, "w", encoding="utf-8").write(tpl.replace("/*__DATA__*/", payload))
+    counts = {k: sum(it["pre"] == k for it in items) for k in ("wrong", "check", "ok", "")}
+    print(f"{out}: {len(items)} solutions to review; pre-screen {counts}; {len(payload) / 1e3:.0f} KB of data")
+
+
+if __name__ == "__main__":
+    main()
