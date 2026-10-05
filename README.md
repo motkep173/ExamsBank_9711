@@ -14,9 +14,12 @@ cd tools && npm install && cd ..   # פעם אחת, בשביל בדיקת הנו
 python3 tools/validate.py          # בדיקת מבנה, נושאים ונוסחאות
 python3 tools/build.py             # בונה את index.html
 python3 tools/booklet.py           # בונה את booklet.pdf (חוברת מבחני ובחני עבר בקורס)
+python3 tools/scorm.py             # בונה את scorm.zip (חבילת SCORM למודל)
 ```
 
 לבניית החוברת צריך Playwright עם Chromium ואת pypdf: `pip install playwright pypdf && python3 -m playwright install --with-deps chromium`. החוברת נבנית מהמאגר, ולכן אחרי כל שינוי בשאלות צריך לבנות אותה מחדש.
+
+`scorm.zip` היא חבילת SCORM 1.2 עם האתר והחוברת, להעלאה למודל (הוספת פעילות ← חבילת SCORM). החבילה עצמאית: MathJax והגופן נמצאים בתוכה ולא נטענים מרשת חיצונית. פתיחת החבילה מסמנת את הפעילות כהושלמה. היא נבנית מ־`index.html` ומ־`booklet.pdf`, ולכן צריך להריץ את `tools/scorm.py` אחרי `build.py` ו־`booklet.py`.
 
 פתרון עם `"official": true` נלקח מקובצי הפתרון של צוות הקורס. פתרון עם `"official": false` לא נבדק על ידי הצוות.
 
