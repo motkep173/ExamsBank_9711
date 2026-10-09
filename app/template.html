@@ -84,17 +84,23 @@ body {
   line-height: 1.65;
   padding: 0 16px;
 }
-.wrap { max-width: 780px; margin: 0 auto; padding-block: 40px 96px; display: grid; gap: 24px; }
+.wrap { max-width: 780px; margin: 0 auto; padding-block: 20px 96px; display: grid; gap: 24px; }
 
-/* University logo sits on white in both themes, since its lettering is dark gray */
-.brand { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
-.brand img { display: block; width: 240px; max-width: 100%; height: auto; background: #fff; border-radius: 8px; padding: 6px 10px; box-sizing: content-box; }
-.unit { font-size: var(--step-1); font-weight: 700; color: var(--ink); padding-inline-start: 18px; border-inline-start: 1px solid var(--line); }
-header { display: grid; gap: 10px; padding-block: 8px 4px; }
-.eyebrow { font-size: var(--step--1); font-weight: 700; letter-spacing: 0.06em; color: var(--brand); }
-h1 { font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance; }
+/* Top bar: logo, title and course details as one compact unit; the logo sits on white in both themes,
+   since its lettering is dark gray */
+.topbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 12px 18px;
+  background: var(--sheet); border: 1px solid var(--line); border-bottom: 3px solid var(--brand-bright); border-radius: 12px;
+}
+.logo { display: block; height: 46px; width: auto; background: #fff; border-radius: 6px; padding: 3px 6px; box-sizing: content-box; }
+.titles { display: grid; gap: 1px; padding-inline-start: 16px; border-inline-start: 1px solid var(--line); min-width: 0; }
+h1 { font-size: var(--step-2); line-height: 1.2; margin: 0; }
+.course { font-size: var(--step--1); color: var(--muted); }
+.course b { color: var(--brand); font-weight: 700; }
+.topbar .stats { margin-inline-start: auto; flex-direction: column; align-items: end; gap: 0; }
+.intro { display: grid; gap: 4px; }
 .lead { margin: 0; color: var(--muted); max-width: 62ch; }
-.stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: var(--step--1); color: var(--muted); }
+.stats { display: flex; flex-wrap: wrap; gap: 0 14px; font-size: var(--step--1); color: var(--muted); }
 .stats strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 
 /* Layout: on wide screens a sticky sidebar (search, filters, tools) beside the content; stacked on narrow ones */
@@ -282,11 +288,12 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
 @media (max-width: 480px) { .solution mjx-container[display="true"] { font-size: 88%; } }
 
 @media (max-width: 480px) {
-  h1 { font-size: var(--step-2); }
-  .wrap { padding-block-start: 20px; gap: 18px; }
-  .brand { flex-wrap: nowrap; gap: 12px; padding-bottom: 12px; }
-  .brand img { width: 130px; padding: 4px 6px; }
-  .unit { font-size: var(--step--1); padding-inline-start: 12px; }
+  .wrap { padding-block-start: 12px; gap: 18px; }
+  .topbar { padding: 10px 12px; gap: 8px 12px; }
+  .logo { height: 34px; }
+  .titles { padding-inline-start: 0; border: 0; flex-basis: 100%; }
+  h1 { font-size: var(--step-1); }
+  .topbar .stats { margin: 0; flex-direction: row; flex-basis: 100%; align-items: baseline; gap: 0 12px; padding-top: 6px; border-top: 1px solid var(--line); }
   .map { grid-template-columns: 1fr; }
   .q { padding: 16px; }
   .filters-body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -298,14 +305,16 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
 </style>
 
 <div class="wrap" dir="rtl" lang="he">
-  <div class="brand">
-    <img src="/*__LOGO__*/" alt="אוניברסיטת בן־גוריון בנגב" width="240" height="60">
-    <div class="unit">היחידה להוראת קורסי יסוד</div>
-  </div>
+  <header class="topbar">
+    <img class="logo" src="/*__LOGO__*/" alt="אוניברסיטת בן־גוריון בנגב" width="184" height="46">
+    <div class="titles">
+      <h1>מאגר הבחינות בקורס</h1>
+      <div class="course"><b>חדו״א 1 להנדסה</b> · קורס 214.1.9711 · היחידה להוראת קורסי יסוד</div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
 
-  <header>
-    <div class="eyebrow">חדו״א 1 להנדסה · קורס 214.1.9711</div>
-    <h1>מאגר הבחינות בקורס</h1>
+  <div class="intro">
     <p class="lead">שאלות ממבחני ובחני עבר לפי נושאים, עם פתרונות מלאים. בחרו את מה שלמדתם השבוע ונסו לפתור לבד לפני שאתם מציצים בפתרון.</p>
     <details class="how">
       <summary>איך זה עובד?</summary>
@@ -316,8 +325,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
         <li>כדי לראות בחינה שלמה, בחרו אחד מהמבחנים האחרונים או שנה וסמסטר ב„סינון שאלות”.</li>
       </ul>
     </details>
-    <div class="stats" id="stats"></div>
-  </header>
+  </div>
 
   <div class="layout">
   <aside class="side" aria-label="חיפוש, סינון וכלים">
