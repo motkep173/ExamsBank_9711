@@ -20,6 +20,10 @@
   --solution: #fdf6dc;
   --solution-line: #eadcaa;
   --grid: rgba(35, 72, 168, 0.06);
+  /* BGU orange: --brand is dark enough for text on white, --brand-bright is for fills */
+  --brand: #b85400;
+  --brand-bright: #f39200;
+  --brand-soft: #fff1e0;
   --font-body: "Assistant", "Arial Hebrew", "Segoe UI", Arial, sans-serif;
   --step--1: 0.8125rem;
   --step-0: 1rem;
@@ -44,6 +48,9 @@
     --solution: #26221a;
     --solution-line: #423a26;
     --grid: rgba(142, 170, 245, 0.06);
+    --brand: #ffb162;
+    --brand-bright: #f39200;
+    --brand-soft: #33251a;
   }
 }
 :root[data-theme="dark"] {
@@ -62,6 +69,9 @@
   --solution: #26221a;
   --solution-line: #423a26;
   --grid: rgba(142, 170, 245, 0.06);
+  --brand: #ffb162;
+  --brand-bright: #f39200;
+  --brand-soft: #33251a;
 }
 
 * { box-sizing: border-box; }
@@ -81,7 +91,7 @@ body {
 .brand img { display: block; width: 240px; max-width: 100%; height: auto; background: #fff; border-radius: 8px; padding: 6px 10px; box-sizing: content-box; }
 .unit { font-size: var(--step-1); font-weight: 700; color: var(--ink); padding-inline-start: 18px; border-inline-start: 1px solid var(--line); }
 header { display: grid; gap: 10px; padding-block: 8px 4px; }
-.eyebrow { font-size: var(--step--1); font-weight: 700; letter-spacing: 0.06em; color: var(--accent); }
+.eyebrow { font-size: var(--step--1); font-weight: 700; letter-spacing: 0.06em; color: var(--brand); }
 h1 { font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance; }
 .lead { margin: 0; color: var(--muted); max-width: 62ch; }
 .stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: var(--step--1); color: var(--muted); }
@@ -116,7 +126,13 @@ select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; b
 select:disabled { opacity: 0.55; }
 .btn { border: 1px solid var(--line); background: transparent; border-radius: 6px; padding: 8px 14px; cursor: pointer; font-weight: 600; }
 .btn:hover { background: var(--accent-soft); }
-.download { justify-self: start; color: var(--accent); border-color: var(--accent); text-decoration: none; }
+.download { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.random-btn { background: var(--brand-bright); border-color: var(--brand-bright); color: #1b1200; }
+.random-btn:hover { background: var(--brand-bright); filter: brightness(1.08); }
+.how { font-size: var(--step--1); color: var(--muted); }
+.how summary { cursor: pointer; color: var(--accent); font-weight: 600; width: fit-content; }
+.how ul { margin: 6px 0 0; padding-inline-start: 20px; display: grid; gap: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .status { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: var(--step--1); color: var(--muted); }
@@ -131,22 +147,43 @@ select:disabled { opacity: 0.55; }
 .home-btn:hover { background: var(--accent); filter: brightness(1.1); }
 @media (max-width: 480px) { .home-btn { inset-block-end: 14px; inset-inline-end: 14px; padding: 8px 14px; } }
 
-/* Topic map (home view) */
-.map { display: grid; gap: 14px; }
-.topic { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; }
-.topic-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.topic-head button { all: unset; cursor: pointer; font-size: var(--step-1); font-weight: 700; }
-.topic-head button:hover { color: var(--accent); }
-.topic-head button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.topic-head span { font-size: var(--step--1); color: var(--muted); font-variant-numeric: tabular-nums; }
-.subs { display: flex; flex-wrap: wrap; gap: 8px; }
-.sub-link {
-  display: inline-flex; gap: 8px; align-items: baseline; border: 1px solid var(--line); border-radius: 999px;
-  padding: 3px 12px; background: var(--paper); cursor: pointer;
+/* Topic map (home view): compact cards, two columns where there is room */
+.map { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); align-items: start; }
+.topic {
+  background: var(--sheet); border: 1px solid var(--line); border-inline-start: 4px solid var(--brand-bright);
+  border-radius: 10px; padding: 10px 14px 12px; display: grid; gap: 8px;
 }
-.sub-link:hover { border-color: var(--accent); color: var(--accent); }
-.sub-link b { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.topic-head { display: flex; align-items: center; gap: 10px; }
+.sym {
+  flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--brand-soft); color: var(--brand); font: italic 700 15px/1 "Times New Roman", serif; direction: ltr; white-space: nowrap;
+}
+.topic-title { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.topic-head button { all: unset; cursor: pointer; font-size: var(--step-0); font-weight: 700; line-height: 1.3; }
+.topic-head button:hover { color: var(--brand); }
+.topic-head button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.topic-meta { font-size: var(--step--1); color: var(--muted); font-variant-numeric: tabular-nums; }
+.progress { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--brand-bright); }
+.subs { display: flex; flex-wrap: wrap; gap: 6px; }
+.sub-link {
+  display: inline-flex; gap: 6px; align-items: baseline; border: 1px solid var(--line); border-radius: 999px;
+  padding: 1px 10px; background: var(--paper); cursor: pointer; font-size: var(--step--1); line-height: 1.6;
+}
+.sub-link:hover { border-color: var(--brand); color: var(--brand); }
+.sub-link b { font-weight: 700; color: var(--brand); font-variant-numeric: tabular-nums; }
 .sub-link[disabled] { opacity: 0.5; cursor: default; }
+.sub-link.all-done { border-color: var(--brand-bright); }
+
+/* Quick links to the latest exams, above the topic map */
+.recent { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: var(--step--1); margin-bottom: 4px; }
+.recent span { font-weight: 700; color: var(--muted); margin-inline-end: 4px; }
+.recent button { font-size: var(--step--1); padding: 2px 12px; border-radius: 999px; }
+.recent button:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
+
+/* Random-question view */
+.random-view { display: grid; gap: 12px; }
+.random-view > .btn { justify-self: center; }
 
 /* Question cards */
 .list { display: grid; gap: 18px; }
@@ -182,6 +219,10 @@ select:disabled { opacity: 0.55; }
 .toggle:hover { background: var(--accent-soft); }
 .toggle[aria-expanded="true"] { background: var(--accent); color: var(--sheet); }
 .btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.solved-btn { margin-inline-start: auto; border: 1px solid var(--line); border-radius: 999px; background: transparent; padding: 4px 12px; cursor: pointer; font-size: var(--step--1); color: var(--muted); font-weight: 600; }
+.solved-btn:hover { border-color: var(--brand); color: var(--brand); }
+.solved-btn[aria-pressed="true"] { background: var(--brand-soft); border-color: var(--brand-bright); color: var(--brand); }
+.q.is-solved { border-inline-start: 4px solid var(--brand-bright); }
 .hint-btn { border-style: dashed; }
 .hint { background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; }
 .hint b { color: var(--accent); margin-inline-end: 4px; }
@@ -200,7 +241,7 @@ select:disabled { opacity: 0.55; }
 
 .next { justify-self: start; }
 .more { justify-self: center; }
-.exam-head { font-size: var(--step-2); margin: 12px 0 0; padding-bottom: 6px; border-bottom: 2px solid var(--accent); }
+.exam-head { font-size: var(--step-2); margin: 12px 0 0; padding-bottom: 6px; border-bottom: 2px solid var(--brand-bright); }
 .exam-head:first-child { margin-top: 0; }
 .empty { text-align: center; color: var(--muted); padding: 32px 0; }
 footer { font-size: var(--step--1); color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 6px; }
@@ -211,8 +252,11 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
 
 @media (max-width: 480px) {
   h1 { font-size: var(--step-2); }
-  .brand img { width: 190px; }
-  .unit { padding-inline-start: 0; border-inline-start: 0; flex-basis: 100%; }
+  .wrap { padding-block-start: 20px; gap: 18px; }
+  .brand { flex-wrap: nowrap; gap: 12px; padding-bottom: 12px; }
+  .brand img { width: 130px; padding: 4px 6px; }
+  .unit { font-size: var(--step--1); padding-inline-start: 12px; }
+  .map { grid-template-columns: 1fr; }
   .q { padding: 16px; }
   .filters-body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -231,9 +275,21 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
   <header>
     <div class="eyebrow">חדו״א 1 להנדסה · קורס 214.1.9711</div>
     <h1>איך נראות שאלות במבחן?</h1>
-    <p class="lead">בחרו נושא ותת־נושא כדי לראות שאלות ממבחני עבר, או בחרו שנה, סמסטר ומועד כדי לראות בחינה שלמה. המטרה היא להכיר כבר במהלך הסמסטר את סוגי השאלות שבהם החומר הנלמד יכול להופיע במבחן. נסו לפתור לבד, ורק אז לחצו על „הצג פתרון”. הפתרון נפתח שורה אחר שורה, כדי שתוכלו לנסות להמשיך לבד אחרי כל רמז.</p>
+    <p class="lead">שאלות ממבחני ובחני עבר לפי נושאים, עם פתרונות מלאים. בחרו את מה שלמדתם השבוע ונסו לפתור לבד לפני שאתם מציצים בפתרון.</p>
+    <details class="how">
+      <summary>איך זה עובד?</summary>
+      <ul>
+        <li>לחיצה על תת־נושא מציגה את כל השאלות עליו ממבחני עבר. המטרה היא להכיר כבר במהלך הסמסטר את סוגי השאלות שבהם החומר יכול להופיע במבחן.</li>
+        <li>„הצג פתרון” פותח את הפתרון שורה אחר שורה, כדי שתוכלו לנסות להמשיך לבד אחרי כל שלב. בחלק מהשאלות יש גם רמז.</li>
+        <li>„סימנתי כפתורה” שומר את ההתקדמות שלכם בדפדפן הזה, והיא מוצגת בכל נושא. במחשב או בטלפון אחר ההתקדמות לא מופיעה.</li>
+        <li>כדי לראות בחינה שלמה, בחרו אחד מהמבחנים האחרונים או שנה וסמסטר ב„סינון שאלות”.</li>
+      </ul>
+    </details>
     <div class="stats" id="stats"></div>
-    <a class="btn download" href="booklet.pdf" download="חוברת מבחני ובחני עבר בקורס.pdf">הורדת חוברת מבחני ובחני עבר (PDF)</a>
+    <div class="actions">
+      <button class="btn random-btn" id="random" type="button">שאלה אקראית</button>
+      <a class="btn download" href="booklet.pdf" download="חוברת מבחני ובחני עבר בקורס.pdf">הורדת חוברת המבחנים (PDF)</a>
+    </div>
   </header>
 
   <details class="filters" id="filters">
@@ -330,6 +386,20 @@ const yearSel = document.getElementById("year");
 const semSel = document.getElementById("semester");
 const typeSel = document.getElementById("qtype");
 const main = document.getElementById("main");
+
+// Questions the student marked as solved; kept in this browser only. Storage may be unavailable (private mode).
+const SOLVED_KEY = "examsbank-9711-solved";
+const solved = new Set((() => { try { return JSON.parse(localStorage.getItem(SOLVED_KEY)) || []; } catch { return []; } })());
+function setSolved(id, on) {
+  on ? solved.add(id) : solved.delete(id);
+  try { localStorage.setItem(SOLVED_KEY, JSON.stringify([...solved])); } catch {}
+}
+
+// A small symbol per topic; topics not listed fall back to their first letter.
+const SYMBOLS = {
+  "מספרים ממשיים ופונקציות": "ℝ", "סדרות": "a<sub>n</sub>", "גבולות ורציפות של פונקציות": "lim",
+  "נגזרות": "f′", "שימושי הנגזרת": "f′=0", "אינטגרלים": "∫",
+};
 const count = document.getElementById("count");
 
 function typeset(el) {
@@ -401,29 +471,82 @@ function kindFilter(q) {
 function renderMap() {
   const pool = QUESTIONS.filter(kindFilter);
   count.innerHTML = `<strong>${pool.length}</strong> שאלות. בחרו תת־נושא כדי להתחיל, או בחרו שנה כדי לראות מבחנים שלמים.`;
+  const view = [];
+  // Quick links to the latest exams (not quizzes): each one sets year, semester and sitting.
+  const recent = DATA.exams.filter(e => e.moed !== "בוחן" && e.moed !== "מבחן לדוגמה")
+    .sort((x, y) => examRank(y) - examRank(x)).slice(0, 4);
+  if (recent.length) {
+    const row = el("div", "recent", "<span>מבחנים אחרונים:</span>");
+    recent.forEach(e => {
+      const b = el("button", "btn", examLabel(e));
+      b.type = "button";
+      b.addEventListener("click", () => {
+        yearSel.value = e.yearNum; semSel.value = e.semester; kindSel.value = e.moed; render();
+        main.scrollIntoView({ behavior: "smooth" });
+      });
+      row.append(b);
+    });
+    view.push(row);
+  }
   const map = el("div", "map");
   TOPICS.forEach(t => {
     const inTopic = pool.filter(q => q.topic === t.name);
     if (!inTopic.length) return;
+    const nDone = inTopic.filter(q => solved.has(q.id)).length;
     const box = el("section", "topic");
     const head = el("div", "topic-head");
+    const title = el("div", "topic-title");
     const tb = el("button");
     tb.type = "button"; tb.textContent = t.name;
     tb.addEventListener("click", () => { topicSel.value = t.name; fillSubs(); render(); });
-    head.append(tb, el("span", "", `${inTopic.length} שאלות`));
+    title.append(tb, el("span", "topic-meta", nDone
+      ? `${inTopic.length} שאלות · פתרתם ${nDone}` : `${inTopic.length} שאלות`));
+    head.append(el("span", "sym", `<span>${SYMBOLS[t.name] || t.name[0]}</span>`), title);
+    box.append(head);
+    if (nDone) {
+      const bar = el("div", "progress");
+      bar.append(el("i"));
+      bar.firstChild.style.width = `${Math.round(100 * nDone / inTopic.length)}%`;
+      bar.title = `פתרתם ${nDone} מתוך ${inTopic.length}`;
+      box.append(bar);
+    }
     const subs = el("div", "subs");
     t.subs.forEach(s => {
-      const n = inTopic.filter(q => q.sub === s).length;
+      const inSub = inTopic.filter(q => q.sub === s), n = inSub.length;
       const b = el("button", "sub-link", `${s} <b>${n}</b>`);
       b.type = "button";
       if (!n) b.disabled = true;
+      else if (inSub.every(q => solved.has(q.id))) { b.classList.add("all-done"); b.title = "פתרתם את כל השאלות"; }
       b.addEventListener("click", () => { topicSel.value = t.name; fillSubs(); subSel.value = s; render(); });
       subs.append(b);
     });
-    box.append(head, subs);
+    box.append(subs);
     map.append(box);
   });
-  main.replaceChildren(map);
+  view.push(map);
+  main.replaceChildren(...view);
+}
+
+// One random question, preferring ones not yet marked solved; respects the topic and type filters.
+function showRandom() {
+  const topic = topicSel.value, sub = subSel.value;
+  const pool = QUESTIONS.filter(q => (!topic || q.topic === topic) && (!sub || q.sub === sub) && kindFilter(q));
+  if (!pool.length) return;
+  const fresh = pool.filter(q => !solved.has(q.id));
+  const from = fresh.length ? fresh : pool;
+  const q = from[Math.floor(Math.random() * from.length)];
+  count.innerHTML = `שאלה אקראית מתוך <strong>${pool.length}</strong>` + (topic ? ` בנושא ${sub || topic}` : "");
+  document.getElementById("order-note").textContent = "";
+  homeBtn.hidden = false;
+  const view = el("div", "random-view");
+  const again = el("button", "btn random-btn", "שאלה אקראית נוספת");
+  again.type = "button";
+  again.addEventListener("click", showRandom);
+  const c = card(q, matchOf(q));
+  view.append(c, again);
+  main.replaceChildren(view);
+  typeset(c);
+  main.scrollIntoView({ behavior: "smooth" });
 }
 
 // `at` is the appearance shown in the card's heading (another exam the question appeared in, in the exam view).
@@ -479,6 +602,17 @@ function card(q, at = appearances(q)[0]) {
   const btn = el("button", "toggle");
   btn.type = "button";
   row.append(btn);
+  const sv = el("button", "solved-btn");
+  sv.type = "button";
+  const paint = () => {
+    const on = solved.has(q.id);
+    sv.setAttribute("aria-pressed", String(on));
+    sv.textContent = on ? "✓ פתרתי" : "סימנתי כפתורה";
+    c.classList.toggle("is-solved", on);
+  };
+  sv.addEventListener("click", () => { setSolved(q.id, !solved.has(q.id)); paint(); });
+  paint();
+  row.append(sv);
   if (!q.solution) {
     btn.textContent = "אין עדיין פתרון לשאלה זו";
     btn.disabled = true;
@@ -581,7 +715,7 @@ function render() {
   const nActive = [topicSel, subSel, typeSel, yearSel, semSel, kindSel].filter(x => x.value).length;
   document.getElementById("active-count").textContent = nActive ? `${nActive} פעילים` : "";
   document.getElementById("clear").hidden = !nActive;
-  if (!topic && !byExam) { renderMap(); return; }
+  if (!topic && !byExam) { document.getElementById("order-note").textContent = ""; renderMap(); return; }
   const items = QUESTIONS.filter(q => (!topic || q.topic === topic) && (!sub || q.sub === sub) && kindFilter(q));
   if (byExam) items.sort((a, b) => {
     const x = matchOf(a), y = matchOf(b);
@@ -609,6 +743,7 @@ function clearFilters() {
 document.getElementById("clear").addEventListener("click", e => { e.preventDefault(); clearFilters(); });
 const homeBtn = document.getElementById("home");
 homeBtn.addEventListener("click", () => { clearFilters(); window.scrollTo({ top: 0 }); });
+document.getElementById("random").addEventListener("click", showRandom);
 
 fillSubs();
 render();
