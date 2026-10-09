@@ -102,6 +102,8 @@ h2.part { font-size: 22pt; color: #2348a8; border-bottom: 3px solid #2348a8; pad
 h2.exam { font-size: 15pt; margin: 0 0 4mm; padding-bottom: 1.5mm; border-bottom: 1px solid #d9dfe8; }
 .exam-block + .exam-block { margin-top: 9mm; }
 .mk { font-size: 1px; color: #fff; }
+.to-sol { font-size: 10pt; color: #5b6678; margin: 3mm 0 0; padding-top: 2mm; border-top: 1px solid #d9dfe8; }
+.to-sol a { color: #2348a8; font-weight: 700; text-decoration: none; }
 .q { break-inside: avoid; margin: 0 0 5mm; }
 .q h3 { font-size: 11.5pt; margin: 0 0 1mm; }
 .off-note { font-size: 9.5pt; font-style: italic; color: #555; margin: 1mm 0 0; }
@@ -174,9 +176,10 @@ def front_html(quizzes, tests, n_q, pages):
 </div></body></html>"""
 
 
-def part_html(title, exs, by_exam, render, prefix):
+def part_html(title, exs, by_exam, render, prefix, pages=None):
     """A chunk of one part (title only on the first chunk). Each exam heading carries an invisible marker
-    used to find its page in the PDF."""
+    used to find its page in the PDF. In the questions parts each exam ends with a link to its solutions;
+    without pages (first pass) the link holds a placeholder of the same width."""
     out = [HEAD, f'<h2 class="part">{title}</h2>' if title else ""]
     for i, e in enumerate(exs):
         # Questions: each exam starts on its own page. Solutions run on continuously within a chunk.
@@ -184,6 +187,9 @@ def part_html(title, exs, by_exam, render, prefix):
         out.append(f'<div class="exam-block{brk}"><h2 class="exam">{exam_label(e)}'
                    f'<span class="mk">@@{prefix}:{e["examId"]}@@</span></h2>')
         out.extend(render(n, p, q) for n, p, q in by_exam[e["examId"]])
+        if prefix == "x":
+            n = pages[f"s:{e['examId']}"] if pages else 999
+            out.append(f"<p class='to-sol'>הפתרונות לבחינה זו מתחילים בעמוד <a href='{GOTO}{n}'>{n}</a></p>")
         out.append("</div>")
     out.append("</body></html>")
     return "".join(out)
@@ -195,10 +201,10 @@ CHUNK = 10
 GOTO = "https://booklet.invalid/page/"
 
 
-def link_pages(w, n_front):
-    """Turn the table of contents' GOTO links into jumps to pages of the merged booklet."""
+def link_pages(w):
+    """Turn GOTO links (table of contents, solution links) into jumps to pages of the merged booklet."""
     from pypdf.generic import ArrayObject, NameObject, NullObject
-    for page in w.pages[:n_front]:
+    for page in w.pages:
         for annot in page.get("/Annots") or []:
             a = annot.get_object()
             uri = a.get("/A", {}).get("/URI", "")
@@ -234,8 +240,8 @@ def main():
             page.close()
             return PdfReader(out)
 
-        def render_part(name, title, exs, fn, prefix):
-            return [render(f"{name}{i // CHUNK}", part_html(title if i == 0 else None, exs[i:i + CHUNK], by_exam, fn, prefix))
+        def render_part(name, title, exs, fn, prefix, pages=None):
+            return [render(f"{name}{i // CHUNK}", part_html(title if i == 0 else None, exs[i:i + CHUNK], by_exam, fn, prefix, pages))
                     for i in range(0, len(exs), CHUNK)]
 
         parts = [render_part("quizzes", "חלק א׳: בחנים", quizzes, question_html, "x"),
@@ -244,16 +250,25 @@ def main():
         n_front = len(render("front", front_html(quizzes, tests, n_q, None)).pages)
 
         # Locate every exam heading by its marker; page numbers are 1-based in the final booklet.
-        pages, offset = {}, n_front
-        for key, chunks in zip(("part:q", "part:e", "part:s"), parts):
-            pages[key] = offset + 1
-            for i, pg in enumerate(pg for c in chunks for pg in c.pages):
-                for m in re.findall(r"@@([xs]:[\w-]+)@@", (pg.extract_text() or "").replace(" ", "")):
-                    pages.setdefault(m, offset + i + 1)
-            offset += sum(len(c.pages) for c in chunks)
+        def locate(parts):
+            pages, offset = {}, n_front
+            for key, chunks in zip(("part:q", "part:e", "part:s"), parts):
+                pages[key] = offset + 1
+                for i, pg in enumerate(pg for c in chunks for pg in c.pages):
+                    for m in re.findall(r"@@([xs]:[\w-]+)@@", (pg.extract_text() or "").replace(" ", "")):
+                        pages.setdefault(m, offset + i + 1)
+                offset += sum(len(c.pages) for c in chunks)
+            return pages, offset
+        pages, offset = locate(parts)
         missing = [f"{k}:{e['examId']}" for e in order for k in "xs" if f"{k}:{e['examId']}" not in pages]
         if missing:
             raise SystemExit(f"exam markers not found in PDF: {missing}")
+        # Second pass over the questions parts with the real solution page numbers. The placeholder had the
+        # same width, so the layout must not move; check that every page number stayed put.
+        parts[:2] = [render_part("quizzes", "חלק א׳: בחנים", quizzes, question_html, "x", pages),
+                     render_part("exams", "חלק ב׳: מבחנים", tests, question_html, "x", pages)]
+        if locate(parts) != (pages, offset):
+            raise SystemExit("solution links changed the page layout")
         front = render("front", front_html(quizzes, tests, n_q, pages))
         if len(front.pages) != n_front:
             raise SystemExit("table of contents changed length after filling in page numbers")
@@ -275,7 +290,7 @@ def main():
     for i in range(1, total):  # no number on the cover
         w.pages[i].merge_page(numbers.pages[i])
         w.pages[i].compress_content_streams()  # merge_page leaves the combined content uncompressed
-    link_pages(w, n_front)
+    link_pages(w)
     # Bookmarks: one per part, one per exam under it.
     for title, key, exs, k in (("בחנים", "part:q", quizzes, "x"), ("מבחנים", "part:e", tests, "x"),
                                ("פתרונות", "part:s", quizzes + tests, "s")):
