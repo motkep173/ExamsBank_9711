@@ -103,7 +103,9 @@ h2.exam { font-size: 15pt; margin: 0 0 4mm; padding-bottom: 1.5mm; border-bottom
 .exam-block + .exam-block { margin-top: 9mm; }
 .mk { font-size: 1px; color: #fff; }
 .to-sol { font-size: 10pt; color: #5b6678; margin: 3mm 0 0; padding-top: 2mm; border-top: 1px solid #d9dfe8; }
-.to-sol a { color: #2348a8; font-weight: 700; text-decoration: none; }
+.exam-start { break-inside: avoid; }
+.to-q { font-size: 10pt; color: #5b6678; margin: -2mm 0 3mm; }
+.to-q a, .to-sol a { color: #2348a8; font-weight: 700; text-decoration: none; }
 .q { break-inside: avoid; margin: 0 0 5mm; }
 .q h3 { font-size: 11.5pt; margin: 0 0 1mm; }
 .off-note { font-size: 9.5pt; font-style: italic; color: #555; margin: 1mm 0 0; }
@@ -178,15 +180,22 @@ def front_html(quizzes, tests, n_q, pages):
 
 def part_html(title, exs, by_exam, render, prefix, pages=None):
     """A chunk of one part (title only on the first chunk). Each exam heading carries an invisible marker
-    used to find its page in the PDF. In the questions parts each exam ends with a link to its solutions;
-    without pages (first pass) the link holds a placeholder of the same width."""
+    used to find its page in the PDF. In the questions parts each exam ends with a link to its solutions, and
+    in the solutions part each exam opens with a link back to its questions; without pages (first pass) the
+    links hold a placeholder of the same width."""
     out = [HEAD, f'<h2 class="part">{title}</h2>' if title else ""]
     for i, e in enumerate(exs):
         # Questions: each exam starts on its own page. Solutions run on continuously within a chunk.
         brk = " page" if prefix == "x" and i else ""
-        out.append(f'<div class="exam-block{brk}"><h2 class="exam">{exam_label(e)}'
-                   f'<span class="mk">@@{prefix}:{e["examId"]}@@</span></h2>')
-        out.extend(render(n, p, q) for n, p, q in by_exam[e["examId"]])
+        head = f'<h2 class="exam">{exam_label(e)}<span class="mk">@@{prefix}:{e["examId"]}@@</span></h2>'
+        if prefix == "s":
+            n = pages[f"x:{e['examId']}"] if pages else 999
+            head += f"<p class='to-q'>השאלות של בחינה זו מתחילות בעמוד <a href='{GOTO}{n}'>{n}</a></p>"
+        # The heading (and its link line) stays on one page with the start of the first question.
+        out.append(f'<div class="exam-block{brk}"><div class="exam-start">{head}')
+        items = by_exam[e["examId"]]
+        out.append(render(*items[0]) + "</div>" if items else "</div>")
+        out.extend(render(n, p, q) for n, p, q in items[1:])
         if prefix == "x":
             n = pages[f"s:{e['examId']}"] if pages else 999
             out.append(f"<p class='to-sol'>הפתרונות לבחינה זו מתחילים בעמוד <a href='{GOTO}{n}'>{n}</a></p>")
@@ -263,10 +272,11 @@ def main():
         missing = [f"{k}:{e['examId']}" for e in order for k in "xs" if f"{k}:{e['examId']}" not in pages]
         if missing:
             raise SystemExit(f"exam markers not found in PDF: {missing}")
-        # Second pass over the questions parts with the real solution page numbers. The placeholder had the
-        # same width, so the layout must not move; check that every page number stayed put.
-        parts[:2] = [render_part("quizzes", "חלק א׳: בחנים", quizzes, question_html, "x", pages),
-                     render_part("exams", "חלק ב׳: מבחנים", tests, question_html, "x", pages)]
+        # Second pass with the real page numbers in the links between questions and solutions. The placeholder
+        # had the same width, so the layout must not move; check that every page number stayed put.
+        parts = [render_part("quizzes", "חלק א׳: בחנים", quizzes, question_html, "x", pages),
+                 render_part("exams", "חלק ב׳: מבחנים", tests, question_html, "x", pages),
+                 render_part("solutions", "חלק ג׳: פתרונות", quizzes + tests, lambda n, pts, q: solution_html(n, q), "s", pages)]
         if locate(parts) != (pages, offset):
             raise SystemExit("solution links changed the page layout")
         front = render("front", front_html(quizzes, tests, n_q, pages))
