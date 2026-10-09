@@ -87,14 +87,30 @@ h1 { font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance;
 .stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: var(--step--1); color: var(--muted); }
 .stats strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 
-.filters {
-  display: flex; flex-wrap: wrap; gap: 12px; align-items: end;
-  padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--sheet);
+/* Filters: a collapsible panel; the summary line says how many filters are on */
+.filters { border: 1px solid var(--line); border-radius: 10px; background: var(--sheet); }
+.filters summary {
+  display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer;
+  font-weight: 700; list-style: none; user-select: none;
 }
-.field { display: grid; gap: 4px; flex: 1 1 180px; }
-.field.narrow { flex: 0 1 150px; }
-.row-break { flex-basis: 100%; height: 0; }
+.filters summary::-webkit-details-marker { display: none; }
+.filters summary::before {
+  content: ""; width: 7px; height: 7px; border: solid var(--muted); border-width: 0 0 2px 2px;
+  transform: rotate(45deg); transition: transform 0.15s; margin-top: -3px;
+}
+.filters[open] summary::before { transform: rotate(-45deg); margin-top: 3px; }
+.filters summary:hover { color: var(--accent); }
+.active-count, .filters .btn { white-space: nowrap; }
+.active-count { font-size: var(--step--1); font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 1px 10px; }
+.active-count:empty { display: none; }
+.filters-body {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 12px; align-items: end;
+  padding: 4px 16px 14px; border-top: 1px solid var(--line); padding-top: 12px;
+}
+.field { display: grid; gap: 2px; min-width: 0; }
 .field label { font-size: var(--step--1); font-weight: 600; color: var(--muted); }
+.filters select { padding: 5px 8px; width: 100%; }
+.filters .btn { padding: 3px 12px; margin-inline-start: auto; font-size: var(--step--1); }
 select, button { font: inherit; color: inherit; }
 select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
 select:disabled { opacity: 0.55; }
@@ -198,7 +214,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
   .brand img { width: 190px; }
   .unit { padding-inline-start: 0; border-inline-start: 0; flex-basis: 100%; }
   .q { padding: 16px; }
-  .field.narrow { flex: 1 1 140px; }
+  .filters-body { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: no-preference) {
   .hint:not([hidden]), .solution:not([hidden]), .stepwise li:not([hidden]), .stepwise .answer:not([hidden]) { animation: open 0.2s ease-out; }
@@ -220,7 +236,10 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
     <a class="btn download" href="booklet.pdf" download="חוברת מבחני ובחני עבר בקורס.pdf">הורדת חוברת מבחני ובחני עבר (PDF)</a>
   </header>
 
-  <section class="filters" aria-label="סינון שאלות">
+  <details class="filters" id="filters">
+    <summary>סינון שאלות <span class="active-count" id="active-count"></span>
+      <button class="btn" id="clear" type="button" hidden>ניקוי סינון</button></summary>
+    <div class="filters-body">
     <div class="field">
       <label for="topic">בחרו נושא</label>
       <select id="topic"></select>
@@ -229,7 +248,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
       <label for="sub">בחרו תת־נושא</label>
       <select id="sub" disabled></select>
     </div>
-    <div class="field narrow">
+    <div class="field">
       <label for="qtype">סוג שאלה</label>
       <select id="qtype">
         <option value="">כל השאלות</option>
@@ -237,12 +256,11 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
         <option value="open">שאלות פתוחות</option>
       </select>
     </div>
-    <div class="row-break" aria-hidden="true"></div>
-    <div class="field narrow">
+    <div class="field">
       <label for="year">שנה</label>
       <select id="year"></select>
     </div>
-    <div class="field narrow">
+    <div class="field">
       <label for="semester">סמסטר</label>
       <select id="semester">
         <option value="">שני הסמסטרים</option>
@@ -250,7 +268,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
         <option value="ב">סמסטר ב׳</option>
       </select>
     </div>
-    <div class="field narrow">
+    <div class="field">
       <label for="kind">סוג בחינה ומועד</label>
       <select id="kind">
         <option value="">מבחנים ובחנים</option>
@@ -263,8 +281,8 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
         <option value="מבחן לדוגמה">מבחן לדוגמה</option>
       </select>
     </div>
-    <button class="btn" id="clear" type="button">ניקוי סינון</button>
-  </section>
+    </div>
+  </details>
 
   <div class="status">
     <div id="count"></div>
@@ -560,6 +578,9 @@ function render() {
     ? "השאלות מסודרות לפי סדר הופעתן בבחינה."
     : "השאלות מסודרות לפי החומר המתמטי ולא לפי סדר הופעתן בבחינה.";
   homeBtn.hidden = !topic && !byExam;
+  const nActive = [topicSel, subSel, typeSel, yearSel, semSel, kindSel].filter(x => x.value).length;
+  document.getElementById("active-count").textContent = nActive ? `${nActive} פעילים` : "";
+  document.getElementById("clear").hidden = !nActive;
   if (!topic && !byExam) { renderMap(); return; }
   const items = QUESTIONS.filter(q => (!topic || q.topic === topic) && (!sub || q.sub === sub) && kindFilter(q));
   if (byExam) items.sort((a, b) => {
@@ -584,7 +605,8 @@ semSel.addEventListener("change", render);
 function clearFilters() {
   topicSel.value = ""; kindSel.value = ""; typeSel.value = ""; yearSel.value = ""; semSel.value = ""; fillSubs(); render();
 }
-document.getElementById("clear").addEventListener("click", clearFilters);
+// The clear button sits in the summary line: don't let the click also fold the panel.
+document.getElementById("clear").addEventListener("click", e => { e.preventDefault(); clearFilters(); });
 const homeBtn = document.getElementById("home");
 homeBtn.addEventListener("click", () => { clearFilters(); window.scrollTo({ top: 0 }); });
 
