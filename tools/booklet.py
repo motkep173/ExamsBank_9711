@@ -123,7 +123,10 @@ h3.toc-head { font-size: 13pt; margin: 5mm 0 1mm; }
 table.toc { width: 100%%; border-collapse: collapse; font-size: 10.5pt; }
 table.toc th { text-align: start; font-size: 9pt; color: #5b6678; font-weight: 600; border-bottom: 1px solid #d9dfe8; }
 table.toc td { padding: 0.6mm 0; border-bottom: 1px dotted #d9dfe8; }
-table.toc .n { width: 22mm; text-align: center; font-variant-numeric: tabular-nums; }
+table.toc .n { width: 28mm; text-align: center; font-variant-numeric: tabular-nums; }
+table.toc th.n { text-align: center; }
+.intro a { color: inherit; text-decoration: none; }
+table.toc td.n a, .intro p a { color: #2348a8; font-weight: 700; }
 mjx-container { direction: ltr; }
 mjx-container[display="true"] { margin: 1.5mm 0 !important; }
 </style>
@@ -142,10 +145,15 @@ def front_html(quizzes, tests, n_q, pages):
     today = datetime.date.today().strftime("%d.%m.%Y")
     pg = lambda key: pages[key] if pages else 999
 
+    def link(key, text=None):
+        n = pg(key)
+        return f"<a href='{GOTO}{n}'>{text or n}</a>"
+
     def toc(exs):
-        rows = "".join(f"<tr><td>{exam_label(e)}</td><td class='n'>{pg('x:' + e['examId'])}</td>"
-                       f"<td class='n'>{pg('s:' + e['examId'])}</td></tr>" for e in exs)
-        return f"<table class='toc'><tr><th>בחינה</th><th class='n'>שאלות</th><th class='n'>פתרונות</th></tr>{rows}</table>"
+        rows = "".join(f"<tr><td>{link('x:' + e['examId'], exam_label(e))}</td><td class='n'>{link('x:' + e['examId'])}</td>"
+                       f"<td class='n'>{link('s:' + e['examId'])}</td></tr>" for e in exs)
+        return (f"<table class='toc'><tr><th>בחינה</th><th class='n'>עמוד השאלות</th><th class='n'>עמוד הפתרונות</th></tr>"
+                f"{rows}</table>")
 
     return HEAD + f"""
 <div class="cover">
@@ -157,7 +165,8 @@ def front_html(quizzes, tests, n_q, pages):
 </div>
 <div class="page intro">
   <h2 class="part">תוכן העניינים</h2>
-  <p>החוברת מחולקת לשלושה חלקים: בחנים (עמ׳ {pg('part:q')}), מבחנים (עמ׳ {pg('part:e')}) ופתרונות (עמ׳ {pg('part:s')}). בכל חלק הבחינות מסודרות מהחדשה לישנה, והשאלות בכל בחינה מופיעות לפי הסדר המקורי שלהן.</p>
+  <p>החוברת מחולקת לשלושה חלקים: בחנים (עמ׳ {link('part:q')}), מבחנים (עמ׳ {link('part:e')}) ופתרונות (עמ׳ {link('part:s')}). בכל חלק הבחינות מסודרות מהחדשה לישנה, והשאלות בכל בחינה מופיעות לפי הסדר המקורי שלהן.</p>
+  <p>בטבלאות שלמטה מופיעים, לכל בחינה, מספר העמוד שבו מתחילות השאלות שלה ומספר העמוד שבו מתחילים הפתרונות שלה. לחיצה על שם הבחינה או על מספר עמוד עוברת ישירות לאותו עמוד.</p>
   <p>שאלות שבהן נדרש רק לנסח הגדרה או משפט הושמטו, ולכן במספור של חלק מהבחינות יש פערים.</p>
   <p>„פתרון רשמי” נלקח מקובצי הפתרון של צוות הקורס. „פתרון שלא נבדק על ידי צוות הקורס” נכתב בנפרד ועשוי להכיל טעויות.</p>
   <h3 class="toc-head">בחנים</h3>{toc(quizzes)}
@@ -183,6 +192,23 @@ def part_html(title, exs, by_exam, render, prefix):
 # Chromium fails to print large documents (printToPDF "Printing failed"), so the booklet is printed in
 # chunks of a few exams, merged with pypdf, and given page numbers, a table of contents and bookmarks afterwards.
 CHUNK = 10
+GOTO = "https://booklet.invalid/page/"
+
+
+def link_pages(w, n_front):
+    """Turn the table of contents' GOTO links into jumps to pages of the merged booklet."""
+    from pypdf.generic import ArrayObject, NameObject, NullObject
+    for page in w.pages[:n_front]:
+        for annot in page.get("/Annots") or []:
+            a = annot.get_object()
+            uri = a.get("/A", {}).get("/URI", "")
+            if a.get("/Subtype") == "/Link" and uri.startswith(GOTO):
+                target = int(uri[len(GOTO):]) - 1
+                del a["/A"]
+                a[NameObject("/Dest")] = ArrayObject([w.pages[target].indirect_reference, NameObject("/XYZ"),
+                                                      NullObject(), NullObject(), NullObject()])
+
+
 def main():
     from pypdf import PdfReader, PdfWriter
 
@@ -249,6 +275,7 @@ def main():
     for i in range(1, total):  # no number on the cover
         w.pages[i].merge_page(numbers.pages[i])
         w.pages[i].compress_content_streams()  # merge_page leaves the combined content uncompressed
+    link_pages(w, n_front)
     # Bookmarks: one per part, one per exam under it.
     for title, key, exs, k in (("בחנים", "part:q", quizzes, "x"), ("מבחנים", "part:e", tests, "x"),
                                ("פתרונות", "part:s", quizzes + tests, "s")):

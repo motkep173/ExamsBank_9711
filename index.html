@@ -97,6 +97,15 @@ h1 { font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance;
 .stats { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: var(--step--1); color: var(--muted); }
 .stats strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 
+/* Free-text search over question text, options, topic and subtopic */
+.search { position: relative; }
+.search input {
+  width: 100%; font: inherit; color: inherit; padding: 10px 40px 10px 14px; border: 1px solid var(--line);
+  border-radius: 10px; background: var(--sheet);
+}
+.search input:focus { outline: 2px solid var(--brand-bright); outline-offset: 0; border-color: transparent; }
+.search svg { position: absolute; inset-inline-start: 13px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--muted); pointer-events: none; }
+
 /* Filters: a collapsible panel; the summary line says how many filters are on */
 .filters { border: 1px solid var(--line); border-radius: 10px; background: var(--sheet); }
 .filters summary {
@@ -292,6 +301,11 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
     </div>
   </header>
 
+  <div class="search" role="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input type="search" id="search" placeholder="חיפוש בשאלות, למשל: לופיטל" aria-label="חיפוש חופשי בשאלות" autocomplete="off">
+  </div>
+
   <details class="filters" id="filters">
     <summary>סינון שאלות <span class="active-count" id="active-count"></span>
       <button class="btn" id="clear" type="button" hidden>ניקוי סינון</button></summary>
@@ -386,6 +400,14 @@ const yearSel = document.getElementById("year");
 const semSel = document.getElementById("semester");
 const typeSel = document.getElementById("qtype");
 const main = document.getElementById("main");
+const searchInput = document.getElementById("search");
+
+// Search text per question: tags stripped, lower case, Hebrew geresh/gershayim folded to ASCII quotes.
+const fold = t => t.toLowerCase().replace(/[״“”]/g, '"').replace(/[׳‘’]/g, "'").replace(/\s+/g, " ");
+const searchText = new Map(DATA.questions.map(q => [q, fold(
+  [q.text, ...(q.options || []), q.topic, q.sub].join(" ").replace(/<[^>]*>/g, " "))]));
+// Every word of the query must appear somewhere in the question.
+function matchesSearch(q, words) { const t = searchText.get(q); return words.every(w => t.includes(w)); }
 
 // Questions the student marked as solved; kept in this browser only. Storage may be unavailable (private mode).
 const SOLVED_KEY = "examsbank-9711-solved";
@@ -410,6 +432,9 @@ function el(tag, cls, html) {
   if (cls) e.className = cls;
   if (html !== undefined) e.innerHTML = html;
   return e;
+}
+function escapeHtml(t) {
+  return t.replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
 }
 function option(value, label) {
   const o = document.createElement("option");
@@ -706,25 +731,31 @@ function renderList(items, byExam) {
 
 function render() {
   const topic = topicSel.value, sub = subSel.value;
-  // With a year or semester but no topic, show whole exams in their original question order.
-  const byExam = !topic && (yearSel.value || semSel.value);
+  const words = fold(searchInput.value.trim()).split(" ").filter(Boolean);
+  // With a year or semester but no topic or search, show whole exams in their original question order.
+  const byExam = !topic && !words.length && (yearSel.value || semSel.value);
   document.getElementById("order-note").textContent = byExam
     ? "השאלות מסודרות לפי סדר הופעתן בבחינה."
     : "השאלות מסודרות לפי החומר המתמטי ולא לפי סדר הופעתן בבחינה.";
-  homeBtn.hidden = !topic && !byExam;
+  homeBtn.hidden = !topic && !byExam && !words.length;
   const nActive = [topicSel, subSel, typeSel, yearSel, semSel, kindSel].filter(x => x.value).length;
   document.getElementById("active-count").textContent = nActive ? `${nActive} פעילים` : "";
   document.getElementById("clear").hidden = !nActive;
-  if (!topic && !byExam) { document.getElementById("order-note").textContent = ""; renderMap(); return; }
-  const items = QUESTIONS.filter(q => (!topic || q.topic === topic) && (!sub || q.sub === sub) && kindFilter(q));
+  if (!topic && !byExam && !words.length) { document.getElementById("order-note").textContent = ""; renderMap(); return; }
+  const items = QUESTIONS.filter(q => (!topic || q.topic === topic) && (!sub || q.sub === sub) && kindFilter(q) &&
+    (!words.length || matchesSearch(q, words)));
   if (byExam) items.sort((a, b) => {
     const x = matchOf(a), y = matchOf(b);
     return (examRank(EXAMS[y.examId]) - examRank(EXAMS[x.examId])) || x.examId.localeCompare(y.examId) ||
       x.number.localeCompare(y.number, "he", { numeric: true });
   });
-  count.innerHTML = `מוצגות <strong>${items.length}</strong> שאלות`;
+  count.innerHTML = words.length
+    ? `נמצאו <strong>${items.length}</strong> שאלות עבור „${escapeHtml(searchInput.value.trim())}”`
+    : `מוצגות <strong>${items.length}</strong> שאלות`;
   if (!items.length) {
-    main.replaceChildren(el("p", "empty", "אין שאלות שמתאימות לסינון הזה. בחרו תת־נושא אחר או נקו את הסינון."));
+    main.replaceChildren(el("p", "empty", words.length
+      ? "לא נמצאו שאלות שמכילות את כל המילים האלה. נסו מילה אחרת או קצרה יותר, או נקו את הסינון."
+      : "אין שאלות שמתאימות לסינון הזה. בחרו תת־נושא אחר או נקו את הסינון."));
     return;
   }
   renderList(items, byExam);
@@ -736,8 +767,10 @@ kindSel.addEventListener("change", render);
 typeSel.addEventListener("change", render);
 yearSel.addEventListener("change", render);
 semSel.addEventListener("change", render);
+let searchTimer;
+searchInput.addEventListener("input", () => { clearTimeout(searchTimer); searchTimer = setTimeout(render, 200); });
 function clearFilters() {
-  topicSel.value = ""; kindSel.value = ""; typeSel.value = ""; yearSel.value = ""; semSel.value = ""; fillSubs(); render();
+  searchInput.value = ""; topicSel.value = ""; kindSel.value = ""; typeSel.value = ""; yearSel.value = ""; semSel.value = ""; fillSubs(); render();
 }
 // The clear button sits in the summary line: don't let the click also fold the panel.
 document.getElementById("clear").addEventListener("click", e => { e.preventDefault(); clearFilters(); });
