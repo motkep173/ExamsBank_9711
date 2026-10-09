@@ -62,6 +62,8 @@ def question_html(number, points, q):
     if q["type"] == "mc":
         out.append('<ol class="options">' + "".join(
             f'<li><span class="letter">{LETTERS[i]}.</span><span>{o}</span></li>' for i, o in enumerate(q["options"])) + "</ol>")
+    if q.get("offSyllabus"):
+        out.append(f'<p class="off-note">{q["offSyllabus"]["note"]}</p>')
     out.append("</section>")
     return "".join(out)
 
@@ -102,6 +104,8 @@ h2.exam { font-size: 15pt; margin: 0 0 4mm; padding-bottom: 1.5mm; border-bottom
 .mk { font-size: 1px; color: #fff; }
 .q { break-inside: avoid; margin: 0 0 5mm; }
 .q h3 { font-size: 11.5pt; margin: 0 0 1mm; }
+.off-note { font-size: 9.5pt; font-style: italic; color: #555; margin: 1mm 0 0; }
+.off-syllabus { font-style: italic; color: #555; }
 .q .text p { margin: 0 0 0.4em; }
 .q img { max-width: 120mm; display: block; margin: 2mm 0; }
 .options { list-style: none; padding: 0; margin: 1mm 0 0; display: grid; gap: 0.5mm; }

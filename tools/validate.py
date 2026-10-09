@@ -14,7 +14,7 @@ catalog = {e["examId"]: e for e in json.load(open(os.path.join(DATA, "exams.json
 EXAM_KEYS = {"examId", "year", "yearNum", "semester", "moed", "version", "date", "sourceFiles",
              "solutionSource", "issues", "questions"}
 Q_KEYS = {"id", "number", "points", "type", "text", "options", "correct", "topic", "sub", "solution",
-          "image", "notes", "alsoIn", "hint"}
+          "image", "notes", "alsoIn", "hint", "offSyllabus"}
 SOL_KEYS = {"official", "steps", "answer", "reviewed"}
 MOEDS = {"א", "ב", "ג", "מיוחד", "בוחן", "מבחן לדוגמה"}
 SOL_SOURCES = {"official", "partial", "none"}
@@ -68,6 +68,11 @@ def check_file(path, errors, texitems, seen_ids):
             errors.append(f"{w}: options/correct only for mc")
         if q.get("points") is not None and not isinstance(q["points"], (int, float)):
             errors.append(f"{w}: points must be a number")
+        if "offSyllabus" in q:
+            o = q["offSyllabus"]
+            if not (isinstance(o, dict) and set(o) == {"scope", "note"} and o["scope"] in ("removed", "partial")
+                    and isinstance(o["note"], str) and o["note"]):
+                errors.append(f"{w}: offSyllabus must be {{scope: removed|partial, note: non-empty text}}")
         if q.get("image"):
             if not os.path.exists(os.path.join(DATA, "img", q["image"])): errors.append(f"{w}: image not found in data/img")
         for ref in q.get("alsoIn", []):

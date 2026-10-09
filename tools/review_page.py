@@ -42,7 +42,7 @@ def main():
         rank = ex["yearNum"] * 100 + (50 if ex["semester"] == "ב" else 0) + MOED_RANK.get(ex["moed"], 0)
         for q in ex["questions"]:
             s = q.get("solution")
-            if not s or q["id"] in excluded:
+            if not s or q["id"] in excluded or q.get("offSyllabus", {}).get("scope") == "removed":
                 continue
             if s.get("reviewed") and (not q.get("hint") or q.get("hintReviewed")):
                 continue
