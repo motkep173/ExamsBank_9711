@@ -1,4 +1,4 @@
-<title>שאלות מבחן בחדו״א 1</title>
+<title>מאגר הבחינות בחדו״א 1</title>
 <meta name="description" content="שאלות ממבחני עבר בחדו״א 1 להנדסה (214.1.9711), אוניברסיטת בן־גוריון בנגב, היחידה להוראת קורסי יסוד">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -205,6 +205,9 @@ select:disabled { opacity: 0.55; }
 
 /* Quick links to the latest exams, above the topic map */
 .recent { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: var(--step--1); margin-bottom: 4px; }
+.exam-tip { margin: 0 0 6px; font-size: var(--step--1); color: var(--muted); }
+.link-btn { all: unset; cursor: pointer; color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.link-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .recent span { font-weight: 700; color: var(--muted); margin-inline-end: 4px; }
 .recent button { font-size: var(--step--1); padding: 2px 12px; border-radius: 999px; }
 .recent button:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-soft); }
@@ -302,7 +305,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
 
   <header>
     <div class="eyebrow">חדו״א 1 להנדסה · קורס 214.1.9711</div>
-    <h1>איך נראות שאלות במבחן?</h1>
+    <h1>מאגר הבחינות בקורס</h1>
     <p class="lead">שאלות ממבחני ובחני עבר לפי נושאים, עם פתרונות מלאים. בחרו את מה שלמדתם השבוע ונסו לפתור לבד לפני שאתם מציצים בפתרון.</p>
     <details class="how">
       <summary>איך זה עובד?</summary>
@@ -450,6 +453,7 @@ const SYMBOLS = {
   "נגזרות": "f′", "שימושי הנגזרת": "f′=0", "אינטגרלים": "∫",
 };
 const count = document.getElementById("count");
+const statusBar = document.querySelector(".status");
 
 function typeset(el) {
   if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(() => {});
@@ -522,8 +526,17 @@ function kindFilter(q) {
 
 function renderMap() {
   const pool = QUESTIONS.filter(kindFilter);
-  count.innerHTML = `<strong>${pool.length}</strong> שאלות. בחרו תת־נושא כדי להתחיל, או בחרו שנה כדי לראות מבחנים שלמים.`;
   const view = [];
+  // How to reach a whole exam: the year/semester/sitting filters, or one of the latest exams right here.
+  const tip = el("p", "exam-tip", "רוצים לראות מבחן שלם ספציפי? היעזרו ");
+  const toFilters = el("button", "link-btn", "בסינון לפי שנה, סמסטר ומועד");
+  toFilters.type = "button";
+  toFilters.addEventListener("click", () => {
+    const f = document.getElementById("filters");
+    f.open = true; f.scrollIntoView({ behavior: "smooth", block: "nearest" }); yearSel.focus();
+  });
+  tip.append(toFilters, ".");
+  view.push(tip);
   // Quick links to the latest exams (not quizzes): each one sets year, semester and sitting.
   const recent = DATA.exams.filter(e => e.moed !== "בוחן" && e.moed !== "מבחן לדוגמה")
     .sort((x, y) => examRank(y) - examRank(x)).slice(0, 4);
@@ -590,6 +603,7 @@ function showRandom() {
   count.innerHTML = `שאלה אקראית מתוך <strong>${pool.length}</strong>` + (topic ? ` בנושא ${sub || topic}` : "");
   document.getElementById("order-note").textContent = "";
   homeBtn.hidden = false;
+  statusBar.hidden = false;
   const view = el("div", "random-view");
   const again = el("button", "btn random-btn", "שאלה אקראית נוספת");
   again.type = "button";
@@ -768,7 +782,8 @@ function render() {
   const nActive = [topicSel, subSel, typeSel, yearSel, semSel, kindSel].filter(x => x.value).length;
   document.getElementById("active-count").textContent = nActive ? `${nActive} פעילים` : "";
   document.getElementById("clear").hidden = !nActive;
-  if (!topic && !byExam && !words.length) { document.getElementById("order-note").textContent = ""; renderMap(); return; }
+  statusBar.hidden = !topic && !byExam && !words.length;
+  if (statusBar.hidden) { renderMap(); return; }
   const items = QUESTIONS.filter(q => (!topic || q.topic === topic) && (!sub || q.sub === sub) && kindFilter(q) &&
     (!words.length || matchesSearch(q, words)));
   if (byExam) items.sort((a, b) => {
