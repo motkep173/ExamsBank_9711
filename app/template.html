@@ -155,6 +155,9 @@ select:disabled { opacity: 0.55; }
 .options li.correct { background: var(--answer); color: var(--answer-ink); border-color: currentColor; }
 .options li.correct .letter { color: inherit; }
 .note { font-size: var(--step--1); color: var(--muted); }
+/* Parts of a question outside the current syllabus */
+.off-note { font-size: var(--step--1); color: var(--warn-ink); background: var(--warn); border-radius: 6px; padding: 6px 10px; }
+.off-syllabus { font-size: var(--step--1); font-weight: 600; color: var(--warn-ink); }
 
 .toggle {
   justify-self: start; border: 1px solid var(--accent); color: var(--accent); background: transparent;
@@ -433,6 +436,7 @@ function card(q, at = appearances(q)[0]) {
     });
     c.append(opts);
   }
+  if (q.offSyllabus) c.append(el("div", "off-note", q.offSyllabus.note));
   if (q.notes) c.append(el("div", "note", q.notes));
 
   // A hint (optional) comes before the solution: its button sits first in the row.

@@ -95,6 +95,10 @@ One entry per exam or quiz, built while inventorying the PDFs:
   Only where the question has a real trick or a non-obvious first step.
   For prove-or-disprove and yes/no questions the hint must not reveal which way the answer goes.
 - `notes`: shown to students before the solution opens — never put anything there that hints at the answer.
+- `offSyllabus`: optional, `{"scope": "removed" | "partial", "note": "..."}` for material outside the current
+  syllabus. `removed`: the question is left out of the app (and the review page) but stays in the booklet, with
+  the note under it. `partial`: the note is shown in the app and the booklet; solution steps about the
+  off-syllabus part start with `<span class="off-syllabus">(לא בסילבוס הנוכחי)</span> `.
 - `points`, `image`, `notes`, `alsoIn`: optional. `solution`: an object, or `null` when there is none yet.
 - Allowed HTML in text and steps: `b i br ul ol li p table tr td th sub sup span`. Nothing else.
 - `alsoIn` is written by `scripts/find_duplicates.py --apply`; don't hand-edit it unless merging manually.

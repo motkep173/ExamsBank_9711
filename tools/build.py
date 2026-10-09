@@ -14,6 +14,9 @@ for f in sorted(os.listdir(qdir)):
     qs = ex.pop("questions")
     exams.append({k: ex.get(k) for k in ("examId", "year", "yearNum", "semester", "moed", "version", "date")})
     for q in qs:
+        # Questions entirely outside the current syllabus stay in the data and the booklet, not in the app.
+        if q.get("offSyllabus", {}).get("scope") == "removed":
+            continue
         q["examId"] = ex["examId"]
         if q.get("image"):
             with open(os.path.join(DATA, "img", q["image"]), "rb") as fh:
