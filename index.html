@@ -166,7 +166,9 @@ select:disabled { opacity: 0.55; }
 .random-btn:hover { background: var(--brand-bright); filter: brightness(1.08); }
 .how { font-size: var(--step--1); color: var(--muted); }
 .how summary { cursor: pointer; color: var(--accent); font-weight: 600; width: fit-content; }
-.how ul { margin: 6px 0 0; padding-inline-start: 20px; display: grid; gap: 2px; }
+.how ul { margin: 6px 0 0; padding-inline-start: 20px; display: grid; gap: 4px; }
+/* Names of buttons inside the explanation, drawn as small framed labels */
+.key { display: inline-block; padding: 0 7px; border: 1px solid var(--line); border-radius: 5px; background: var(--sheet); color: var(--ink); font-weight: 600; line-height: 1.5; white-space: nowrap; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .status { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: var(--step--1); color: var(--muted); }
@@ -320,9 +322,9 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
       <summary>איך זה עובד?</summary>
       <ul>
         <li>לחיצה על תת־נושא מציגה את כל השאלות עליו ממבחני עבר. המטרה היא להכיר כבר במהלך הסמסטר את סוגי השאלות שבהם החומר יכול להופיע במבחן.</li>
-        <li>„הצג פתרון” פותח את הפתרון שורה אחר שורה, כדי שתוכלו לנסות להמשיך לבד אחרי כל שלב. בחלק מהשאלות יש גם רמז.</li>
-        <li>„סימנתי כפתורה” שומר את ההתקדמות שלכם בדפדפן הזה, והיא מוצגת בכל נושא. במחשב או בטלפון אחר ההתקדמות לא מופיעה.</li>
-        <li>כדי לראות בחינה שלמה, בחרו אחד מהמבחנים האחרונים או שנה וסמסטר ב„סינון שאלות”.</li>
+        <li>נסו לפתור לבד, ורק אז לחצו על <span class="key">הצג פתרון</span>. הפתרון נפתח שורה אחר שורה, כדי שתוכלו לנסות להמשיך לבד אחרי כל שלב. בחלק מהשאלות יש גם <span class="key">קבלת רמז</span>.</li>
+        <li><span class="key">סימנתי כפתורה</span> שומר את ההתקדמות שלכם בדפדפן הזה, והיא מוצגת בכל נושא. במחשב או בטלפון אחר ההתקדמות לא מופיעה.</li>
+        <li>כדי לראות בחינה שלמה, בחרו אחד מהמבחנים האחרונים, או שנה וסמסטר ב<span class="key">סינון שאלות</span>.</li>
       </ul>
     </details>
   </div>
