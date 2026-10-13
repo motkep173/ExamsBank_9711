@@ -1,6 +1,6 @@
 ---
 name: exam-question-bank
-description: Build, extend or update a past-exam question bank for a course — a Hebrew/RTL web app (single index.html, GitHub Pages) where students practice questions from past exams and quizzes sorted by topic, with step-by-step solutions, plus a printable PDF booklet of all exams and solutions. Use this skill whenever the user wants to turn a folder of exam/quiz PDFs (מבחנים, בחנים, מועדים, פתרונות) into a practice site or question bank, add a new semester's exam to an existing bank, reclassify or fix questions in such a bank, regenerate the exam booklet, or build "something like tools-for-9921" for another course or institution — even if they only say "מאגר שאלות", "מבחני עבר", "שאלות לתרגול" or "חוברת מבחנים".
+description: Build or update a Hebrew past-exam question bank site (by topic, step-by-step solutions, PDF booklet) from exam PDFs. Use for מאגר שאלות, מבחני עבר, בחנים, חוברת מבחנים.
 ---
 
 # Past-exam question bank
