@@ -21,8 +21,11 @@ official course number (e.g. `214.1.9711`, not `9711`).
 ## data/taxonomy.json
 
 ```json
-{ "topics": [ { "name": "סדרות", "subs": ["הגדרת הגבול (ε, N)", "חישוב גבולות של סדרות"] } ] }
+{ "topics": [ { "name": "סדרות", "symbol": "a<sub>n</sub>", "subs": ["הגדרת הגבול (ε, N)", "חישוב גבולות של סדרות"] } ] }
 ```
+
+`symbol` is optional: a short mark (one to four characters, HTML allowed) shown in a circle on the topic's
+card, e.g. `ℝ`, `lim`, `f′`, `∫`. Without it the card shows the topic's first letter.
 
 Topics and subs appear in the app in this order, so list them in syllabus order. Every question's `topic`
 and `sub` must match an entry exactly. Subs with no questions are hidden automatically.
