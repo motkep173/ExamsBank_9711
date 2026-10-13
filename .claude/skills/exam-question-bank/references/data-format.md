@@ -97,6 +97,7 @@ One entry per exam or quiz, built while inventorying the PDFs:
   idea (tool, auxiliary function, case split, what to examine) — never specific points, values or the answer.
   Only where the question has a real trick or a non-obvious first step.
   For prove-or-disprove and yes/no questions the hint must not reveal which way the answer goes.
+- `hintReviewed`: optional, the date (`YYYY-MM-DD`) on which course staff approved the hint.
 - `notes`: shown to students before the solution opens — never put anything there that hints at the answer.
 - `offSyllabus`: optional, `{"scope": "removed" | "partial", "note": "..."}` for material outside the current
   syllabus. `removed`: the question is left out of the app (and the review page) but stays in the booklet, with

@@ -14,7 +14,7 @@ catalog = {e["examId"]: e for e in json.load(open(os.path.join(DATA, "exams.json
 EXAM_KEYS = {"examId", "year", "yearNum", "semester", "moed", "version", "date", "sourceFiles",
              "solutionSource", "issues", "questions"}
 Q_KEYS = {"id", "number", "points", "type", "text", "options", "correct", "topic", "sub", "solution",
-          "image", "notes", "alsoIn", "hint", "offSyllabus"}
+          "image", "notes", "alsoIn", "hint", "hintReviewed", "offSyllabus"}
 SOL_KEYS = {"official", "steps", "answer", "reviewed"}
 MOEDS = {"א", "ב", "ג", "מיוחד", "בוחן", "מבחן לדוגמה"}
 SOL_SOURCES = {"official", "partial", "none"}
@@ -82,6 +82,9 @@ def check_file(path, errors, texitems, seen_ids):
                 errors.append(f"{w}: alsoIn examId {ref.get('examId')!r} has no questions file")
         texitems.append({"where": f"{w} text", "html": q.get("text", "")})
         if q.get("hint"): texitems.append({"where": f"{w} hint", "html": q["hint"]})
+        if "hintReviewed" in q and not (q.get("hint") and isinstance(q["hintReviewed"], str)
+                                        and re.fullmatch(r"\d{4}-\d{2}-\d{2}", q["hintReviewed"])):
+            errors.append(f"{w}: hintReviewed must be the review date, YYYY-MM-DD, on a question with a hint")
         s = q.get("solution")
         if s is not None:
             if not isinstance(s, dict): errors.append(f"{w}: solution must be object or null"); continue
