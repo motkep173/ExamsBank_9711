@@ -26,12 +26,11 @@ def logo_data_uri(course):
 
 
 def brand_html(course):
+    """The institution's mark at the start of the top bar: its logo, or its name when there is no logo."""
     esc = html.escape
     logo = logo_data_uri(course)
-    mark = (f'<img src="{logo}" alt="{esc(course["institution"])}" width="240" height="60">' if logo
-            else f'<div class="org">{esc(course["institution"])}</div>')
-    unit = f'<div class="unit">{esc(course["unit"])}</div>' if course["unit"] else ""
-    return f'<div class="brand">\n    {mark}\n    {unit}\n  </div>'
+    return (f'<img class="logo" src="{logo}" alt="{esc(course["institution"])}" height="46">' if logo
+            else f'<div class="org-name">{esc(course["institution"])}</div>')
 
 
 def main():
@@ -45,6 +44,9 @@ def main():
         qs = ex.pop("questions")
         exams.append({k: ex.get(k) for k in ("examId", "year", "yearNum", "semester", "moed", "version", "date")})
         for q in qs:
+            # Questions entirely outside the current syllabus stay in the data and the booklet, not in the app.
+            if q.get("offSyllabus", {}).get("scope") == "removed":
+                continue
             q["examId"] = ex["examId"]
             if q.get("image"):
                 with open(os.path.join(DATA, "img", q["image"]), "rb") as fh:
@@ -67,6 +69,7 @@ def main():
                      ("{{COURSE_NAME}}", html.escape(course["courseName"])),
                      ("{{COURSE_NUMBER}}", html.escape(course["courseNumber"])),
                      ("{{ORG_LINE}}", html.escape(course["orgLine"])),
+                     ("{{UNIT_SUFFIX}}", " · " + html.escape(course["unit"]) if course["unit"] else ""),
                      ("{{BOOKLET_TITLE}}", html.escape(course["bookletTitle"]))):
         out = out.replace(key, val)
     out = out.replace("/*__DATA__*/", payload)
