@@ -3,6 +3,9 @@
 
 Usage: python3 tools/reviewer_file.py --reviewer "<name>" --slug <ascii-id> --topic <topic> [--sub <subtopic> ...]
                                       [--owner-reviews tools/.review/owner-reviews.json]
+   or: python3 tools/reviewer_file.py --reviewer "<name>" --slug <ascii-id> --section "<label>"
+                                      --part "<topic>|<subtopic>" [--part "<topic>|<subtopic>|quiz" ...]
+       (a part ending in |quiz takes only questions from past quizzes; a part with no subtopic takes the whole topic)
 
 Picks every question in the topic (or only the given subtopics) that has a solution and is not fully reviewed:
 solution.reviewed set (or marked ok on the owner's review page) and the hint reviewed or absent. Questions already
@@ -26,8 +29,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--reviewer", required=True)
     ap.add_argument("--slug", required=True, help="ascii id for file names, e.g. abramov-seq-limits")
-    ap.add_argument("--topic", required=True)
+    ap.add_argument("--topic")
     ap.add_argument("--sub", action="append", default=[])
+    ap.add_argument("--part", action="append", default=[], help='"topic|subtopic[|quiz]", repeatable; instead of --topic')
+    ap.add_argument("--section", help="label shown to the reviewer; defaults to the topic and subtopics")
     ap.add_argument("--owner-reviews", default=os.path.join(ROOT, "tools", ".review", "owner-reviews.json"),
                     help="the owner's review-page db snapshot {id: review}; optional")
     a = ap.parse_args()
@@ -39,13 +44,29 @@ def main():
     taken = {i: x["reviewer"] for x in assignments for i in x["ids"]}
 
     tax = json.load(open(os.path.join(DATA, "taxonomy.json"), encoding="utf-8"))
-    topic = next((t for t in tax["topics"] if t["name"] == a.topic), None)
-    if not topic:
-        sys.exit(f"unknown topic {a.topic}")
-    for s in a.sub:
-        if s not in topic["subs"]:
-            sys.exit(f"unknown subtopic {s}; subtopics of {a.topic}: {topic['subs']}")
-    sub_order = {s: i for i, s in enumerate(topic["subs"])}
+    if bool(a.topic) == bool(a.part):
+        sys.exit("give either --topic (with optional --sub) or --part")
+    # parts: (topic, subtopic or None for the whole topic, quiz questions only)
+    parts = [(a.topic, s, False) for s in a.sub] or [(a.topic, None, False)]
+    if a.part:
+        parts = []
+        for p in a.part:
+            f = p.split("|")
+            if len(f) > 3 or (len(f) == 3 and f[2] != "quiz"):
+                sys.exit(f"bad --part {p!r}: expected topic|subtopic or topic|subtopic|quiz")
+            parts.append((f[0], (f[1] if len(f) > 1 else "") or None, len(f) == 3))
+    order = {}
+    for ti, t in enumerate(tax["topics"]):
+        order[(t["name"], None)] = (ti, -1)
+        for si, s in enumerate(t["subs"]):
+            order[(t["name"], s)] = (ti, si)
+    for t, s, _ in parts:
+        if (t, s) not in order:
+            sys.exit(f"unknown topic/subtopic {t} / {s}")
+
+    def wanted(q, ex):
+        return any(q["topic"] == t and (s is None or q["sub"] == s) and (not quiz or ex["moed"] == "בוחן")
+                   for t, s, quiz in parts)
 
     items, images, skipped = [], {}, []
     for f in sorted(glob.glob(os.path.join(DATA, "questions", "*.json"))):
@@ -53,7 +74,7 @@ def main():
         rank = ex["yearNum"] * 100 + (50 if ex["semester"] == "ב" else 0) + MOED_RANK.get(ex["moed"], 0)
         for q in ex["questions"]:
             s = q.get("solution")
-            if not s or q["topic"] != a.topic or (a.sub and q["sub"] not in a.sub):
+            if not s or not wanted(q, ex):
                 continue
             if q.get("offSyllabus", {}).get("scope") == "removed":
                 continue
@@ -70,7 +91,7 @@ def main():
                     images[q["image"]] = "data:image/png;base64," + base64.b64encode(fh.read()).decode()
             items.append({
                 "id": q["id"], "exam": exam_label(ex), "rank": rank, "number": q["number"],
-                "points": q.get("points"), "sub": q["sub"], "type": q["type"],
+                "points": q.get("points"), "topic": q["topic"], "sub": q["sub"], "type": q["type"],
                 "text": q["text"], "options": q.get("options"), "correct": q.get("correct"),
                 "image": q.get("image"), "notes": q.get("notes"),
                 "steps": s["steps"], "answer": s.get("answer"),
@@ -78,10 +99,12 @@ def main():
             })
     if not items:
         sys.exit("no questions left to review in this slice")
-    # Claude's solutions first (they need the closer look), then by subtopic and newest exam first.
-    items.sort(key=lambda it: (it["official"], it["solutionApproved"], sub_order.get(it["sub"], 99), -it["rank"], it["id"]))
+    # Claude's solutions first (they need the closer look), then in course order and newest exam first.
+    items.sort(key=lambda it: (it["official"], it["solutionApproved"], order.get((it["topic"], it["sub"]), (99, 99)),
+                               -it["rank"], it["id"]))
 
-    section = a.topic + (": " + ", ".join(a.sub) if a.sub else "")
+    section = a.section or (a.topic + (": " + ", ".join(a.sub) if a.sub else "") if a.topic else
+                            "; ".join(t + (": " + s if s else "") + (" (בחנים)" if quiz else "") for t, s, quiz in parts))
     payload = json.dumps({"assignment": a.slug, "reviewer": a.reviewer, "section": section,
                           "items": items, "images": images},
                          ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
