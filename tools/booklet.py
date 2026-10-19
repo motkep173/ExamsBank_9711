@@ -68,6 +68,15 @@ def question_html(number, points, q):
     return "".join(out)
 
 
+def video_html(q):
+    """A clickable link to the recorded solution, if the question has one."""
+    v = q.get("video")
+    if not v:
+        return ""
+    url = f"https://youtu.be/{v['id']}" + (f"?t={v['start']}" if v.get("start") else "")
+    return f'<p class="video">▶ פתרון מוקלט: <a href="{url}" dir="ltr">{url}</a></p>'
+
+
 def solution_html(number, q):
     s = q.get("solution")
     out = [f'<section class="q sol"><h3>שאלה {html.escape(number)}']
@@ -77,13 +86,15 @@ def solution_html(number, q):
         out.append(f' <span class="badge {cls}">{txt}</span>')
     out.append("</h3>")
     if not s:
-        out.append('<p class="none">אין פתרון לשאלה זו.</p></section>')
+        out.append(video_html(q) or '<p class="none">אין פתרון לשאלה זו.</p>')
+        out.append("</section>")
         return "".join(out)
     if q["type"] == "mc" and isinstance(q.get("correct"), int):
         out.append(f'<p class="correct">התשובה הנכונה: {LETTERS[q["correct"]]}.</p>')
     out.append('<div class="steps">' + "".join(f"<p>{st}</p>" for st in s["steps"]) + "</div>")
     if s.get("answer"):
         out.append(f'<div class="answer"><b>תשובה:</b> {s["answer"]}</div>')
+    out.append(video_html(q))
     out.append("</section>")
     return "".join(out)
 
@@ -122,6 +133,8 @@ h2.exam { font-size: 15pt; margin: 0 0 4mm; padding-bottom: 1.5mm; border-bottom
 .correct { font-weight: 700; margin: 0 0 1mm; }
 .answer { background: #eef6f0; color: #1e6b3a; padding: 1.5mm 3mm; border-radius: 1.5mm; }
 .none { color: #5b6678; margin: 0; }
+.video { margin: 1.5mm 0 0; font-weight: 700; color: #b85400; }
+.video a { color: #2348a8; text-decoration: none; }
 .intro p { margin: 0 0 2mm; }
 h3.toc-head { font-size: 13pt; margin: 5mm 0 1mm; }
 table.toc { width: 100%%; border-collapse: collapse; font-size: 10.5pt; }

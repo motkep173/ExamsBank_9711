@@ -14,7 +14,7 @@ catalog = {e["examId"]: e for e in json.load(open(os.path.join(DATA, "exams.json
 EXAM_KEYS = {"examId", "year", "yearNum", "semester", "moed", "version", "date", "sourceFiles",
              "solutionSource", "issues", "questions"}
 Q_KEYS = {"id", "number", "points", "type", "text", "options", "correct", "topic", "sub", "solution",
-          "image", "notes", "alsoIn", "hint", "hintReviewed", "offSyllabus"}
+          "image", "notes", "alsoIn", "hint", "hintReviewed", "offSyllabus", "video"}
 SOL_KEYS = {"official", "steps", "answer", "reviewed"}
 MOEDS = {"א", "ב", "ג", "מיוחד", "בוחן", "מבחן לדוגמה"}
 SOL_SOURCES = {"official", "partial", "none"}
@@ -73,6 +73,12 @@ def check_file(path, errors, texitems, seen_ids):
             if not (isinstance(o, dict) and set(o) == {"scope", "note"} and o["scope"] in ("removed", "partial")
                     and isinstance(o["note"], str) and o["note"]):
                 errors.append(f"{w}: offSyllabus must be {{scope: removed|partial, note: non-empty text}}")
+        if "video" in q:
+            v = q["video"]
+            if not (isinstance(v, dict) and "id" in v and not set(v) - {"id", "start"}
+                    and isinstance(v["id"], str) and re.fullmatch(r"[\w-]{11}", v["id"])
+                    and (type(v.get("start", 0)) is int and v.get("start", 0) >= 0)):
+                errors.append(f"{w}: video must be {{id: 11-character YouTube id, start?: seconds}}")
         if q.get("image"):
             if not os.path.exists(os.path.join(DATA, "img", q["image"])): errors.append(f"{w}: image not found in data/img")
         for ref in q.get("alsoIn", []):

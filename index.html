@@ -251,6 +251,7 @@ select:disabled { opacity: 0.55; }
 .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: var(--step--1); }
 .chip { padding: 1px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
 .chip.sub { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.chip.video { background: var(--brand-soft); color: var(--brand); }
 .source { font-size: var(--step-1); font-weight: 700; margin: 0; }
 .source small { font-size: var(--step--1); font-weight: 600; color: var(--muted); margin-inline-start: 8px; }
 .also { margin: -8px 0 0; font-size: var(--step--1); color: var(--muted); }
@@ -281,6 +282,10 @@ select:disabled { opacity: 0.55; }
 .hint-btn { border-style: dashed; }
 .hint { background: var(--accent-soft); border-radius: 8px; padding: 10px 14px; }
 .hint b { color: var(--accent); margin-inline-end: 4px; }
+/* Recorded solution: a YouTube player, loaded only when opened */
+.video-box { display: grid; gap: 6px; }
+.video-box iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 8px; background: #000; }
+.video-box a { font-size: var(--step--1); color: var(--accent); font-weight: 600; justify-self: start; }
 .toggle:disabled { border-color: var(--line); color: var(--muted); cursor: default; background: transparent; }
 
 /* Solutions sit on a soft yellow panel, set apart from the question */
@@ -406,6 +411,13 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
         <option value="מבחן לדוגמה">מבחן לדוגמה</option>
       </select>
     </div>
+    <div class="field" id="video-field">
+      <label for="video">פתרון מוקלט</label>
+      <select id="video">
+        <option value="">כל השאלות</option>
+        <option value="yes">רק שאלות עם פתרון מוקלט</option>
+      </select>
+    </div>
     </div>
   </details>
 
@@ -464,6 +476,7 @@ const kindSel = document.getElementById("kind");
 const yearSel = document.getElementById("year");
 const semSel = document.getElementById("semester");
 const typeSel = document.getElementById("qtype");
+const videoSel = document.getElementById("video");
 const main = document.getElementById("main");
 const searchInput = document.getElementById("search");
 
@@ -530,11 +543,15 @@ QUESTIONS.sort((a, b) =>
 // Header stats
 const nOfficial = QUESTIONS.filter(q => q.solution && q.solution.official).length;
 const nSolved = QUESTIONS.filter(q => q.solution).length;
+const nVideo = QUESTIONS.filter(q => q.video).length;
+// The recorded-solution filter appears once at least one question has a video.
+document.getElementById("video-field").hidden = !nVideo;
 const years = DATA.exams.map(e => e.yearNum);
 document.getElementById("stats").innerHTML =
   `<span><strong>${QUESTIONS.length}</strong> שאלות</span>` +
   `<span>מתוך <strong>${DATA.exams.length}</strong> מבחנים ובחנים</span>` +
-  `<span>משנת <strong>${Math.min(...years)}</strong> עד <strong>${Math.max(...years)}</strong></span>`;
+  `<span>משנת <strong>${Math.min(...years)}</strong> עד <strong>${Math.max(...years)}</strong></span>` +
+  (nVideo ? `<span><strong>${nVideo}</strong> פתרונות מוקלטים</span>` : "");
 document.getElementById("footer-stats").textContent =
   `לכל ${nSolved} מתוך ${QUESTIONS.length} השאלות יש פתרון. ${nOfficial} מהפתרונות רשמיים.`;
 
@@ -556,7 +573,7 @@ function examOk(id) {
 // The appearance that matches the exam filters, or undefined.
 const matchOf = q => appearances(q).find(a => examOk(a.examId));
 function kindFilter(q) {
-  return (!typeSel.value || q.type === typeSel.value) && !!matchOf(q);
+  return (!typeSel.value || q.type === typeSel.value) && (!videoSel.value || !!q.video) && !!matchOf(q);
 }
 
 function renderMap() {
@@ -657,6 +674,7 @@ function card(q, at = appearances(q)[0]) {
   const c = el("article", "q");
   const meta = el("div", "meta");
   meta.append(el("span", "chip", q.topic), el("span", "chip sub", q.sub));
+  if (q.video) meta.append(el("span", "chip video", "▶ פתרון מוקלט"));
   c.append(meta);
   const pts = at.points ? ` · ${at.points} נק׳` : "";
   c.append(el("h2", "source", `${examLabel(ex)}<small>שאלה ${at.number}${pts}</small>`));
@@ -703,6 +721,33 @@ function card(q, at = appearances(q)[0]) {
   const btn = el("button", "toggle");
   btn.type = "button";
   row.append(btn);
+  // A recorded solution (optional): the player is created on open and removed on close, which stops playback.
+  let videoBox = null;
+  if (q.video) {
+    const { id, start } = q.video;
+    const vb = el("button", "toggle");
+    vb.type = "button"; vb.textContent = "▶ פתרון מוקלט";
+    vb.setAttribute("aria-expanded", "false");
+    videoBox = el("div", "video-box");
+    videoBox.hidden = true;
+    vb.addEventListener("click", () => {
+      const open = videoBox.hidden;
+      videoBox.hidden = !open;
+      vb.setAttribute("aria-expanded", String(open));
+      vb.textContent = open ? "הסתר פתרון מוקלט" : "▶ פתרון מוקלט";
+      if (!open) { videoBox.replaceChildren(); return; }
+      const f = el("iframe");
+      f.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0` + (start ? `&start=${start}` : "");
+      f.title = "פתרון מוקלט"; f.allowFullscreen = true;
+      f.allow = "encrypted-media; picture-in-picture; fullscreen";
+      f.referrerPolicy = "strict-origin-when-cross-origin";
+      const a = el("a", "", "צפייה ביוטיוב");
+      a.href = `https://www.youtube.com/watch?v=${id}` + (start ? `&t=${start}s` : "");
+      a.target = "_blank"; a.rel = "noopener";
+      videoBox.append(f, a);
+    });
+    row.append(vb);
+  }
   const sv = el("button", "solved-btn");
   sv.type = "button";
   const paint = () => {
@@ -719,6 +764,7 @@ function card(q, at = appearances(q)[0]) {
     btn.disabled = true;
     c.append(row);
     if (hintBox) c.append(hintBox);
+    if (videoBox) c.append(videoBox);
     return c;
   }
   const sid = "sol-" + q.id;
@@ -774,6 +820,7 @@ function card(q, at = appearances(q)[0]) {
   });
   c.append(row);
   if (hintBox) c.append(hintBox);
+  if (videoBox) c.append(videoBox);
   c.append(sol);
   return c;
 }
@@ -814,7 +861,7 @@ function render() {
     ? "השאלות מסודרות לפי סדר הופעתן בבחינה."
     : "השאלות מסודרות לפי החומר המתמטי ולא לפי סדר הופעתן בבחינה.";
   homeBtn.hidden = !topic && !byExam && !words.length;
-  const nActive = [topicSel, subSel, typeSel, yearSel, semSel, kindSel].filter(x => x.value).length;
+  const nActive = [topicSel, subSel, typeSel, yearSel, semSel, kindSel, videoSel].filter(x => x.value).length;
   document.getElementById("active-count").textContent = nActive ? `${nActive} פעילים` : "";
   document.getElementById("clear").hidden = !nActive;
   statusBar.hidden = !topic && !byExam && !words.length;
@@ -842,12 +889,13 @@ topicSel.addEventListener("change", () => { fillSubs(); render(); });
 subSel.addEventListener("change", render);
 kindSel.addEventListener("change", render);
 typeSel.addEventListener("change", render);
+videoSel.addEventListener("change", render);
 yearSel.addEventListener("change", render);
 semSel.addEventListener("change", render);
 let searchTimer;
 searchInput.addEventListener("input", () => { clearTimeout(searchTimer); searchTimer = setTimeout(render, 200); });
 function clearFilters() {
-  searchInput.value = ""; topicSel.value = ""; kindSel.value = ""; typeSel.value = ""; yearSel.value = ""; semSel.value = ""; fillSubs(); render();
+  searchInput.value = ""; topicSel.value = ""; kindSel.value = ""; typeSel.value = ""; videoSel.value = ""; yearSel.value = ""; semSel.value = ""; fillSubs(); render();
 }
 // The clear button sits in the summary line: don't let the click also fold the panel.
 document.getElementById("clear").addEventListener("click", e => { e.preventDefault(); clearFilters(); });
