@@ -22,6 +22,9 @@ FLAG = {"corrected": "num", "guess": "guess", "unknown": "unknown"}
 REC = [(r['code'], r['videoTitle'], r['question'], FLAG.get(r['match'], ''),
         r['note'] if r['match'] in FLAG else '') for r in RJ['recorded']]
 SUG = [(x['label'], x['question'], x['why']) for x in RJ['suggested']]
+# Cards follow the syllabus: topic and sub-topic order of the taxonomy.
+ORDER = {(t['name'], sb): i * 100 + j for i, t in enumerate(tax) for j, sb in enumerate(t['subs'])}
+REC.sort(key=lambda r: ORDER.get((Q[r[2]]['topic'], Q[r[2]]['sub']), 10**6) if r[2] else 10**6)
 def solinfo(q):
     s = q.get('solution')
     if not s: return ('none', 'אין פתרון במאגר')
@@ -85,7 +88,7 @@ for code, title, qid, flag, note in REC:
     if topic != cur:
         cur = topic; rec_html.append(f'<h3 class="topic">{topic}</h3>')
     rec_html.append(card(q, code_head(code, title), note, flag, 'rec'))
-sug_html = [('<div class="extra"></div>' if n == 9 else '') + card(Q[i], f'<span class="code s">{n}</span><span class="ttl">{html.escape(t)}</span>', why, '', 'sug')
+sug_html = [card(Q[i], f'<span class="code s">{n}</span><span class="ttl">{html.escape(t)}</span>', why, '', 'sug')
             for n, (t, i, why) in enumerate(SUG, 1)]
 nflag = sum(1 for r in REC if r[3])
 
