@@ -1,0 +1,138 @@
+<title>הקלטות פתרונות 9711</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: one reading column; coverage table first, then recorded cards grouped by topic, then the ten suggestions. Palette follows the exam bank site. */
+:root {
+  --paper: #f6f8fb; --sheet: #ffffff; --ink: #1b2433; --muted: #5b6678; --line: #d9dfe8;
+  --accent: #2348a8; --accent-soft: #e6ecfa;
+  --brand: #b85400; --brand-bright: #f39200; --brand-soft: #fff1e0;
+  --ok: #1e6b3a; --ok-soft: #eef6f0; --warn: #8a5a00; --warn-soft: #fbf3e2;
+  --flag: #a3214a; --flag-soft: #fde8ef;
+  --font: "Assistant", "Arial Hebrew", "Segoe UI", Arial, sans-serif;
+  --s-1: 0.8125rem; --s0: 1rem; --s1: 1.1875rem; --s2: 1.6rem; --s3: 2.1rem;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #12161e; --sheet: #1a202b; --ink: #e4e9f1; --muted: #9aa5b8; --line: #2d3545;
+  --accent: #8eaaf5; --accent-soft: #232e48; --brand: #ffb162; --brand-bright: #f39200; --brand-soft: #33240f;
+  --ok: #8fd6a6; --ok-soft: #17291f; --warn: #e5bf6e; --warn-soft: #2c2414; --flag: #f59ab8; --flag-soft: #3a1a26;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #12161e; --sheet: #1a202b; --ink: #e4e9f1; --muted: #9aa5b8; --line: #2d3545;
+  --accent: #8eaaf5; --accent-soft: #232e48; --brand: #ffb162; --brand-bright: #f39200; --brand-soft: #33240f;
+  --ok: #8fd6a6; --ok-soft: #17291f; --warn: #e5bf6e; --warn-soft: #2c2414; --flag: #f59ab8; --flag-soft: #3a1a26;
+  color-scheme: dark; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font); font-size: var(--s0); line-height: 1.6; }
+.wrap { max-width: 860px; margin: 0 auto; padding-block: 28px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 28px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.25; }
+.top { display: grid; gap: 8px; border-bottom: 3px solid var(--brand-bright); padding-bottom: 16px; }
+.eyebrow { font-size: var(--s-1); font-weight: 700; color: var(--brand); letter-spacing: 0.04em; }
+h1 { font-size: var(--s3); font-weight: 800; }
+.lead { color: var(--muted); max-width: 65ch; margin: 0; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: var(--s-1); color: var(--muted); }
+.stats b { font-size: var(--s1); color: var(--ink); font-variant-numeric: tabular-nums; margin-inline-end: 4px; }
+section { display: grid; gap: 14px; }
+h2 { font-size: var(--s2); font-weight: 800; }
+.sec-note { margin: 0; color: var(--muted); max-width: 65ch; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; }
+nav a { font-weight: 700; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); border-radius: 999px; padding: 3px 14px; }
+nav a:hover, nav a:focus-visible { background: var(--accent-soft); outline: none; }
+
+/* Coverage table */
+.tbl { overflow-x: auto; background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+th, td { padding: 6px 12px; text-align: start; border-bottom: 1px solid var(--line); }
+tr.th th { background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: var(--s-1); }
+td.n { font-variant-numeric: tabular-nums; color: var(--muted); width: 4.5em; }
+td.bar { width: 22%; min-width: 70px; }
+td.bar i { display: block; height: 8px; border-radius: 4px; background: var(--muted); opacity: 0.45; }
+td.dots { width: 9em; white-space: nowrap; }
+.d { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-inline-end: 3px; vertical-align: middle; }
+.d.r { background: var(--brand-bright); }
+.d.s { border: 2px solid var(--accent); }
+tr.gap td:first-child { color: var(--flag); font-weight: 700; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: var(--s-1); color: var(--muted); align-items: center; }
+.legend .gapk { color: var(--flag); font-weight: 700; }
+
+/* Question cards */
+h3.topic { font-size: var(--s1); font-weight: 800; color: var(--accent); margin-top: 8px; }
+.cards { display: grid; gap: 12px; }
+.card { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; display: grid; gap: 6px; min-width: 0; }
+.card.flagged { border-color: var(--flag); }
+.card header { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; justify-content: space-between; }
+.card .h { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.code { font-weight: 800; color: var(--brand); background: var(--brand-soft); border-radius: 6px; padding: 0 8px; direction: ltr; font-variant-numeric: tabular-nums; }
+.code.s { color: var(--accent); background: var(--accent-soft); min-width: 1.6em; text-align: center; }
+.ttl { font-weight: 700; font-size: var(--s1); }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { font-size: var(--s-1); font-weight: 700; padding: 0 10px; border-radius: 999px; }
+.pill.ok { background: var(--ok-soft); color: var(--ok); }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.none { background: var(--paper); color: var(--muted); border: 1px solid var(--line); }
+.pill.flag { background: var(--flag-soft); color: var(--flag); }
+.src { font-weight: 700; }
+.sub { font-size: var(--s-1); color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.sub code { direction: ltr; font-size: 0.75rem; background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
+.qtext { min-width: 0; overflow-wrap: anywhere; }
+.qtext.missing { color: var(--muted); font-style: italic; margin: 0; }
+.opts { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; }
+.opts li { display: flex; gap: 8px; }
+.opts b { color: var(--muted); min-width: 1.2em; }
+.note { margin: 4px 0 0; font-size: 0.9375rem; background: var(--flag-soft); color: var(--ink); border-radius: 6px; padding: 6px 10px; }
+.card.sug .note { background: var(--accent-soft); }
+.extra { border-top: 2px dashed var(--accent); margin-block: 6px; }
+.solution { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px; display: grid; gap: 6px; }
+.sol-h { font-weight: 800; color: var(--ok); font-size: var(--s-1); }
+.solution ol { margin: 0; padding-inline-start: 22px; display: grid; gap: 4px; min-width: 0; overflow-wrap: anywhere; }
+.solution .correct { margin: 0; font-weight: 700; }
+.answer { background: var(--ok-soft); color: var(--ok); border-radius: 6px; padding: 6px 12px; font-weight: 600; }
+mjx-container { direction: ltr; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+footer { font-size: var(--s-1); color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+@media (max-width: 480px) { h1 { font-size: var(--s2); } .bar { display: none; } td.dots { width: auto; } th, td { padding: 6px 8px; } }
+</style>
+
+<div class="wrap" dir="rtl" lang="he">
+  <header class="top">
+    <div class="eyebrow">חדו״א 1 להנדסה · 214.1.9711 · פתרונות מוקלטים</div>
+    <h1>הקלטות פתרונות: מה יש ומה כדאי להוסיף</h1>
+    <p class="lead">כל השאלות שכבר הקלטת, לפי הטבלה שלך, עם הנוסח שלהן מתוך מאגר הבחינות. אחריהן שאלות שמוצעות להקלטה כדי לכסות את הנושאים החסרים.</p>
+    <div class="stats"><span><b>@@NREC@@</b>הוקלטו</span><span><b>@@NFLAG@@</b>לבדיקה (מסומנות באדום)</span><span><b>@@NSUG@@</b>מוצעות</span></div>
+    <nav><a href="#coverage">כיסוי הנושאים</a><a href="#recorded">מה הוקלט</a><a href="#suggested">הצעות להקלטה</a></nav>
+  </header>
+
+  <section id="coverage">
+    <h2>כיסוי הנושאים</h2>
+    <p class="sec-note">האחוז הוא החלק של תת־הנושא מתוך @@NR@@ השאלות במבחנים ובבחנים מ־2023 ואילך. תת־נושא באדום מופיע ביותר מ־2% מהשאלות, ואין לו סרטון או הצעה.</p>
+    <div class="legend"><span><span class="d r"></span> סרטון שהוקלט</span><span><span class="d s"></span> הצעה להקלטה</span><span class="gapk">אדום: חסר גם אחרי ההצעות</span></div>
+    <div class="tbl"><table>
+      <thead><tr><th>תת־נושא</th><th>במבחנים</th><th class="bar"></th><th>סרטונים</th></tr></thead>
+      <tbody>
+@@ROWS@@
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="recorded">
+    <h2>מה הוקלט</h2>
+    <p class="sec-note">הקוד והכותרת לקוחים מהטבלה שלך. כרטיס עם מסגרת אדומה צריך אישור: מספר שאלה שלא התאים לתוכן, התאמה משוערת או שאלה שלא זוהתה. מספרי השאלות כאן לפי המאגר.</p>
+    <div class="cards">
+@@REC@@
+    </div>
+  </section>
+
+  <section id="suggested">
+    <h2>הצעות להקלטה</h2>
+    <p class="sec-note">ההצעות 1–8 מכסות תתי־נושאים שאין להם עדיין סרטון. ההצעות 9–13 הן סרטון שני לנושאים נפוצים, וסוגי שאלות שחסרים. הפתרון של כל הצעה מופיע מתחת לשאלה.</p>
+    <div class="cards">
+@@SUG@@
+    </div>
+  </section>
+
+  <footer>הנתונים מתוך מאגר הבחינות של הקורס, 19.10.2026.</footer>
+</div>
+
+<script>
+window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] }, svg: { fontCache: "global" } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg-full.js" async></script>

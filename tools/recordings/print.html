@@ -1,0 +1,108 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><title>הקלטות פתרונות 9711</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap">
+<style>
+@page { size: A4; margin: 16mm 15mm 18mm; }
+:root { --ink: #1b2433; --muted: #5b6678; --line: #d4dae4; --accent: #2348a8; --accent-soft: #e9eefa;
+  --brand: #b85400; --brand-bright: #f39200; --brand-soft: #fff1e0; --ok: #1e6b3a; --ok-soft: #eaf5ee;
+  --warn: #8a5a00; --warn-soft: #fbf3e2; --flag: #a3214a; --flag-soft: #fdecf2; }
+body { margin: 0; font-family: "Assistant", Arial, sans-serif; font-size: 10.5pt; line-height: 1.5; color: var(--ink); }
+.top { display: grid; gap: 2mm; border-bottom: 2.5pt solid var(--brand-bright); padding-bottom: 4mm; margin-bottom: 5mm; }
+.eyebrow { font-size: 9pt; font-weight: 700; color: var(--brand); letter-spacing: 0.03em; }
+h1 { font-size: 22pt; font-weight: 800; margin: 0; line-height: 1.2; }
+.lead { color: var(--muted); margin: 0; }
+.stats { display: flex; gap: 8mm; font-size: 9.5pt; color: var(--muted); }
+.stats b { font-size: 13pt; color: var(--ink); margin-inline-end: 1.5mm; }
+h2 { font-size: 16pt; font-weight: 800; margin: 0 0 1.5mm; color: var(--ink); }
+.sec-note { margin: 0 0 3mm; color: var(--muted); font-size: 9.5pt; }
+section + section { break-before: page; }
+table { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+th, td { padding: 1.1mm 2.5mm; text-align: start; border-bottom: 0.5pt solid var(--line); }
+thead th { font-size: 8.5pt; color: var(--muted); font-weight: 600; }
+tr.th th { background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 9pt; }
+td.n { font-variant-numeric: tabular-nums; color: var(--muted); width: 16mm; }
+td.bar, th.bar { width: 45mm; }
+td.bar i { display: block; height: 2.2mm; border-radius: 1mm; background: #9aa5b8; }
+td.dots { width: 55mm; }
+.d { display: inline-block; width: 3mm; height: 3mm; border-radius: 50%; margin-inline-end: 0.8mm; vertical-align: middle; box-sizing: border-box; }
+.d.r { background: var(--brand-bright); }
+.d.s { border: 0.8pt solid var(--accent); }
+tr.gap td:first-child { color: var(--flag); font-weight: 700; }
+.legend { display: flex; gap: 6mm; font-size: 8.5pt; color: var(--muted); margin-bottom: 2mm; align-items: center; }
+.legend .gapk { color: var(--flag); font-weight: 700; }
+h3.topic { font-size: 12pt; font-weight: 800; color: var(--accent); margin: 3mm 0 0; break-after: avoid; }
+.cards { display: grid; gap: 3mm; }
+.card { border: 0.6pt solid var(--line); border-radius: 2mm; padding: 2.5mm 4mm; display: grid; gap: 1mm; break-inside: avoid; }
+.card.flagged { border-color: var(--flag); }
+.card header { display: flex; flex-wrap: wrap; gap: 1mm 3mm; align-items: center; justify-content: space-between; }
+.card .h { display: flex; flex-wrap: wrap; gap: 1mm 3mm; align-items: baseline; }
+.code { font-weight: 800; font-size: 11.5pt; color: var(--brand); background: var(--brand-soft); border-radius: 1.5mm; padding: 0 2mm; direction: ltr; }
+.code.s { color: var(--accent); background: var(--accent-soft); min-width: 5mm; text-align: center; }
+.ttl { font-weight: 700; font-size: 11.5pt; }
+.pills { display: flex; gap: 1.5mm; }
+.pill { font-size: 8pt; font-weight: 700; padding: 0 2.5mm; border-radius: 3mm; }
+.pill.ok { background: var(--ok-soft); color: var(--ok); }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.none { color: var(--muted); border: 0.5pt solid var(--line); }
+.pill.flag { background: var(--flag-soft); color: var(--flag); }
+.src { font-weight: 700; font-size: 10pt; }
+.sub { font-size: 8.5pt; color: var(--muted); display: flex; gap: 3mm; }
+.sub code { direction: ltr; font-size: 7.5pt; }
+.qtext p { margin: 0 0 1mm; }
+.qtext.missing { color: var(--muted); font-style: italic; margin: 0; }
+.opts { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.3mm; }
+.opts li { display: flex; gap: 2mm; }
+.opts b { color: var(--muted); min-width: 4mm; }
+.note { margin: 1mm 0 0; font-size: 9pt; background: var(--flag-soft); border-radius: 1.5mm; padding: 1mm 3mm; }
+.card.sug .note { background: var(--accent-soft); }
+.extra { border-top: 1pt dashed var(--accent); padding-top: 3mm; margin-top: 2mm; }
+.solution { border-top: 0.6pt solid var(--line); margin-top: 1.5mm; padding-top: 1.5mm; display: grid; gap: 1mm; font-size: 10pt; }
+.sol-h { font-weight: 800; color: var(--ok); font-size: 9.5pt; }
+.solution ol { margin: 0; padding-inline-start: 5mm; display: grid; gap: 0.8mm; }
+.solution .correct { margin: 0; font-weight: 700; }
+.answer { background: var(--ok-soft); color: var(--ok); border-radius: 1.5mm; padding: 1mm 3mm; font-weight: 600; }
+.card.sug { break-inside: auto; }
+.card.sug header, .card.sug .src { break-after: avoid; }
+mjx-container { direction: ltr; }
+mjx-container[display="true"] { margin: 1mm 0 !important; }
+</style>
+<script>
+window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] }, chtml: { matchFontHeight: false },
+  startup: { pageReady() { return MathJax.startup.defaultPageReady().then(() => { window.__typeset = true; }); } } };
+</script>
+<script src="@@MJ@@"></script>
+</head><body>
+<header class="top">
+  <div class="eyebrow">חדו״א 1 להנדסה · 214.1.9711 · פתרונות מוקלטים</div>
+  <h1>הקלטות פתרונות: מה יש ומה כדאי להוסיף</h1>
+  <p class="lead">השאלות שכבר הוקלטו, לפי הטבלה, עם הנוסח שלהן מתוך מאגר הבחינות; פילוח הנושאים; והצעות להקלטות הבאות, עם הפתרונות שלהן.</p>
+  <div class="stats"><span><b>@@NREC@@</b>הוקלטו</span><span><b>@@NFLAG@@</b>לבדיקה (מסגרת אדומה)</span><span><b>@@NSUG@@</b>מוצעות</span><span>עודכן ב־20.10.2026</span></div>
+</header>
+
+<section id="coverage">
+  <h2>פילוח לפי נושאים</h2>
+  <p class="sec-note">האחוז הוא החלק של תת־הנושא מתוך @@NR@@ השאלות במבחנים ובבחנים מ־2023 ואילך. תת־נושא באדום מופיע ביותר מ־2% מהשאלות, ואין לו סרטון או הצעה.</p>
+  <div class="legend"><span><span class="d r"></span> סרטון שהוקלט</span><span><span class="d s"></span> הצעה להקלטה</span><span class="gapk">אדום: אין סרטון ואין הצעה</span></div>
+  <table>
+    <thead><tr><th>תת־נושא</th><th>במבחנים</th><th class="bar"></th><th>סרטונים</th></tr></thead>
+    <tbody>
+@@ROWS@@
+    </tbody>
+  </table>
+</section>
+
+<section id="recorded">
+  <h2>שאלות שהוקלטו</h2>
+  <p class="sec-note">הקוד והכותרת לקוחים מהטבלה. כרטיס עם מסגרת אדומה עוד צריך אישור. מספרי השאלות לפי המאגר.</p>
+  <div class="cards">
+@@REC@@
+  </div>
+</section>
+
+<section id="suggested">
+  <h2>הצעות להקלטה</h2>
+  <p class="sec-note">ההצעות 1–8 מכסות תתי־נושאים שאין להם עדיין סרטון. ההצעות 9–13 נוספו עכשיו: סרטון שני לנושאים נפוצים, וסוגי שאלות שחסרים. הפתרון של כל הצעה מופיע מתחת לשאלה, כפי שהוא במאגר.</p>
+  <div class="cards">
+@@SUG@@
+  </div>
+</section>
+</body></html>
