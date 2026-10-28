@@ -125,6 +125,14 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
 .btn.ghost { background: transparent; color: var(--accent); }
 .prev { background: var(--good-soft); color: var(--good); border-radius: 8px; padding: 8px 12px; font-size: 0.92rem; }
 .general textarea { min-height: 5em; background: var(--sheet); }
+.mbox { display: grid; gap: 4px; min-width: 0; }
+.mtools { display: flex; flex-wrap: wrap; gap: 4px; }
+.mtools button { border: 1px solid var(--line); background: var(--sheet); border-radius: 5px; padding: 1px 8px; min-width: 2.2em; cursor: pointer; font-size: 0.9rem; line-height: 1.6; }
+.mtools button:hover { background: var(--accent-soft); }
+.mtools .mlabel { font-size: 0.78rem; color: var(--muted); align-self: center; margin-inline-start: 4px; }
+[hidden] { display: none !important; }
+.mpreview { border: 1px dashed var(--line); border-radius: 6px; padding: 6px 10px; background: var(--sheet); white-space: pre-wrap; overflow-x: auto; }
+.mpreview::before { content: "כך ההערה תיראה:"; display: block; font-size: 0.75rem; color: var(--muted); }
 /* On phones the full header would cover a third of the screen; let it scroll away. */
 @media (max-width: 480px) { .bar { position: static; } }
 </style>
@@ -164,6 +172,7 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width:
     <p id="hello"></p>
     <ol>
       <li>לכל שאלה: סמנו את הפתרון „תקין”, „יש בעיה” או „לא בטוח”, ואת הרמז „רמז טוב” או „לתקן רמז”. כשיש בעיה, כתבו בתיבה מה לא בסדר ובאיזו שורה.</li>
+      <li>אפשר לכתוב נוסחאות בהערות: כותבים אותן בין שני סימני <code>$</code>, למשל <code>$a_{n+1} \lt a_n$</code>, או לוחצים על הכפתורים שמעל כל תיבה. מתחת לתיבה מופיעה ההערה עם הנוסחאות כפי שהן ייראו.</li>
       <li>הסימונים נשמרים בדפדפן הזה, כך שאפשר לסגור את הקובץ ולחזור אליו מאוחר יותר באותו מחשב ובאותו דפדפן.</li>
       <li>בסיום, לחצו „שמירת ההערות לקובץ” ושלחו את הקובץ שנשמר (‎.json) בחזרה במייל. כדאי לשמור קובץ כזה גם באמצע העבודה, כגיבוי; אפשר לטעון אותו בחזרה בכפתור „טעינת קובץ הערות”.</li>
     </ol>
@@ -247,6 +256,50 @@ const BY_ID = new Map(ITEMS.map(i => [i.id, i]));
 const $ = id => document.getElementById(id);
 const statusOf = id => (reviews[id] && reviews[id].status) || "todo";
 const hintStatusOf = id => (reviews[id] && reviews[id].hintStatus) || "todo";
+// Comments may contain math between $ signs; a toolbar inserts common LaTeX and a preview shows the result.
+const MTOOLS = [["$…$", "$", "$", "נוסחה: עוטף את הטקסט המסומן בסימני $"], ["a/b", "\\frac{", "}{}", "שבר"],
+  ["xⁿ", "^{", "}", "חזקה"], ["xₙ", "_{", "}", "אינדקס"], ["√", "\\sqrt{", "}", "שורש"],
+  ["lim", "\\lim_{n\\to\\infty} ", "", "גבול"], ["∞", "\\infty ", "", "אינסוף"], ["→", "\\to ", "", "שואף ל־"],
+  ["≤", "\\le ", "", "קטן או שווה"], ["≥", "\\ge ", "", "גדול או שווה"], ["≠", "\\ne ", "", "שונה"],
+  ["⇔", "\\iff ", "", "אם ורק אם"], ["ε", "\\varepsilon ", "", "אפסילון"], ["δ", "\\delta ", "", "דלתא"]];
+function inMath(text, pos) { return ((text.slice(0, pos).match(/(?<!\\)\$/g) || []).length % 2) === 1; }
+function insertMath(ta, pre, post, wrap) {
+  const a = ta.selectionStart, b = ta.selectionEnd, v = ta.value, sel = v.slice(a, b);
+  let L = pre, R = post;
+  if (!wrap && !inMath(v, a)) { L = "$" + L; R = R + "$"; }
+  ta.value = v.slice(0, a) + L + sel + R + v.slice(b);
+  const caret = a + L.length + sel.length;
+  ta.focus(); ta.setSelectionRange(caret, caret);
+  ta.dispatchEvent(new Event("input", { bubbles: true }));
+}
+function mathHtml(text) {
+  const esc = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return esc.replace(/\$\$([\s\S]+?)\$\$/g, "\\[$1\\]").replace(/\$([^$]+?)\$/g, "\\($1\\)");
+}
+function mathBox(ta) {
+  const box = el("div", "mbox"), bar = el("div", "mtools"), pv = el("div", "mpreview");
+  bar.setAttribute("aria-label", "כפתורים לכתיבת נוסחאות");
+  MTOOLS.forEach(([label, pre, post, title]) => {
+    const b = el("button"); b.type = "button"; b.textContent = label; b.title = title; b.setAttribute("aria-label", title);
+    b.addEventListener("mousedown", e => e.preventDefault());
+    b.addEventListener("click", () => insertMath(ta, pre, post, pre === "$"));
+    bar.append(b);
+  });
+  pv.hidden = true;
+  let t;
+  const refresh = () => {
+    if (!ta.value.includes("$")) { pv.hidden = true; return; }
+    pv.hidden = false;
+    if (window.MathJax && MathJax.typesetClear) MathJax.typesetClear([pv]);
+    pv.innerHTML = mathHtml(ta.value);
+    typeset(pv);
+  };
+  ta.addEventListener("input", () => { clearTimeout(t); t = setTimeout(refresh, 250); });
+  ta._refresh = refresh;
+  box.append(bar, ta, pv);
+  return box;
+}
+
 function el(tag, cls, htmlText) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
@@ -324,7 +377,7 @@ function card(it) {
     hTa.placeholder = "הערה על הרמז (לא חובה כשהרמז טוב)";
     hTa.setAttribute("aria-label", "הערה על הרמז לשאלה " + it.number);
     hTa.addEventListener("input", () => save(it.id, { hintComment: hTa.value }));
-    hr.append(hActs, hTa);
+    hr.append(hActs, mathBox(hTa));
     c.append(hr);
     hintRefs = { hBtns, hTa };
   } else {
@@ -348,7 +401,7 @@ function card(it) {
   ta.placeholder = "הערה: מה לא בסדר ובאיזו שורה (לא חובה כשהפתרון תקין)";
   ta.setAttribute("aria-label", "הערה לשאלה " + it.number);
   ta.addEventListener("input", () => save(it.id, { comment: ta.value }));
-  c.append(ta);
+  c.append(mathBox(ta));
   c._refs = { btns, ta, hintRefs };
   cards.set(it.id, c);
   paint(it.id);
@@ -361,11 +414,11 @@ function paint(id) {
   if (hintRefs) {
     const hs = hintStatusOf(id);
     hintRefs.hBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.s === hs)));
-    if (document.activeElement !== hintRefs.hTa) hintRefs.hTa.value = r.hintComment || "";
+    if (document.activeElement !== hintRefs.hTa && hintRefs.hTa.value !== (r.hintComment || "")) { hintRefs.hTa.value = r.hintComment || ""; hintRefs.hTa._refresh(); }
   }
   c.dataset.status = s;
   btns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.s === s)));
-  if (document.activeElement !== ta) ta.value = r.comment || "";
+  if (document.activeElement !== ta && ta.value !== (r.comment || "")) { ta.value = r.comment || ""; ta._refresh(); }
 }
 
 function save(id, patch) {
@@ -424,7 +477,7 @@ function importFile(file) {
       Object.keys(reviews).forEach(k => delete reviews[k]);
       Object.assign(reviews, d.reviews || {});
       state.general = d.general || "";
-      $("general").value = state.general;
+      $("general").value = state.general; $("general")._refresh();
       persist(); renderProgress(); renderList();
       $("store-state").textContent = "ההערות נטענו מהקובץ.";
     } catch (e) {
@@ -439,7 +492,8 @@ $("f-kind").addEventListener("change", renderList);
 $("export").addEventListener("click", exportFile);
 $("import").addEventListener("click", () => $("import-file").click());
 $("import-file").addEventListener("change", e => { if (e.target.files[0]) importFile(e.target.files[0]); e.target.value = ""; });
-$("general").value = state.general;
+{ const g = $("general"), gp = g.parentNode, nx = g.nextSibling; gp.insertBefore(mathBox(g), nx); }
+$("general").value = state.general; $("general")._refresh();
 $("general").addEventListener("input", e => { state.general = e.target.value; persist(); });
 $("banner").hidden = storeOk;
 renderProgress();
