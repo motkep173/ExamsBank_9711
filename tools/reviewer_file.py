@@ -6,6 +6,9 @@ Usage: python3 tools/reviewer_file.py --reviewer "<name>" --slug <ascii-id> --to
    or: python3 tools/reviewer_file.py --reviewer "<name>" --slug <ascii-id> --section "<label>"
                                       --part "<topic>|<subtopic>" [--part "<topic>|<subtopic>|quiz" ...]
        (a part ending in |quiz takes only questions from past quizzes; a part with no subtopic takes the whole topic)
+   or: python3 tools/reviewer_file.py --rebuild <slug>
+       (rebuilds an already assigned file from the current data and template, with the same questions;
+        review/assignments.json is left as it is)
 
 Picks every question in the topic (or only the given subtopics) that has a solution and is not fully reviewed:
 solution.reviewed set (or marked ok on the owner's review page) and the hint reviewed or absent. Questions already
@@ -27,8 +30,9 @@ ASSIGN = os.path.join(REVIEW, "assignments.json")
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--reviewer", required=True)
-    ap.add_argument("--slug", required=True, help="ascii id for file names, e.g. abramov-seq-limits")
+    ap.add_argument("--rebuild", metavar="SLUG", help="rebuild an assigned file with the same questions")
+    ap.add_argument("--reviewer")
+    ap.add_argument("--slug", help="ascii id for file names, e.g. abramov-seq-limits")
     ap.add_argument("--topic")
     ap.add_argument("--sub", action="append", default=[])
     ap.add_argument("--part", action="append", default=[], help='"topic|subtopic[|quiz]", repeatable; instead of --topic')
@@ -37,18 +41,27 @@ def main():
                     help="the owner's review-page db snapshot {id: review}; optional")
     a = ap.parse_args()
 
+    assignments0 = json.load(open(ASSIGN, encoding="utf-8")) if os.path.exists(ASSIGN) else []
+    rebuild = None
+    if a.rebuild:
+        rebuild = next((x for x in assignments0 if x["slug"] == a.rebuild), None)
+        if not rebuild:
+            sys.exit(f"no assignment {a.rebuild} in {ASSIGN}")
+        a.slug, a.reviewer, a.section = rebuild["slug"], rebuild["reviewer"], rebuild["section"]
+    elif not (a.reviewer and a.slug):
+        sys.exit("--reviewer and --slug are required (or --rebuild <slug>)")
     owner = json.load(open(a.owner_reviews, encoding="utf-8")) if os.path.exists(a.owner_reviews) else {}
     assignments = json.load(open(ASSIGN, encoding="utf-8")) if os.path.exists(ASSIGN) else []
-    if any(x["slug"] == a.slug for x in assignments):
+    if not rebuild and any(x["slug"] == a.slug for x in assignments):
         sys.exit(f"slug {a.slug} is already used in {ASSIGN}")
     taken = {i: x["reviewer"] for x in assignments for i in x["ids"]}
 
     tax = json.load(open(os.path.join(DATA, "taxonomy.json"), encoding="utf-8"))
-    if bool(a.topic) == bool(a.part):
+    if not rebuild and bool(a.topic) == bool(a.part):
         sys.exit("give either --topic (with optional --sub) or --part")
     # parts: (topic, subtopic or None for the whole topic, quiz questions only)
-    parts = [(a.topic, s, False) for s in a.sub] or [(a.topic, None, False)]
-    if a.part:
+    parts = [] if rebuild else [(a.topic, s, False) for s in a.sub] or [(a.topic, None, False)]
+    if a.part and not rebuild:
         parts = []
         for p in a.part:
             f = p.split("|")
@@ -65,6 +78,8 @@ def main():
             sys.exit(f"unknown topic/subtopic {t} / {s}")
 
     def wanted(q, ex):
+        if rebuild:
+            return q["id"] in rebuild["ids"]
         return any(q["topic"] == t and (s is None or q["sub"] == s) and (not quiz or ex["moed"] == "בוחן")
                    for t, s, quiz in parts)
 
@@ -81,9 +96,9 @@ def main():
             o = owner.get(q["id"], {})
             sol_ok = bool(s.get("reviewed")) or o.get("status") == "ok"
             hint_ok = not q.get("hint") or bool(q.get("hintReviewed")) or o.get("hintStatus") == "ok"
-            if sol_ok and hint_ok:
+            if sol_ok and hint_ok and not rebuild:
                 continue
-            if q["id"] in taken:
+            if q["id"] in taken and not rebuild:
                 skipped.append((q["id"], taken[q["id"]]))
                 continue
             if q.get("image") and q["image"] not in images:
@@ -122,6 +137,11 @@ def main():
     os.makedirs(os.path.dirname(out), exist_ok=True)
     open(out, "w", encoding="utf-8").write(tpl.replace("/*__DATA__*/", payload))
 
+    if rebuild:
+        missing = [i for i in rebuild["ids"] if i not in {it["id"] for it in items}]
+        print(f"{os.path.relpath(out, ROOT)}: rebuilt with {len(items)} questions"
+              + (f"; no longer in the bank or removed: {missing}" if missing else ""))
+        return
     assignments.append({"slug": a.slug, "reviewer": a.reviewer, "section": section,
                         "sent": datetime.date.today().isoformat(), "returned": None,
                         "ids": [it["id"] for it in items]})
