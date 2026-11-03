@@ -11,7 +11,9 @@
    "match": "sheet",
    "note": "הכותרת הוחלפה עם SEQ04 לפי אישור המרצה, 26.10.2026.",
    "filmed": "12/05",
-   "sheetExam": "19.02.2026 שאלה 8(א) פתוחות"
+   "sheetExam": "19.02.2026 שאלה 8(א) פתוחות",
+   "pageFile": "exercises-9711/recordings/SEQ03.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-12.pdf"
   },
   {
    "code": "SEQ04",
@@ -21,7 +23,9 @@
    "match": "sheet",
    "note": "הכותרת הוחלפה עם SEQ03 לפי אישור המרצה, 26.10.2026.",
    "filmed": "19/05",
-   "sheetExam": "19.03.2023 שאלה 4 אמריקאי"
+   "sheetExam": "19.03.2023 שאלה 4 אמריקאי",
+   "pageFile": "exercises-9711/recordings/SEQ04.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-19.pdf"
   },
   {
    "code": "LIM02",
@@ -31,7 +35,9 @@
    "match": "corrected",
    "note": "בטבלה: שאלה 10 אמריקאית. לפי התיאור (גבול באינסוף, הצבה, טיילור) זו שאלה 2 במאגר.",
    "filmed": "02/06",
-   "sheetExam": "27.02.2025 שאלה 10 אמריקאית"
+   "sheetExam": "27.02.2025 שאלה 10 אמריקאית",
+   "pageFile": "exercises-9711/recordings/LIM02.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-02.pdf"
   },
   {
    "code": "LIM03",
@@ -41,7 +47,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "09/06",
-   "sheetExam": "24.7.24"
+   "sheetExam": "24.7.24",
+   "pageFile": "exercises-9711/recordings/LIM03.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-09.pdf"
   },
   {
    "code": "FUN04",
@@ -51,7 +59,9 @@
    "match": "sheet",
    "note": "בטבלה: \"לא בטוח עד הסוף… לוודא אצל מייקל\".",
    "filmed": "26/05",
-   "sheetExam": "16.02.2023 שאלה 7 אמריקאי"
+   "sheetExam": "16.02.2023 שאלה 7 אמריקאי",
+   "pageFile": "exercises-9711/recordings/FUN04.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-26.pdf"
   },
   {
    "code": "FUN06",
@@ -61,7 +71,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "09/06",
-   "sheetExam": "25.1.23"
+   "sheetExam": "25.1.23",
+   "pageFile": "exercises-9711/recordings/FUN06.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-09.pdf"
   },
   {
    "code": "FUN03",
@@ -71,7 +83,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "26/05",
-   "sheetExam": "19.03.2023 שאלה 2 פתוחות"
+   "sheetExam": "19.03.2023 שאלה 2 פתוחות",
+   "pageFile": "exercises-9711/recordings/FUN03.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-26.pdf"
   },
   {
    "code": "DER02",
@@ -81,7 +95,9 @@
    "match": "corrected",
    "note": "בטבלה: שאלה 5 אמריקאית. לפי התיאור (מתי פונקציה גזירה, עם פרמטרים) זו שאלה 6 במאגר.",
    "filmed": "09/06",
-   "sheetExam": "07.05.2026 שאלה 5 אמריקאית"
+   "sheetExam": "07.05.2026 שאלה 5 אמריקאית",
+   "pageFile": "exercises-9711/recordings/DER02.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-09.pdf"
   },
   {
    "code": "DER01",
@@ -91,7 +107,9 @@
    "match": "corrected",
    "note": "בטבלה: שאלה 8 אמריקאית. לפי התיאור (ישר משיק לפי ההגדרה) זו שאלה 10 במאגר.",
    "filmed": "02/06",
-   "sheetExam": "27.03.2025 שאלה 8 אמריקאית"
+   "sheetExam": "27.03.2025 שאלה 8 אמריקאית",
+   "pageFile": "exercises-9711/recordings/DER01.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-02.pdf"
   },
   {
    "code": "FUN01",
@@ -101,7 +119,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "12/05",
-   "sheetExam": "27.03.2025 שאלה 2(א) פתוחות"
+   "sheetExam": "27.03.2025 שאלה 2(א) פתוחות",
+   "pageFile": "exercises-9711/recordings/FUN01.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-12.pdf"
   },
   {
    "code": "FUN05",
@@ -111,7 +131,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "02/06",
-   "sheetExam": "27.02.2025 שאלה 2(ב) פתוחות"
+   "sheetExam": "27.02.2025 שאלה 2(ב) פתוחות",
+   "pageFile": "exercises-9711/recordings/FUN05.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-02.pdf"
   },
   {
    "code": "INEQ02",
@@ -121,7 +143,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "09/06",
-   "sheetExam": "05.02.2025 שאלה 2א מהפתוחות"
+   "sheetExam": "05.02.2025 שאלה 2א מהפתוחות",
+   "pageFile": "exercises-9711/recordings/INEQ02.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-09.pdf"
   },
   {
    "code": "INEQ01",
@@ -131,7 +155,9 @@
    "match": "confirmed",
    "note": "זוהה ואושר על ידי המרצה, 26.10.2026: אי־השוויון על הפרש הלוגריתמים בעזרת משפט לגרנז׳.",
    "filmed": "26/05",
-   "sheetExam": "24.07.2024 שאלה 1ב פתוחות"
+   "sheetExam": "24.07.2024 שאלה 1ב פתוחות",
+   "pageFile": "exercises-9711/recordings/INEQ01.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-26.pdf"
   },
   {
    "code": "FUN02",
@@ -141,7 +167,9 @@
    "match": "corrected",
    "note": "בטבלה: שאלה 5 אמריקאית. שאלה 5 במאגר היא גבול עם טיילור, ושאלה 3 היא המשוואה.",
    "filmed": "12/05",
-   "sheetExam": "05.02.2025 שאלה 5 אמריקאי"
+   "sheetExam": "05.02.2025 שאלה 5 אמריקאי",
+   "pageFile": "exercises-9711/recordings/FUN02.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-12.pdf"
   },
   {
    "code": "Eq01",
@@ -151,7 +179,8 @@
    "match": "sheet",
    "note": "",
    "filmed": "?",
-   "sheetExam": "28.01.2026 שאלה 7(ב) פתוחות"
+   "sheetExam": "28.01.2026 שאלה 7(ב) פתוחות",
+   "pageFile": "exercises-9711/recordings/Eq01.pdf"
   },
   {
    "code": "LIM01",
@@ -161,7 +190,9 @@
    "match": "corrected",
    "note": "בטבלה: שאלה 9 אמריקאית. לפי התיאור (גבול עם פרמטר, טיילור) זו שאלה 5 במאגר.",
    "filmed": "02/06",
-   "sheetExam": "27.02.2025 שאלה 9 אמריקאיות"
+   "sheetExam": "27.02.2025 שאלה 9 אמריקאיות",
+   "pageFile": "exercises-9711/recordings/LIM01.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-02.pdf"
   },
   {
    "code": "INT01",
@@ -171,7 +202,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "12/05",
-   "sheetExam": "19.02.2026 שאלה 9(ב) פתוחות"
+   "sheetExam": "19.02.2026 שאלה 9(ב) פתוחות",
+   "pageFile": "exercises-9711/recordings/INT01.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-12.pdf"
   },
   {
    "code": "INT03",
@@ -181,7 +214,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "26/05",
-   "sheetExam": "16.02.2023 שאלה 5 אמריקאי"
+   "sheetExam": "16.02.2023 שאלה 5 אמריקאי",
+   "pageFile": "exercises-9711/recordings/INT03.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-26.pdf"
   },
   {
    "code": "INT04",
@@ -191,7 +226,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "02/06",
-   "sheetExam": "15.07.2025 שאלה 4(א) פתוחות"
+   "sheetExam": "15.07.2025 שאלה 4(א) פתוחות",
+   "pageFile": "exercises-9711/recordings/INT04.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-02.pdf"
   },
   {
    "code": "INT05",
@@ -201,7 +238,9 @@
    "match": "confirmed",
    "note": "הכותרת בטבלה (אינטגרל מסוים: שיטת ההצבה) מאשרת שזה האינטגרל מהבחינה, ולא שאלת הרציפות (Cont01).",
    "filmed": "09/06",
-   "sheetExam": "28.6.23"
+   "sheetExam": "28.6.23",
+   "pageFile": "exercises-9711/recordings/INT05.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-06-09.pdf"
   },
   {
    "code": "INT02",
@@ -211,7 +250,9 @@
    "match": "confirmed",
    "note": "אושר על ידי המרצה, 20.10.2026.",
    "filmed": "19/05",
-   "sheetExam": ""
+   "sheetExam": "",
+   "pageFile": "exercises-9711/recordings/INT02.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-05-19.pdf"
   },
   {
    "code": "Tay01",
@@ -221,7 +262,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "20/10",
-   "sheetExam": "08.07.2026 שאלה 8ב"
+   "sheetExam": "08.07.2026 שאלה 8ב",
+   "pageFile": "exercises-9711/recordings/Tay01.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-10-20.pdf"
   },
   {
    "code": "Cont01",
@@ -231,7 +274,8 @@
    "match": "sheet",
    "note": "",
    "filmed": "?",
-   "sheetExam": "28.06.2023 שאלה 3ב פתוחה"
+   "sheetExam": "28.06.2023 שאלה 3ב פתוחה",
+   "pageFile": "exercises-9711/recordings/Cont01.pdf"
   },
   {
    "code": "seq01",
@@ -242,7 +286,8 @@
    "note": "צולם בתחילת הפרויקט; לפי המרצה (03.11.2026) כנראה לא שמיש ויצולם מחדש.",
    "filmed": "ישן מההתחלה",
    "sheetExam": "28.01.2026 שאלה 9ב פתוחה",
-   "usable": false
+   "usable": false,
+   "pageFile": "exercises-9711/recordings/SEQ01.pdf"
   },
   {
    "code": "seq02",
@@ -253,7 +298,8 @@
    "note": "צולם בתחילת הפרויקט; לפי המרצה (03.11.2026) כנראה לא שמיש ויצולם מחדש.",
    "filmed": "ישן מההתחלה",
    "sheetExam": "20.01.2021 שאלה 1 אמריקאית",
-   "usable": false
+   "usable": false,
+   "pageFile": "exercises-9711/recordings/SEQ02.pdf"
   },
   {
    "code": "FUN07",
@@ -263,7 +309,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "20/10",
-   "sheetExam": "03.08.2026 שאלה 5 אמריקאית"
+   "sheetExam": "03.08.2026 שאלה 5 אמריקאית",
+   "pageFile": "exercises-9711/recordings/FUN07.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-10-20.pdf"
   },
   {
    "code": "SEQ05",
@@ -273,7 +321,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "20/10",
-   "sheetExam": "בוחן 14.05.2026 שאלה 1ב פתוחה"
+   "sheetExam": "בוחן 14.05.2026 שאלה 1ב פתוחה",
+   "pageFile": "exercises-9711/recordings/SEQ05.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-10-20.pdf"
   },
   {
    "code": "SEQ06",
@@ -283,7 +333,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "20/10",
-   "sheetExam": "בוחן 14.05.2026 שאלה 2ב פתוחה"
+   "sheetExam": "בוחן 14.05.2026 שאלה 2ב פתוחה",
+   "pageFile": "exercises-9711/recordings/SEQ06.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-10-20.pdf"
   },
   {
    "code": "DER03",
@@ -293,7 +345,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "20/10",
-   "sheetExam": "28.01.2026 שאלה 3 אמריקאית"
+   "sheetExam": "28.01.2026 שאלה 3 אמריקאית",
+   "pageFile": "exercises-9711/recordings/DER03.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-10-20.pdf"
   },
   {
    "code": "INT06",
@@ -303,7 +357,9 @@
    "match": "sheet",
    "note": "",
    "filmed": "20/10",
-   "sheetExam": "27.02.2025"
+   "sheetExam": "27.02.2025",
+   "pageFile": "exercises-9711/recordings/INT06.pdf",
+   "session": "exercises-9711/recordings/sessions/2026-10-20.pdf"
   }
  ],
  "recordedNoCode": [],
@@ -400,5 +456,6 @@
    "2026-s1-m3-q8a"
   ],
   "rule": "לא לחזור על שיטת פתרון או סוג תרגיל שכבר צולם (המרצה, 03.11.2026)."
- }
+ },
+ "pageFiles": "דף הפתרון של כל סרטון (עמוד אחד) נמצא ב־repo הפרטי motkep173/exercises-9711, בנתיב שב־pageFile. הקבצים המקוריים של כל יום צילום נמצאים ב־recordings/sessions/."
 }
